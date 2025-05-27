@@ -6,20 +6,21 @@ SDL_AppResult GameLayerModule::Init()
 	SDL_Log("== InitGameLayer ==");
 
 	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Loading Game.dll.");
-	gameModule = LoadLibrary(L"Game.dll");
+	gameModule = SDL_LoadObject("Game.dll");
 	if (gameModule == nullptr)
 	{
-		SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Failed to load Game.dll.");
+		const char* error = SDL_GetError();
+		SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Failed to load Game.dll: %s.", error);
 		return SDL_APP_FAILURE;
 	}
 
 	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Locating GameEntryPoint.");
-	GameEntryPoint gameEntryPoint = (GameEntryPoint)GetProcAddress(gameModule, "GameEntryPoint");
 
+	GameEntryPoint gameEntryPoint = (GameEntryPoint)SDL_LoadFunction(gameModule, "GameEntryPoint");
 	if (gameEntryPoint == nullptr)
 	{
-		FreeLibrary(gameModule);
-		SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Cannot locate GameEntryPoint in Game.dll.");
+		const char* error = SDL_GetError();
+		SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Cannot locate GameEntryPoint in Game.dll: %s.", error);
 		return SDL_APP_FAILURE;
 	}
 
@@ -32,7 +33,8 @@ void GameLayerModule::Cleanup()
 {
 	if (gameModule != nullptr)
 	{
-		FreeLibrary(gameModule);
+		SDL_UnloadObject(gameModule);
+		gameModule = nullptr;
 	}
 }
 

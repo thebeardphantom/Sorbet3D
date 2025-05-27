@@ -1,0 +1,5 @@
+D:/_Content/WorkRoot/Games/Other/Fantasy Sim/vcpkg_installed/vcpkg/blds/entt/x64-windows-rel/CMakeFiles/edit_cache.dir
+D:/_Content/WorkRoot/Games/Other/Fantasy Sim/vcpkg_installed/vcpkg/blds/entt/x64-windows-rel/CMakeFiles/rebuild_cache.dir
+D:/_Content/WorkRoot/Games/Other/Fantasy Sim/vcpkg_installed/vcpkg/blds/entt/x64-windows-rel/CMakeFiles/list_install_components.dir
+D:/_Content/WorkRoot/Games/Other/Fantasy Sim/vcpkg_installed/vcpkg/blds/entt/x64-windows-rel/CMakeFiles/install.dir
+D:/_Content/WorkRoot/Games/Other/Fantasy Sim/vcpkg_installed/vcpkg/blds/entt/x64-windows-rel/CMakeFiles/install/local.dir

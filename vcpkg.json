@@ -1,0 +1,11 @@
+{
+  "dependencies": [
+    "entt",
+    "joltphysics",
+    "sdl3",
+    "glad",
+    "assimp",
+    "glm",
+    "freeglut"
+  ]
+}

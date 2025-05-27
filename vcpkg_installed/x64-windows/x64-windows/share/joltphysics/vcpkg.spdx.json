@@ -1,0 +1,115 @@
+{
+  "$schema": "https://raw.githubusercontent.com/spdx/spdx-spec/v2.2.1/schemas/spdx-schema.json",
+  "spdxVersion": "SPDX-2.2",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "documentNamespace": "https://spdx.org/spdxdocs/joltphysics-x64-windows-5.3.0-d4be2ed5-0ba0-4551-81b9-6765070120f6",
+  "name": "joltphysics:x64-windows@5.3.0 ee2021ef5f164b4f6215d33914cd7e11bb5cbbf2f0ee66c246b6961c3bfa23b2",
+  "creationInfo": {
+    "creators": [
+      "Tool: vcpkg-2025-05-19-ece4c0f6b8fae9e94513d544c7aa753dd2c82337"
+    ],
+    "created": "2025-05-25T05:45:23Z"
+  },
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "GENERATES",
+      "relatedSpdxElement": "SPDXRef-binary"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-0"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-1"
+    },
+    {
+      "spdxElementId": "SPDXRef-binary",
+      "relationshipType": "GENERATED_FROM",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-0",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-1",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-1",
+      "relationshipType": "DEPENDENCY_MANIFEST_OF",
+      "relatedSpdxElement": "SPDXRef-port"
+    }
+  ],
+  "packages": [
+    {
+      "name": "joltphysics",
+      "SPDXID": "SPDXRef-port",
+      "versionInfo": "5.3.0",
+      "downloadLocation": "git+https://github.com/microsoft/vcpkg@55cfea43bb342bd7123b209a28d8f02c117c39ab",
+      "homepage": "https://github.com/jrouwe/JoltPhysics",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "description": "A multi core friendly rigid body physics and collision detection library suitable for games and VR applications",
+      "comment": "This is the port (recipe) consumed by vcpkg."
+    },
+    {
+      "name": "joltphysics:x64-windows",
+      "SPDXID": "SPDXRef-binary",
+      "versionInfo": "ee2021ef5f164b4f6215d33914cd7e11bb5cbbf2f0ee66c246b6961c3bfa23b2",
+      "downloadLocation": "NONE",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "comment": "This is a binary package built by vcpkg."
+    },
+    {
+      "SPDXID": "SPDXRef-resource-0",
+      "name": "jrouwe/JoltPhysics",
+      "downloadLocation": "git+https://github.com/jrouwe/JoltPhysics@v5.3.0",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "cc6f9cbae1e867fcc2da31bd266fcadb3ef1913cb8a3e468d455612a2c9e55d036ec7a926d7fdd8adf3958da11e5cab368107dd4fc68b01106b4910cd58e1d39"
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "fileName": "./portfile.cmake",
+      "SPDXID": "SPDXRef-file-0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "8dcad126dda1b19202651045e968c6ae135ac98b3910a68795b022252f60f4d0"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./vcpkg.json",
+      "SPDXID": "SPDXRef-file-1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "3c5d44d23f58149280e6a7d997aef0135c1a63d3e25e66942f20ed2137c5a1f4"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    }
+  ]
+}

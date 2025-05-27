@@ -1,0 +1,226 @@
+Package: vcpkg-cmake-config
+Version: 2024-05-23
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 216364a3d0d266947abc0d8981dc134b6f04de9b9cf7374c0e6b7ae5867c31ff
+Status: install ok installed
+
+Package: vcpkg-cmake
+Version: 2024-04-23
+Architecture: x64-windows
+Multi-Arch: same
+Abi: ce2db1e66b3d622e2ad2ae02d0d7d563fdb72eec54f895b8c5ace26ab73d24b3
+Status: install ok installed
+
+Package: fmt
+Version: 11.0.2
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 0fff4eae324af16b7dbcdc511723da52e6d1004da5689e41fe11c3051f272f40
+Description: {fmt} is an open-source formatting library providing a fast and safe alternative to C stdio and C++ iostreams.
+Status: purge ok not-installed
+
+Package: entt
+Version: 3.15.0
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 0a3d57ba9b91096c6561defcd5e66a443ee8dd3d214e4806fee946e4377cbda2
+Description: Gaming meets modern C++ - a fast and reliable entity-component system and much more
+Status: install ok installed
+
+Package: joltphysics
+Version: 5.3.0
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: ee2021ef5f164b4f6215d33914cd7e11bb5cbbf2f0ee66c246b6961c3bfa23b2
+Description: A multi core friendly rigid body physics and collision detection library suitable for games and VR applications
+Status: install ok installed
+
+Package: sdl3
+Version: 3.2.14
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 99bc302916eb2e93fe47bd791b401cb7e40e907e834802f36e7568ddf896bcbf
+Description: Simple DirectMedia Layer is a cross-platform development library designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware via OpenGL and Direct3D.
+Status: install ok installed
+
+Package: egl-registry
+Version: 2024-01-25
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 24fabc2ffe63c05814c7776fcf59ce561c1a92382a34625c5e07ad2e8881390b
+Description: EGL API and Extension Registry
+Status: install ok installed
+
+Package: opengl-registry
+Version: 2024-02-10
+Port-Version: 1
+Depends: egl-registry
+Architecture: x64-windows
+Multi-Arch: same
+Abi: c54b1081c3fd8222a9c90e3653651ee935394ed2b034c7e4e585f1fd1da44dbb
+Description: OpenGL, OpenGL ES, and OpenGL ES-SC API and Extension Registry
+Status: install ok installed
+
+Package: glad
+Version: 0.1.36
+Depends: egl-registry, opengl-registry, vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 3414dd60dceecd66885e95c0bffce9d6b0cacd5907e25101390e9b15ceee5393
+Description: Multi-Language Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs.
+Default-Features: loader
+Status: install ok installed
+
+Package: glad
+Feature: loader
+Architecture: x64-windows
+Multi-Arch: same
+Description: Generate loader logic.
+Status: install ok installed
+
+Package: zlib
+Version: 1.3.1
+Depends: vcpkg-cmake
+Architecture: x64-windows
+Multi-Arch: same
+Abi: f2224813e9adb3afe603a069f7997673513f0b1652b7a7479bee13578aac0ceb
+Description: A compression library
+Status: install ok installed
+
+Package: utfcpp
+Version: 4.0.6
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 3a843511d5582f88a4147a63ebad2d2c15d41a3a899bb483107b0654a134d284
+Description: UTF-8 with C++ in a Portable Way
+Status: install ok installed
+
+Package: stb
+Version: 2024-07-29
+Port-Version: 1
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 8e84af05e1bdb9830efc48d6f178b39a29c7ad6fe4268aa48252fd1a28fa7bda
+Description: public domain header-only libraries
+Status: install ok installed
+
+Package: rapidjson
+Version: 2025-02-26
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: e5cfee097c8d8e885bd85cab94e9b9943eeb608dcecbe6ea5f3ded5422a785ef
+Description: A fast JSON parser/generator for C++ with both SAX/DOM style API <http://rapidjson.org/>
+Status: install ok installed
+
+Package: pugixml
+Version: 1.15
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: a4820a2cf92fdfd33224002e70c0ccf745e4044d36cfebb05f84467d793126c6
+Description: Light-weight, simple and fast XML parser for C++ with XPath support
+Status: install ok installed
+
+Package: polyclipping
+Version: 6.4.2
+Port-Version: 13
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 0b052bf938f406555d86966f769931146f40e073d410991a87d4867c659299a7
+Description: The Clipper library performs clipping and offsetting for both lines and polygons. All four boolean clipping operations are supported - intersection, union, difference and exclusive-or. Polygons can be of any shape including self-intersecting polygons.
+Status: install ok installed
+
+Package: vcpkg-cmake-get-vars
+Version: 2024-09-22
+Depends: vcpkg-cmake
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 04398e51911f86649e074e6b7f38beb826d49f2aea50b47e85350a553130dd8a
+Status: install ok installed
+
+Package: minizip
+Version: 1.3.1
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config, vcpkg-cmake-get-vars, zlib
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 60328eb53f8a4fbd5aff944c8f47860c0e2b043373f1c47afe4fadbec1fa0cb7
+Description: Minizip zip file manipulation library
+Status: install ok installed
+
+Package: kubazip
+Version: 0.3.3
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 7d6095e32900cd99ce9c07d89214c1c74cfbfe6af109a5219f2f9c63cdcebcf3
+Description: A portable, simple zip library written in C
+Status: install ok installed
+
+Package: jhasse-poly2tri
+Version: 2023-12-27
+Port-Version: 2
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 5325bfd70f99f57f13fa8b387b7497841642ddc04c5df280f848f39cbb610529
+Description: Sweep-line algorithm for constrained Delaunay triangulation
+Status: install ok installed
+
+Package: draco
+Version: 1.5.7
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 74d38ef7377c5effe1b454106758c9b0efbf38927db07ab6f68e53c86ed7e7c6
+Description: A library for compressing and decompressing 3D geometric meshes and point clouds. It is intended to improve the storage and transmission of 3D graphics.
+Status: install ok installed
+
+Package: assimp
+Version: 5.4.3
+Depends: draco, jhasse-poly2tri, kubazip, minizip, polyclipping, pugixml, rapidjson, stb, utfcpp, vcpkg-cmake, vcpkg-cmake-config, zlib
+Architecture: x64-windows
+Multi-Arch: same
+Abi: d9a830fa9fa889c41d203796cc29a6fbe23cce78dd2e4aae4a6c4706b5ed1485
+Description: The Open Asset import library
+Status: install ok installed
+
+Package: glm
+Version: 1.0.1
+Port-Version: 3
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 0185f35cb887097ee304ce382d82f76c0050043a23ae92018d7987c1b82cdd94
+Description: OpenGL Mathematics (GLM)
+Status: install ok installed
+
+Package: opengl
+Version: 2022-12-04
+Port-Version: 3
+Depends: opengl-registry
+Architecture: x64-windows
+Multi-Arch: same
+Abi: cf707256013487e19f5797e17bc0ec5e11c4e8f8a7427de6fddd4372bb87ea5a
+Description: Open Graphics Library (OpenGL)[3][4][5] is a cross-language, cross-platform application programming interface (API) for rendering 2D and 3D vector graphics.
+Status: install ok installed
+
+Package: freeglut
+Version: 3.6.0
+Port-Version: 1
+Depends: opengl, vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 22542bb11d14903eaf76edc3b3ef78edd0043f4be8a0c1c7731772b4231af972
+Description: A free OpenGL utility toolkit, the open-sourced alternative to the GLUT library.
+Status: install ok installed
+

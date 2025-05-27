@@ -1,0 +1,8 @@
+prefix=D:/_Content/WorkRoot/Games/Other/Fantasy Sim/vcpkg_installed/vcpkg/pkgs/entt_x64-windows
+includedir=${prefix}/include
+
+Name: EnTT
+Description: Gaming meets modern C++
+Url: https://github.com/skypjack/entt
+Version: 3.15.0
+Cflags: -I${includedir}

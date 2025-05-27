@@ -12,11 +12,11 @@ layout (location = 1) in vec3 aColor;
 
 out vec3 vertexColor;
 
-uniform mat4 pvm;
+uniform mat4 mvp;
 
 void main()
 {
-    gl_Position = pvm * vec4(aPos, 1.0);
+    gl_Position = mvp * vec4(aPos, 1.0);
     vertexColor = aColor;
 }
 )";
@@ -176,10 +176,9 @@ void RenderModule::RenderInternal()
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
-
-	glm::mat4 pvm = projection * view * model;
-	int modelLoc = glGetUniformLocation(shaderProgram, "pvm");
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(pvm));
+	glm::mat4 mvp = projection * view * model;
+	int modelLoc = glGetUniformLocation(shaderProgram, "mvp");
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(mvp));
 
 	for (std::shared_ptr<RenderMesh> mesh : renderList)
 	{

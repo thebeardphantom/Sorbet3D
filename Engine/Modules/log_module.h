@@ -10,5 +10,6 @@ namespace modules
 		SDL_AppResult init() override;
 		void cleanup() override;
 		std::string get_name() override;
+		static void append_prefix(std::ostream& stream, const SDL_LogPriority priority);
 	};
 }

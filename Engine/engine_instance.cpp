@@ -44,7 +44,7 @@ ENGINE_API bool engine_instance::is_shutting_down()
 
 SDL_AppResult engine_instance::init()
 {
-	SDL_Log("== Init ==");
+	SDL_Log("== init ==");
 
 	is_quitting_ = false;
 
@@ -58,7 +58,7 @@ SDL_AppResult engine_instance::init()
 	SDL_AppResult result = SDL_APP_CONTINUE;
 	for (const auto& module : modules_)
 	{
-		SDL_Log("== %s::Init ==", module->get_name().c_str());
+		SDL_Log("== %s::init ==", module->get_name().c_str());
 		result = module->init();
 		if (result != SDL_APP_CONTINUE)
 		{

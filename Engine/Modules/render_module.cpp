@@ -80,7 +80,7 @@ void main()
 
 	SDL_AppResult render_module::init_sdl_window()
 	{
-		SDL_Log("== InitSDL ==");
+		SDL_Log("== init_sdl_window ==");
 
 		if (!SDL_InitSubSystem(SDL_INIT_VIDEO))
 		{
@@ -108,7 +108,7 @@ void main()
 
 	SDL_AppResult render_module::init_sdl_open_gl()
 	{
-		SDL_Log(" == InitSDLOpenGL == ");
+		SDL_Log(" == init_sdl_open_gl == ");
 		gl_context_ = SDL_GL_CreateContext(window_);
 		if (gl_context_ == nullptr)
 		{
@@ -129,7 +129,7 @@ void main()
 
 	SDL_AppResult render_module::init_render_statics()
 	{
-		SDL_Log(" == InitRenderStatics == ");
+		SDL_Log(" == init_render_statics == ");
 		glClearColor(0.0, 0.0, 0.0, 1.0);
 		glEnable(GL_DEPTH_TEST);
 

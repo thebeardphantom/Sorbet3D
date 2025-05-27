@@ -5,8 +5,6 @@ namespace modules
 {
 	SDL_AppResult game_layer_module::init()
 	{
-		SDL_Log("== InitGameLayer ==");
-
 		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Loading Game.dll.");
 		game_module_ = SDL_LoadObject("Game.dll");
 		if (game_module_ == nullptr)
@@ -26,7 +24,7 @@ namespace modules
 			return SDL_APP_FAILURE;
 		}
 
-		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Invoking GameEntryPoint.");
+		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Invoking game_entry_point.");
 		game_entry_point();
 		return SDL_APP_CONTINUE;
 	}

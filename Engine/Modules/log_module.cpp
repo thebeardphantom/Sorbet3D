@@ -1,6 +1,7 @@
 #include "../pch.h"
 #include "log_module.h"
 #include <iostream>
+#include <SDL3/SDL_time.h>
 
 namespace modules
 {
@@ -26,41 +27,42 @@ namespace modules
 
 	void log_module::append_prefix(std::ostream& stream, const SDL_LogPriority priority)
 	{
+		const uint64_t ticks = SDL_GetTicks();
 		switch (priority)
 		{
 			case SDL_LOG_PRIORITY_TRACE:
 			{
-				stream << "\033[36m[TRC] ";
+				stream << "\033[36m" << "[" << ticks << "]" << " [TRC] ";
 				break;
 			}
 			case SDL_LOG_PRIORITY_VERBOSE:
 			{
-				stream << "\033[36m[VER] ";
+				stream << "\033[36m" << "[" << ticks << "]" << " [VER] ";
 				break;
 			}
 			case SDL_LOG_PRIORITY_DEBUG:
 			{
-				stream << "[DBG] ";
+				stream << "[" << ticks << "]" << " [DBG] ";
 				break;
 			}
 			case SDL_LOG_PRIORITY_INFO:
 			{
-				stream << "[INF] ";
+				stream << "[" << ticks << "]" << " [INF] ";
 				break;
 			}
 			case SDL_LOG_PRIORITY_WARN:
 			{
-				stream << "\033[33m[WRN] ";
+				stream << "\033[33m" << "[" << ticks << "]" << " [WRN] ";
 				break;
 			}
 			case SDL_LOG_PRIORITY_ERROR:
 			{
-				stream << "\033[31m[ERR] ";
+				stream << "\033[31m" << "[" << ticks << "]" << " [ERR] ";
 				break;
 			}
 			case SDL_LOG_PRIORITY_CRITICAL:
 			{
-				stream << "\033[31m[CRT] ";
+				stream << "\033[31m" << "[" << ticks << "]" << " [CRT] ";
 				break;
 			}
 		}

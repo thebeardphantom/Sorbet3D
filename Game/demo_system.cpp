@@ -17,7 +17,7 @@ void DemoSystem::Tick(TickArgs& args)
 void DemoSystem::Init()
 {
 	AssetModule& assetModule = EngineInstance::GetInstance().GetEngineModule<AssetModule>();
-	auto scene = assetModule.LoadModel("D:/_Content/WorkRoot/Games/Other/Sorbet3D/monkey.fbx");
+	auto scene = assetModule.LoadModel("monkey.fbx");
 	renderMesh = std::shared_ptr<RenderMesh>(new RenderMesh(scene->mMeshes[0]));
 }
 

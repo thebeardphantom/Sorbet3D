@@ -1,13 +1,14 @@
 #include "pch.h"
 #include "engine_instance.h"
-#include <SDL3/SDL_video.h>
-#include <SDL3/SDL_surface.h>
 #include "enum_strings.h"
-#include "Modules/render_module.h"
-#include "Modules/game_layer_module.h"
-#include "Modules/time_module.h"
-#include "Modules/ecs_module.h"
 #include "Modules/asset_module.h"
+#include "Modules/ecs_module.h"
+#include "Modules/game_layer_module.h"
+#include "Modules/render_module.h"
+#include "Modules/time_module.h"
+#include <SDL3/SDL_filesystem.h>
+#include <SDL3/SDL_surface.h>
+#include <SDL3/SDL_video.h>
 
 bool EngineInstance::isQuitting = false;
 
@@ -44,10 +45,14 @@ ENGINE_API bool EngineInstance::IsShuttingDown()
 
 SDL_AppResult EngineInstance::Init()
 {
-	isQuitting = false;
-
 	SDL_SetLogPriorities(SDL_LOG_PRIORITY_VERBOSE);
 	SDL_Log("== Init ==");
+
+	isQuitting = false;
+
+	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Base path: %s", SDL_GetBasePath());
+	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Current directory: %s", SDL_GetCurrentDirectory());
+	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Pref path: %s", SDL_GetPrefPath("post.ghost", "sorbet3D"));
 
 	modules.push_back(std::make_unique<TimeModule>());
 	modules.push_back(std::make_unique<RenderModule>());

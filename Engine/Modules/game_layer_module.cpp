@@ -40,5 +40,5 @@ void GameLayerModule::Cleanup()
 
 std::string GameLayerModule::GetName()
 {
-	return "GameLayerSystem";
+	return "GameLayerModule";
 }

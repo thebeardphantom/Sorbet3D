@@ -9,6 +9,7 @@
 #include <SDL3/SDL_filesystem.h>
 #include <SDL3/SDL_surface.h>
 #include <SDL3/SDL_video.h>
+#include "Modules/log_module.h"
 
 bool EngineInstance::isQuitting = false;
 
@@ -45,15 +46,11 @@ ENGINE_API bool EngineInstance::IsShuttingDown()
 
 SDL_AppResult EngineInstance::Init()
 {
-	SDL_SetLogPriorities(SDL_LOG_PRIORITY_VERBOSE);
 	SDL_Log("== Init ==");
 
 	isQuitting = false;
 
-	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Base path: %s", SDL_GetBasePath());
-	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Current directory: %s", SDL_GetCurrentDirectory());
-	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Pref path: %s", SDL_GetPrefPath("post.ghost", "sorbet3D"));
-
+	modules.push_back(std::make_unique<LogModule>());
 	modules.push_back(std::make_unique<TimeModule>());
 	modules.push_back(std::make_unique<RenderModule>());
 	modules.push_back(std::make_unique<GameLayerModule>());
@@ -63,7 +60,7 @@ SDL_AppResult EngineInstance::Init()
 	SDL_AppResult result = SDL_APP_CONTINUE;
 	for (auto& module : modules)
 	{
-		SDL_Log("\n== %s::Init ==", module->GetName().c_str());
+		SDL_Log("== %s::Init ==", module->GetName().c_str());
 		result = module->Init();
 		if (result != SDL_APP_CONTINUE)
 		{
@@ -71,7 +68,7 @@ SDL_AppResult EngineInstance::Init()
 		}
 	}
 
-	SDL_Log("\nInit complete with result: %s", EnumStrings::ToString(result).c_str());
+	SDL_Log("Init complete with result: %s", EnumStrings::ToString(result).c_str());
 	return result;
 }
 
@@ -80,7 +77,7 @@ SDL_AppResult EngineInstance::ProcessEvent(const SDL_Event* event)
 	if (event->type == SDL_EVENT_QUIT)
 	{
 		// end the program, reporting success to the OS.
-		SDL_Log("\nEngineInstance quitting");
+		SDL_Log("EngineInstance quitting");
 		isQuitting = true;
 		QuitEvent();
 		return SDL_APP_SUCCESS;
@@ -132,7 +129,7 @@ void EngineInstance::Cleanup()
 	SDL_Log("Cleaning engine instance.");
 	for (auto& module : modules)
 	{
-		SDL_Log("\n== %s::Cleanup ==", module->GetName().c_str());
+		SDL_Log("== %s::Cleanup ==", module->GetName().c_str());
 		module->Cleanup();
 	}
 }

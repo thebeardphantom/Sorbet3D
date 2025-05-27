@@ -15,7 +15,7 @@ void TimeModule::Cleanup()
 
 std::string TimeModule::GetName()
 {
-	return "TimeSystem";
+	return "TimeModule";
 }
 
 bool TimeModule::Update()

@@ -41,6 +41,9 @@
     <ClInclude Include="Objects\render_mesh.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Modules\log_module.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine_instance.cpp" />
@@ -63,6 +66,9 @@
     </ClCompile>
     <ClCompile Include="Objects\render_mesh.cpp">
       <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\log_module.cpp">
+      <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

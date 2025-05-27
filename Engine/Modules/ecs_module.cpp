@@ -14,7 +14,7 @@ void ECSModule::Cleanup()
 
 std::string ECSModule::GetName()
 {
-	return "ECSSystem";
+	return "ECSModule";
 }
 
 void ECSModule::Tick()

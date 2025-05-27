@@ -52,7 +52,7 @@ private:
 		else
 		{
 			glGetProgramInfoLog(shaderProgram, 512, nullptr, info);
-			SDL_LogError(SDL_LOG_CATEGORY_RENDER, "Shader program %d link error:\n%s\n", shaderProgram, info);
+			SDL_LogError(SDL_LOG_CATEGORY_RENDER, "Shader program %d link error: %s", shaderProgram, info);
 		}
 		return shaderProgram;
 	}

@@ -73,7 +73,7 @@ void RenderModule::Render()
 
 std::string RenderModule::GetName()
 {
-	return "RenderSystem";
+	return "RenderModule";
 }
 
 SDL_AppResult RenderModule::InitSDLWindow()
@@ -212,7 +212,7 @@ GLuint RenderModule::CreateShader(GLenum shaderType, const GLchar* const* src)
 	if (!success)
 	{
 		glGetShaderInfoLog(shader, sizeof(info), nullptr, info);
-		SDL_LogError(SDL_LOG_CATEGORY_RENDER, "%s shader %d compilation error:\n%s\n", shaderTypeCStr, shader, info);
+		SDL_LogError(SDL_LOG_CATEGORY_RENDER, "%s shader %d compilation error:%s", shaderTypeCStr, shader, info);
 	}
 	return shader;
 }

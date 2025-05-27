@@ -1,21 +1,24 @@
 #pragma once
 #include "engine_module.h"
 
-class TimeModule : public EngineModule
+namespace modules
 {
-public:
-	SDL_AppResult Init() override;
-	void Cleanup() override;
-	std::string GetName() override;
-	bool Update();
-	ENGINE_API uint64_t GetTickCount();
-	ENGINE_API double_t GetDeltaTime();
-	ENGINE_API double_t GetTime();
+	class time_module : public engine_module
+	{
+	public:
+		SDL_AppResult init() override;
+		void cleanup() override;
+		std::string get_name() override;
 
-private:
-	uint64_t tickCount = 0;
-	double_t lastTickTime = 0;
-	double_t time = 0;
-	double_t deltaTime = 0;
-};
+		bool update();
+		ENGINE_API uint64_t get_tick_count() const;
+		ENGINE_API double_t get_delta_time() const;
+		ENGINE_API double_t get_time() const;
 
+	private:
+		uint64_t tick_count_ = 0;
+		double_t last_tick_time_ = 0;
+		double_t time_ = 0;
+		double_t delta_time_ = 0;
+	};
+}

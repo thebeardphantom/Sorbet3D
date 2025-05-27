@@ -1,15 +1,16 @@
 #pragma once
 #include "../Engine/entity_system.h"
 #include "../Engine/Objects/render_mesh.h"
-#include <assimp/scene.h>
 
-class DemoSystem : public EntitySystem
+class demo_system : public entity_system
 {
 public:
-	void Tick(TickArgs& deltaTime) override;
-	void Init() override;
-	std::string GetName() override;
+	// Overridden Methods
+	void tick(tick_args& args) override;
+	void init() override;
+	std::string get_name() override;
 
 private:
-	std::shared_ptr<RenderMesh> renderMesh;
+	// Fields
+	std::shared_ptr<objects::render_mesh> render_mesh_;
 };

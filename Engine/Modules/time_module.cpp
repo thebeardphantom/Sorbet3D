@@ -1,56 +1,60 @@
 #include "../pch.h"
 #include "time_module.h"
 
-template<typename T>
-constexpr auto NsToSeconds(T ns) { return ((ns) / 1000000000.0); }
-
-SDL_AppResult TimeModule::Init()
+namespace modules
 {
-	return SDL_APP_CONTINUE;
-}
-
-void TimeModule::Cleanup()
-{
-}
-
-std::string TimeModule::GetName()
-{
-	return "TimeModule";
-}
-
-bool TimeModule::Update()
-{
-	uint64_t ticksNs = SDL_GetTicksNS();
-	time = NsToSeconds(ticksNs);
-	if (lastTickTime == 0.0)
+	template <typename T>
+	static constexpr auto ns_to_seconds(T ns)
 	{
-		// Avoids a much larger initial deltaTime value
-		lastTickTime = time;
-	}
-	deltaTime = time - lastTickTime;
-
-	constexpr double_t TICK_COOLDOWN = 1.0 / 60.0;
-	if (deltaTime < TICK_COOLDOWN)
-	{
-		return false;
+		return ns / 1000000000.0;
 	}
 
-	lastTickTime = time;
-	tickCount++;
-	return true;
-}
+	SDL_AppResult time_module::init()
+	{
+		return SDL_APP_CONTINUE;
+	}
 
-ENGINE_API uint64_t TimeModule::GetTickCount()
-{
-	return tickCount;
-}
+	void time_module::cleanup() {}
 
-ENGINE_API double_t TimeModule::GetDeltaTime()
-{
-	return deltaTime;
-}
+	std::string time_module::get_name()
+	{
+		return "time_module";
+	}
 
-ENGINE_API double_t TimeModule::GetTime()
-{
-	return time;
+	bool time_module::update()
+	{
+		const uint64_t ticks_ns = SDL_GetTicksNS();
+		time_ = ns_to_seconds(ticks_ns);
+		if (last_tick_time_ == 0.0)
+		{
+			// Avoids a much larger initial deltaTime value
+			last_tick_time_ = time_;
+		}
+		delta_time_ = time_ - last_tick_time_;
+
+		constexpr double_t tick_cooldown = 1.0 / 60.0;
+		if (delta_time_ < tick_cooldown)
+		{
+			return false;
+		}
+
+		last_tick_time_ = time_;
+		tick_count_++;
+		return true;
+	}
+
+	ENGINE_API uint64_t time_module::get_tick_count() const
+	{
+		return tick_count_;
+	}
+
+	ENGINE_API double_t time_module::get_delta_time() const
+	{
+		return delta_time_;
+	}
+
+	ENGINE_API double_t time_module::get_time() const
+	{
+		return time_;
+	}
 }

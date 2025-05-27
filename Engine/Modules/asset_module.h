@@ -1,22 +1,21 @@
 #pragma once
-#include "engine_module.h"
-#include <assimp/Importer.hpp>
-#include <assimp/postprocess.h>
-#include <assimp/scene.h>
 #include <string>
+#include <assimp/Importer.hpp>
+#include "engine_module.h"
 
-class AssetModule : public EngineModule
+namespace modules
 {
-public:
-	SDL_AppResult Init() override;
-	void Cleanup() override;
-	std::string GetName() override;
+	class asset_module : public engine_module
+	{
+	public:
+		SDL_AppResult init() override;
+		void cleanup() override;
+		std::string get_name() override;
 
-public:
-	ENGINE_API const aiScene* LoadModel(std::string path);
-	ENGINE_API const aiScene* GetScene();
+		ENGINE_API const aiScene* load_model(std::string path);
+		ENGINE_API const aiScene* get_scene() const;
 
-private:
-	Assimp::Importer importer;
-};
-
+	private:
+		Assimp::Importer importer_;
+	};
+}

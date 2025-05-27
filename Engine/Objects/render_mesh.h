@@ -1,33 +1,38 @@
 #pragma once
-#include <glad/glad.h>
-#include <cstdint>
+#include "../engine_api.h"
 #include <assimp/mesh.h>
+#include <glad/glad.h>
 
-class RenderMesh
+namespace objects
 {
-public:
-	RenderMesh(aiMesh* mesh)
+	class render_mesh
 	{
-		PopulateData(mesh);
-	}
+	public:
+		// Constructors / Destructors
+		explicit render_mesh(const aiMesh* mesh)
+		{
+			populate_data(mesh);
+		}
 
-	~RenderMesh()
-	{
-		ClearData();
-	}
+		~render_mesh()
+		{
+			clear_data();
+		}
 
-public:
-	ENGINE_API void PopulateData(aiMesh* mesh);
-	ENGINE_API void ClearData();
-	ENGINE_API void Render();
+		// Public Methods
+		ENGINE_API void populate_data(const aiMesh* ai_mesh);
+		ENGINE_API void clear_data();
+		ENGINE_API void render() const;
 
-private:
-	std::vector<GLfloat> verts;
-	std::vector<GLuint> indices;
-	std::vector<GLfloat> colors;
+	private:
+		// Fields
+		std::vector<GLfloat> verts_;
+		std::vector<GLuint> indices_;
+		std::vector<GLfloat> colors_;
 
-	GLuint vboId;
-	GLuint vaoId;
-	GLuint eboId;
-	GLuint colorBufferId;
-};
+		GLuint vbo_id_;
+		GLuint vao_id_;
+		GLuint ebo_id_;
+		GLuint color_buffer_id_;
+	};
+}

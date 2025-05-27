@@ -2,32 +2,35 @@
 #include "engine_module.h"
 #include "../entity_system.h"
 
-class ECSModule : public EngineModule
+namespace modules
 {
-public:
-	SDL_AppResult Init() override;
-	void Cleanup() override;
-	std::string GetName() override;
-	void Tick();
-	ENGINE_API entt::registry& GetRegistry();
-
-	template <class T>
-	T& CreateSystem()
+	class ecs_module : public engine_module
 	{
-		T* systemPtr = new T();
-		EntitySystem* genericSystem = dynamic_cast<EntitySystem*>(systemPtr);
-		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "== Init ECS System %s ==", genericSystem->GetName().c_str());
-		genericSystem->Init();
-		
-		std::unique_ptr<T> system = std::unique_ptr<T>(systemPtr);
-		T& ref = *system;
-		entitySystems.push_back(std::move(system));
-		return ref;
-	}
+	public:
+		SDL_AppResult init() override;
+		void cleanup() override;
+		std::string get_name() override;
+		void tick();
+		ENGINE_API entt::registry& get_registry();
 
-private:
-	entt::registry registry;
+		template <class T>
+		T& create_system()
+		{
+			T* system_ptr = new T();
+			const auto generic_system = dynamic_cast<entity_system*>(system_ptr);
+			SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "== Init ECS System %s ==",
+				generic_system->get_name().c_str());
+			generic_system->init();
 
-	std::vector<std::unique_ptr<EntitySystem>> entitySystems;
-};
+			std::unique_ptr<T> system = std::unique_ptr<T>(system_ptr);
+			T& ref = *system;
+			entity_systems_.push_back(std::move(system));
+			return ref;
+		}
 
+	private:
+		entt::registry registry_;
+
+		std::vector<std::unique_ptr<entity_system>> entity_systems_;
+	};
+}

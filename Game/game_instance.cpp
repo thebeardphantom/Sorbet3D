@@ -1,31 +1,33 @@
 #include "pch.h"
+#include "game_instance.h"
+#include "demo_system.h"
 #include "../Engine/engine_instance.h"
 #include "../Engine/Modules/ecs_module.h"
-#include "demo_system.h"
-#include "game_instance.h"
-#include <string>
 
-GameInstance& GameInstance::GetInstance()
+game_instance& game_instance::get_instance()
 {
-	static GameInstance instance;
+	static game_instance instance;
 	return instance;
 }
 
-void GameInstance::Initialize()
+void game_instance::initialize()
 {
-	SDL_Log("GameInstance initializing.");
-	auto& engine = EngineInstance::GetInstance();
-	quitCallbackId = engine.QuitEvent.Subscribe([this]() { this->Quit(); });
+	SDL_Log("game_instance initializing.");
+	auto& engine = engine_instance::get_instance();
+	quit_callback_id_ = engine.quit_event.subscribe([this]
+	{
+		this->quit();
+	});
 
-	auto& ecsModule = engine.GetEngineModule<ECSModule>();
-	ecsModule.CreateSystem<DemoSystem>();
+	auto& ecs_module = engine.get_engine_module<modules::ecs_module>();
+	ecs_module.create_system<demo_system>();
 
-	auto ent = ecsModule.GetRegistry().create();
+	auto ent = ecs_module.get_registry().create();
 }
 
-void GameInstance::Quit() const
+void game_instance::quit() const
 {
-	SDL_Log("GameInstance quitting.");
-	auto& engine = EngineInstance::GetInstance();
-	engine.QuitEvent.Unsubscribe(quitCallbackId);
+	SDL_Log("game_instance quitting.");
+	auto& engine = engine_instance::get_instance();
+	engine.quit_event.unsubscribe(quit_callback_id_);
 }

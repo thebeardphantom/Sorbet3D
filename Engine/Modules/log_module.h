@@ -1,12 +1,14 @@
 #pragma once
-#include "engine_module.h"
 #include <string>
+#include "engine_module.h"
 
-class LogModule : public EngineModule
+namespace modules
 {
-public:
-	SDL_AppResult Init() override;
-	void Cleanup() override;
-	std::string GetName() override;
-};
-
+	class log_module : public engine_module
+	{
+	public:
+		SDL_AppResult init() override;
+		void cleanup() override;
+		std::string get_name() override;
+	};
+}

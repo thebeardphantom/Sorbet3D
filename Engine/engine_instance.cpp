@@ -1,135 +1,133 @@
 #include "pch.h"
 #include "engine_instance.h"
+#include <SDL3/SDL_filesystem.h>
 #include "enum_strings.h"
 #include "Modules/asset_module.h"
 #include "Modules/ecs_module.h"
 #include "Modules/game_layer_module.h"
+#include "Modules/log_module.h"
 #include "Modules/render_module.h"
 #include "Modules/time_module.h"
-#include <SDL3/SDL_filesystem.h>
-#include <SDL3/SDL_surface.h>
-#include <SDL3/SDL_video.h>
-#include "Modules/log_module.h"
 
-bool EngineInstance::isQuitting = false;
+bool engine_instance::is_quitting_ = false;
 
-SDL_AppResult EngineInstance::OnAppInit()
+SDL_AppResult engine_instance::on_app_init()
 {
-	return GetInstance().Init();
+	return get_instance().init();
 }
 
-SDL_AppResult EngineInstance::OnAppEvent(const SDL_Event* event)
+SDL_AppResult engine_instance::on_app_event(const SDL_Event* event)
 {
-	return GetInstance().ProcessEvent(event);
+	return get_instance().process_event(event);
 }
 
-SDL_AppResult EngineInstance::OnAppIterate()
+SDL_AppResult engine_instance::on_app_iterate()
 {
-	return GetInstance().Iterate();
+	return get_instance().iterate();
 }
 
-void EngineInstance::OnAppQuit()
+void engine_instance::on_app_quit()
 {
-	GetInstance().Cleanup();
+	get_instance().cleanup();
 }
 
-ENGINE_API EngineInstance& EngineInstance::GetInstance()
+ENGINE_API engine_instance& engine_instance::get_instance()
 {
-	static EngineInstance engineInstance;
-	return engineInstance;
+	static engine_instance instance;
+	return instance;
 }
 
-ENGINE_API bool EngineInstance::IsShuttingDown()
+ENGINE_API bool engine_instance::is_shutting_down()
 {
-	return isQuitting;
+	return is_quitting_;
 }
 
-SDL_AppResult EngineInstance::Init()
+SDL_AppResult engine_instance::init()
 {
 	SDL_Log("== Init ==");
 
-	isQuitting = false;
+	is_quitting_ = false;
 
-	modules.push_back(std::make_unique<LogModule>());
-	modules.push_back(std::make_unique<TimeModule>());
-	modules.push_back(std::make_unique<RenderModule>());
-	modules.push_back(std::make_unique<GameLayerModule>());
-	modules.push_back(std::make_unique<ECSModule>());
-	modules.push_back(std::make_unique<AssetModule>());
+	modules_.push_back(std::make_unique<modules::log_module>());
+	modules_.push_back(std::make_unique<modules::time_module>());
+	modules_.push_back(std::make_unique<modules::render_module>());
+	modules_.push_back(std::make_unique<modules::game_layer_module>());
+	modules_.push_back(std::make_unique<modules::ecs_module>());
+	modules_.push_back(std::make_unique<modules::asset_module>());
 
 	SDL_AppResult result = SDL_APP_CONTINUE;
-	for (auto& module : modules)
+	for (const auto& module : modules_)
 	{
-		SDL_Log("== %s::Init ==", module->GetName().c_str());
-		result = module->Init();
+		SDL_Log("== %s::Init ==", module->get_name().c_str());
+		result = module->init();
 		if (result != SDL_APP_CONTINUE)
 		{
 			return result;
 		}
 	}
 
-	SDL_Log("Init complete with result: %s", EnumStrings::ToString(result).c_str());
+	SDL_Log("Init complete with result: %s", enum_strings::to_string(result).c_str());
 	return result;
 }
 
-SDL_AppResult EngineInstance::ProcessEvent(const SDL_Event* event)
+SDL_AppResult engine_instance::process_event(const SDL_Event* event)
 {
 	if (event->type == SDL_EVENT_QUIT)
 	{
 		// end the program, reporting success to the OS.
-		SDL_Log("EngineInstance quitting");
-		isQuitting = true;
-		QuitEvent();
+		SDL_Log("engine_instance quitting");
+		is_quitting_ = true;
+		quit_event();
 		return SDL_APP_SUCCESS;
 	}
-	else if (event->type == SDL_EVENT_KEY_DOWN)
+	if (event->type == SDL_EVENT_KEY_DOWN)
 	{
 		if (event->key.key == SDLK_F1)
 		{
-			auto& renderModule = GetEngineModule<RenderModule>();
-			renderModule.WireframeMode = !renderModule.WireframeMode;
+			auto& render_module = get_engine_module<modules::render_module>();
+			render_module.wireframe_mode = !render_module.wireframe_mode;
 		}
 	}
 
 	return SDL_APP_CONTINUE;
 }
 
-SDL_AppResult EngineInstance::Iterate()
+SDL_AppResult engine_instance::iterate()
 {
-	auto& timeModule = GetEngineModule<TimeModule>();
-	bool shouldTick = timeModule.Update();
+	auto& time_module = get_engine_module<modules::time_module>();
+	const bool should_tick = time_module.update();
 
-	if (shouldTick)
+	if (should_tick)
 	{
-		Update();
-		Render();
+		update();
+		render();
 	}
 	return SDL_APP_CONTINUE;
 }
 
-void EngineInstance::Update()
+void engine_instance::update()
 {
-	SDL_LogTrace(SDL_LOG_CATEGORY_APPLICATION, "EngineInstance ticking.");
+	SDL_LogTrace(SDL_LOG_CATEGORY_APPLICATION, "engine_instance ticking.");
 
-	auto& ecsModule = GetEngineModule<ECSModule>();
-	ecsModule.Tick();
+	auto& ecs_module = get_engine_module<modules::ecs_module>();
+	ecs_module.tick();
 
-	auto& timeModule = GetEngineModule<TimeModule>();
-	TickEvent(timeModule.GetDeltaTime());
+	const auto& time_module = get_engine_module<modules::time_module>();
+	tick_event(time_module.get_delta_time());
 }
 
-void EngineInstance::Render()
+void engine_instance::render()
 {
-	auto& renderModule = GetEngineModule<RenderModule>();
-	renderModule.Render();
+	auto& render_module = get_engine_module<modules::render_module>();
+	render_module.render();
 }
 
-void EngineInstance::Cleanup()
+void engine_instance::cleanup() const
 {
 	SDL_Log("Cleaning engine instance.");
-	for (auto& module : modules)
+	for (const auto& module : modules_)
 	{
-		SDL_Log("== %s::Cleanup ==", module->GetName().c_str());
-		module->Cleanup();
+		SDL_Log("== %s::Cleanup ==", module->get_name().c_str());
+		module->cleanup();
 	}
 }

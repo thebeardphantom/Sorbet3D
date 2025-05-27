@@ -1,44 +1,47 @@
 #include "../pch.h"
 #include "game_layer_module.h"
 
-SDL_AppResult GameLayerModule::Init()
+namespace modules
 {
-	SDL_Log("== InitGameLayer ==");
-
-	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Loading Game.dll.");
-	gameModule = SDL_LoadObject("Game.dll");
-	if (gameModule == nullptr)
+	SDL_AppResult game_layer_module::init()
 	{
-		const char* error = SDL_GetError();
-		SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Failed to load Game.dll: %s.", error);
-		return SDL_APP_FAILURE;
+		SDL_Log("== InitGameLayer ==");
+
+		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Loading Game.dll.");
+		game_module_ = SDL_LoadObject("Game.dll");
+		if (game_module_ == nullptr)
+		{
+			const char* error = SDL_GetError();
+			SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Failed to load Game.dll: %s.", error);
+			return SDL_APP_FAILURE;
+		}
+
+		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Locating game_entry_point.");
+
+		const auto game_entry_point = SDL_LoadFunction(game_module_, "game_entry_point");
+		if (game_entry_point == nullptr)
+		{
+			const char* error = SDL_GetError();
+			SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Cannot locate GameEntryPoint in Game.dll: %s.", error);
+			return SDL_APP_FAILURE;
+		}
+
+		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Invoking GameEntryPoint.");
+		game_entry_point();
+		return SDL_APP_CONTINUE;
 	}
 
-	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Locating GameEntryPoint.");
-
-	GameEntryPoint gameEntryPoint = (GameEntryPoint)SDL_LoadFunction(gameModule, "GameEntryPoint");
-	if (gameEntryPoint == nullptr)
+	void game_layer_module::cleanup()
 	{
-		const char* error = SDL_GetError();
-		SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Cannot locate GameEntryPoint in Game.dll: %s.", error);
-		return SDL_APP_FAILURE;
+		if (game_module_ != nullptr)
+		{
+			SDL_UnloadObject(game_module_);
+			game_module_ = nullptr;
+		}
 	}
 
-	SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Invoking GameEntryPoint.");
-	gameEntryPoint();
-	return SDL_APP_CONTINUE;
-}
-
-void GameLayerModule::Cleanup()
-{
-	if (gameModule != nullptr)
+	std::string game_layer_module::get_name()
 	{
-		SDL_UnloadObject(gameModule);
-		gameModule = nullptr;
+		return "game_layer_module";
 	}
-}
-
-std::string GameLayerModule::GetName()
-{
-	return "GameLayerModule";
 }

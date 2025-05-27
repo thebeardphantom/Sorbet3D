@@ -1,10 +1,14 @@
 #pragma once
 #include <SDL3/SDL_init.h>
 
-class EngineModule
+namespace modules
 {
-public:
-	virtual SDL_AppResult Init() = 0;
-	virtual void Cleanup() = 0;
-	virtual std::string GetName() = 0;
-};
+	class engine_module
+	{
+	public:
+		virtual ~engine_module() = default;
+		virtual SDL_AppResult init() = 0;
+		virtual void cleanup() = 0;
+		virtual std::string get_name() = 0;
+	};
+}

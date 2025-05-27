@@ -1,10 +1,9 @@
 #pragma once
 #include "pch.h"
 
-class EnumStrings
+class enum_strings
 {
 public:
-	ENGINE_API static std::string ToString(SDL_AppResult value);
-	ENGINE_API static std::string ToString(GLenum value);
+	ENGINE_API static std::string to_string(SDL_AppResult value);
+	ENGINE_API static std::string to_string(GLenum value);
 };
-

@@ -1,17 +1,16 @@
 #pragma once
 
-class GameInstance
+class game_instance
 {
 public:
-	static GameInstance& GetInstance();
+	static game_instance& get_instance();
 
-	void Initialize();
+	void initialize();
 
-	void Quit() const;
+	void quit() const;
 
 private:
-	int tickCallbackId = 0;
+	int tick_callback_id_ = 0;
 
-	int quitCallbackId = 0;
+	int quit_callback_id_ = 0;
 };
-

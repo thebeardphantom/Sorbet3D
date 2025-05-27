@@ -8,10 +8,12 @@
 #define PCH_H
 
 // add headers that you want to pre-compile here
-#include "framework.h"
 #include <cmath>
-#include <entt/entt.hpp>
 #include <functional>
+#include <assimp/mesh.h>
+#include <assimp/scene.h>
+#include <entt/entt.hpp>
 #include <SDL3/SDL_log.h>
+#include "framework.h"
 
 #endif //PCH_H

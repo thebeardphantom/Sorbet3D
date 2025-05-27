@@ -1,18 +1,18 @@
 #pragma once
 #include "pch.h"
 
-class EntitySystem
+class entity_system
 {
 public:
-	struct TickArgs
+	virtual ~entity_system() = default;
+
+	struct tick_args
 	{
-		double_t deltaTime;
+		double_t delta_time;
 		entt::registry& registry;
 	};
 
-public:
-	virtual void Init() = 0;
-	virtual void Tick(TickArgs& args) = 0;
-	virtual std::string GetName() = 0;
+	virtual void init() = 0;
+	virtual void tick(tick_args& args) = 0;
+	virtual std::string get_name() = 0;
 };
-

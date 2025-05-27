@@ -1,33 +1,27 @@
 #pragma once
+#include <format>
+#include <SDL3/SDL_init.h>
 #include "engine_api.h"
 #include "entity_system.h"
 #include "event.h"
 #include "Modules/engine_module.h"
-#include <glad/glad.h>
-#include <SDL3/SDL_init.h>
-#include <SDL3/SDL_render.h>
-#include <format>
-#include <Windows.h>
 
-class EngineInstance
+class engine_instance
 {
 public:
-	ENGINE_API static SDL_AppResult OnAppInit();
+	// Public Static Methods
+	ENGINE_API static SDL_AppResult on_app_init();
+	ENGINE_API static SDL_AppResult on_app_event(const SDL_Event* event);
+	ENGINE_API static SDL_AppResult on_app_iterate();
+	ENGINE_API static void on_app_quit();
+	ENGINE_API static engine_instance& get_instance();
+	ENGINE_API static bool is_shutting_down();
 
-	ENGINE_API static SDL_AppResult OnAppEvent(const SDL_Event* event);
-
-	ENGINE_API static SDL_AppResult OnAppIterate();
-
-	ENGINE_API static void OnAppQuit();
-
-	ENGINE_API static EngineInstance& GetInstance();
-
-	ENGINE_API static bool IsShuttingDown();
-
+	// Public Methods
 	template <class T>
-	T& GetEngineModule()
+	T& get_engine_module()
 	{
-		for (auto& system : modules)
+		for (auto& system : modules_)
 		{
 			if (auto* casted = dynamic_cast<T*>(system.get()))
 			{
@@ -37,25 +31,20 @@ public:
 		throw std::exception(std::format("Could not find system by type %s.", typeid(T).name()).c_str());
 	}
 
-	Event<double_t> TickEvent;
-
-	Event<> QuitEvent;
+	// Public Fields
+	event<double_t> tick_event;
+	event<> quit_event;
 
 private:
-	static bool isQuitting;
+	// Private Fields
+	static bool is_quitting_;
+	std::vector<std::unique_ptr<modules::engine_module>> modules_;
 
-	std::vector<std::unique_ptr<EngineModule>> modules;
-
-	SDL_AppResult Init();
-
-	SDL_AppResult ProcessEvent(const SDL_Event* event);
-
-	SDL_AppResult Iterate();
-
-	void Update();
-
-	void Render();
-
-	void Cleanup();
+	// Private Methods
+	SDL_AppResult init();
+	SDL_AppResult process_event(const SDL_Event* event);
+	SDL_AppResult iterate();
+	void update();
+	void render();
+	void cleanup() const;
 };
-

@@ -1,33 +1,34 @@
 #include "../pch.h"
-#include "../engine_instance.h"
 #include "ecs_module.h"
 #include "time_module.h"
+#include "../engine_instance.h"
 
-SDL_AppResult ECSModule::Init()
+namespace modules
 {
-	return SDL_APP_CONTINUE;
-}
-
-void ECSModule::Cleanup()
-{
-}
-
-std::string ECSModule::GetName()
-{
-	return "ECSModule";
-}
-
-void ECSModule::Tick()
-{
-	auto& timeModule = EngineInstance::GetInstance().GetEngineModule<TimeModule>();
-	EntitySystem::TickArgs tickArgs = { timeModule.GetDeltaTime(), registry };
-	for (auto& system : entitySystems)
+	SDL_AppResult ecs_module::init()
 	{
-		system->Tick(tickArgs);
+		return SDL_APP_CONTINUE;
 	}
-}
 
-ENGINE_API entt::registry& ECSModule::GetRegistry()
-{
-	return registry;
+	void ecs_module::cleanup() {}
+
+	std::string ecs_module::get_name()
+	{
+		return "ecs_module";
+	}
+
+	void ecs_module::tick()
+	{
+		const auto& time_module = engine_instance::get_instance().get_engine_module<modules::time_module>();
+		entity_system::tick_args tick_args = {time_module.get_delta_time(), registry_};
+		for (const auto& system : entity_systems_)
+		{
+			system->tick(tick_args);
+		}
+	}
+
+	ENGINE_API entt::registry& ecs_module::get_registry()
+	{
+		return registry_;
+	}
 }

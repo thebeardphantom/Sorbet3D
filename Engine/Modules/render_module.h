@@ -1,68 +1,71 @@
 #pragma once
-#include "engine_module.h"
 #include <SDL3/SDL_init.h>
-#include <assimp/mesh.h>
+#include <SDL3/SDL_render.h>
+#include "engine_module.h"
 #include "../Objects/render_mesh.h"
 
-class RenderModule : public EngineModule
+namespace modules
 {
-public:
-	ENGINE_API SDL_AppResult Init() override;
-	ENGINE_API void Cleanup() override;
-	ENGINE_API std::string GetName() override;
-
-public:
-	// Methods
-	ENGINE_API void Submit(std::shared_ptr<RenderMesh> renderMesh);
-	void Render();
-	bool WireframeMode;
-
-private:
-	// Methods
-	SDL_AppResult InitSDLWindow();
-	SDL_AppResult InitSDLOpenGL();
-	SDL_AppResult InitRenderStatics();
-	void PreRender();
-	void RenderInternal();
-	void PostRender();
-	GLuint CreateShader(GLenum shaderType, const GLchar* const* string);
-	
-	template <typename... T>
-	GLuint CreateShaderProgram(T... shaders)
+	class render_module : public engine_module
 	{
-		SDL_LogVerbose(SDL_LOG_CATEGORY_RENDER, "Creating shader program.");
-		GLuint shaderProgram = glCreateProgram();
-		SDL_LogVerbose(SDL_LOG_CATEGORY_RENDER, "Created shader program %d.", shaderProgram);
-		(glAttachShader(shaderProgram, shaders), ...);
+	public:
+		// Overridden Methods
+		ENGINE_API SDL_AppResult init() override;
+		ENGINE_API void cleanup() override;
+		ENGINE_API std::string get_name() override;
 
-		SDL_LogVerbose(SDL_LOG_CATEGORY_RENDER, "Linking shader program %d.", shaderProgram);
-		glLinkProgram(shaderProgram);
+		// Public Methods
+		ENGINE_API void submit(const std::shared_ptr<objects::render_mesh>& render_mesh);
+		void render();
 
-		int success;
-		char info[512];
-		glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-		if (success)
+		// Public Fields
+		bool wireframe_mode;
+
+	private:
+		// Private Methods
+		SDL_AppResult init_sdl_window();
+		SDL_AppResult init_sdl_open_gl();
+		SDL_AppResult init_render_statics();
+		void pre_render() const;
+		void render_internal();
+		void post_render() const;
+		static GLuint create_shader(GLenum shader_type, const GLchar* const* src);
+
+		template <typename... T>
+		static GLuint create_shader_program(T... shaders)
 		{
-			SDL_LogVerbose(SDL_LOG_CATEGORY_RENDER, "Activating shader program %d.", shaderProgram);
-			glUseProgram(shaderProgram);
+			SDL_LogVerbose(SDL_LOG_CATEGORY_RENDER, "Creating shader program.");
+			GLuint shader_program = glCreateProgram();
+			SDL_LogVerbose(SDL_LOG_CATEGORY_RENDER, "Created shader program %d.", shader_program);
+			(glAttachShader(shader_program, shaders), ...);
 
-			SDL_LogVerbose(SDL_LOG_CATEGORY_RENDER, "Deleting attached shaders.");
-			(glDeleteShader(shaders), ...);
+			SDL_LogVerbose(SDL_LOG_CATEGORY_RENDER, "Linking shader program %d.", shader_program);
+			glLinkProgram(shader_program);
+
+			int success;
+			char info[512];
+			glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
+			if (success)
+			{
+				SDL_LogVerbose(SDL_LOG_CATEGORY_RENDER, "Activating shader program %d.", shader_program);
+				glUseProgram(shader_program);
+
+				SDL_LogVerbose(SDL_LOG_CATEGORY_RENDER, "Deleting attached shaders.");
+				(glDeleteShader(shaders), ...);
+			}
+			else
+			{
+				glGetProgramInfoLog(shader_program, 512, nullptr, info);
+				SDL_LogError(SDL_LOG_CATEGORY_RENDER, "Shader program %d link error: %s", shader_program, info);
+			}
+			return shader_program;
 		}
-		else
-		{
-			glGetProgramInfoLog(shaderProgram, 512, nullptr, info);
-			SDL_LogError(SDL_LOG_CATEGORY_RENDER, "Shader program %d link error: %s", shaderProgram, info);
-		}
-		return shaderProgram;
-	}
 
-private:
-	// Fields
-	SDL_Window* window = nullptr;
-	SDL_Renderer* renderer = nullptr;
-	SDL_GLContext glContext = nullptr;
-	GLuint shaderProgram;
-	std::vector<std::shared_ptr<RenderMesh>> renderList;
-};
-
+		// Fields
+		SDL_Window* window_ = nullptr;
+		SDL_Renderer* renderer_ = nullptr;
+		SDL_GLContext gl_context_ = nullptr;
+		GLuint shader_program_ = 0;
+		std::vector<std::shared_ptr<objects::render_mesh>> render_list_;
+	};
+}

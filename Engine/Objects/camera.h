@@ -1,9 +1,16 @@
 #pragma once
 #include <glm/ext/quaternion_float.hpp>
 
-class camera
+#include "transform.h"
+
+namespace objects
 {
-public:
-	glm::vec3 position;
-	glm::quat rotation;
-};
+	class camera
+	{
+	public:
+		transform& get_transform();
+
+	private:
+		transform transform_;
+	};
+}

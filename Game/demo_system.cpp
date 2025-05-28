@@ -14,8 +14,8 @@ void demo_system::tick(tick_args& args)
 void demo_system::init()
 {
 	modules::asset_module& asset_module = engine_instance::get_instance().get_engine_module<modules::asset_module>();
-	const auto scene = asset_module.load_model("monkey.fbx");
-	mesh_ = std::make_shared<objects::mesh_cpu>(scene->mMeshes[0]);
+	std::unique_ptr<objects::mesh_cpu> mesh_cpu = asset_module.load_model("monkey.fbx");
+	mesh_ = std::move(mesh_cpu);
 }
 
 std::string demo_system::get_name()

@@ -13,6 +13,8 @@ namespace objects
 		// Constructors / Destructors
 		ENGINE_API explicit mesh_cpu(const aiMesh* ai_mesh);
 
+		ENGINE_API ~mesh_cpu();
+
 		mesh_gpu& get_mesh_gpu();
 
 		std::vector<glm::vec3>& get_verts();

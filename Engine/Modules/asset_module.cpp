@@ -1,7 +1,7 @@
 #include "../pch.h"
 #include "asset_module.h"
+#include <assimp/scene.h>
 #include <SDL3/SDL_filesystem.h>
-
 
 namespace modules
 {
@@ -14,11 +14,31 @@ namespace modules
 	}
 
 	void asset_module::cleanup() {}
+
 	void asset_module::shutdown() {}
 
-	const aiScene* asset_module::get_scene() const
+	std::unique_ptr<objects::shader> asset_module::load_shader(const std::string& path)
 	{
-		return importer_.GetScene();
+		const std::string vert_path = SDL_GetBasePath() + path + ".vert";
+
+		size_t data_size;
+		void* vert_data = SDL_LoadFile(vert_path.c_str(), &data_size);
+		if (vert_data == nullptr)
+		{
+			return nullptr;
+		}
+		auto vert_src = std::string(static_cast<char*>(vert_data), data_size);
+
+		const std::string frag_path = SDL_GetBasePath() + path + ".frag";
+		void* frag_data = SDL_LoadFile(frag_path.c_str(), &data_size);
+		if (frag_data == nullptr)
+		{
+			return nullptr;
+		}
+		auto frag_src = std::string(static_cast<char*>(frag_data), data_size);
+
+		//return objects::shader()
+		return std::make_unique<objects::shader>(vert_src, frag_src);
 	}
 
 	std::string asset_module::get_name()
@@ -26,7 +46,7 @@ namespace modules
 		return "asset_module";
 	}
 
-	ENGINE_API const aiScene* asset_module::load_model(std::string path)
+	ENGINE_API std::unique_ptr<objects::mesh_cpu> asset_module::load_model(std::string path)
 	{
 		static uint32_t flags =
 			aiProcess_Triangulate
@@ -39,12 +59,14 @@ namespace modules
 
 		path = SDL_GetBasePath() + path;
 		SDL_LogVerbose(SDL_LOG_CATEGORY_CUSTOM, "Loading model from path: %s", path.c_str());
-		const auto scene = importer_.ReadFile(path, flags);
+
+		Assimp::Importer importer;
+		const auto scene = importer.ReadFile(path, flags);
 		if (scene == nullptr)
 		{
 			throw std::runtime_error(std::format("Failed to load model from path: %s", path));
 		}
 
-		return scene;
+		return std::make_unique<objects::mesh_cpu>(scene->mMeshes[0]);
 	}
 }

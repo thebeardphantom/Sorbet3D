@@ -4,6 +4,8 @@
 
 namespace objects
 {
+	mesh_cpu::~mesh_cpu() = default;
+
 	mesh_cpu::mesh_cpu(const aiMesh* ai_mesh)
 	{
 		const uint32_t vert_count = ai_mesh->mNumVertices;

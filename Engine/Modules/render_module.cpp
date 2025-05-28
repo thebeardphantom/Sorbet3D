@@ -1,41 +1,14 @@
 #include "../pch.h"
 #include "render_module.h"
 #include <glm/gtc/type_ptr.hpp>
+#include "asset_module.h"
 #include "time_module.h"
 #include "../engine_instance.h"
-#include "../enum_strings.h"
 #include "../Objects/mesh_cpu.h"
+#include "../Objects/mesh_gpu.h"
 
 namespace modules
 {
-	static auto vertex_shader_src = R"(
-#version 330 core
-layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec3 aColor;
-
-out vec3 vertexColor;
-
-uniform mat4 mvp;
-
-void main()
-{
-    gl_Position = mvp * vec4(aPos, 1.0);
-    vertexColor = aColor;
-}
-)";
-
-	static auto fragment_shader_src = R"(
-#version 330 core
-in vec3 vertexColor;
-out vec4 FragColor;
-
-void main()
-{
-    FragColor = vec4(vertexColor, 1.0f);
-	//FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
-} 
-)";
-
 	SDL_AppResult render_module::init()
 	{
 		SDL_AppResult result = init_sdl_window();
@@ -137,9 +110,8 @@ void main()
 		glEnable(GL_DEPTH_TEST);
 
 		// Create shaders
-		const GLuint vertex_shader = create_shader(GL_VERTEX_SHADER, &vertex_shader_src);
-		const GLuint fragment_shader = create_shader(GL_FRAGMENT_SHADER, &fragment_shader_src);
-		shader_program_ = create_shader_program(vertex_shader, fragment_shader);
+		auto& asset_module = engine_instance::get_instance().get_engine_module<modules::asset_module>();
+		default_shader_ = asset_module.load_shader("default");
 
 		return SDL_APP_CONTINUE;
 	}
@@ -181,8 +153,10 @@ void main()
 		const glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 		const glm::mat4 mvp = projection * view * model;
-		const int model_loc = glGetUniformLocation(shader_program_, "mvp");
+		const int model_loc = glGetUniformLocation(default_shader_->get_id(), "mvp");
 		glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(mvp));
+
+		default_shader_->use();
 
 		for (const std::weak_ptr<objects::mesh_cpu>& mesh : render_list_)
 		{
@@ -197,29 +171,5 @@ void main()
 	void render_module::post_render() const
 	{
 		SDL_GL_SwapWindow(window_);
-	}
-
-	GLuint render_module::create_shader(const GLenum shader_type, const GLchar* const* src)
-	{
-		const std::string shader_type_str = enum_strings::to_string(shader_type);
-		const char* shader_type_c_str = shader_type_str.c_str();
-
-		SDL_LogVerbose(SDL_LOG_CATEGORY_RENDER, "Creating %s shader.", shader_type_c_str);
-		const GLuint shader = glCreateShader(shader_type);
-		SDL_LogVerbose(SDL_LOG_CATEGORY_RENDER, "Created %s shader %d.", shader_type_c_str, shader);
-
-		glShaderSource(shader, 1, src, nullptr);
-		SDL_LogVerbose(SDL_LOG_CATEGORY_RENDER, "Compiling %s shader %d.", shader_type_c_str, shader);
-		glCompileShader(shader);
-
-		int success;
-		char info[512];
-		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(shader, sizeof(info), nullptr, info);
-			SDL_LogError(SDL_LOG_CATEGORY_RENDER, "%s shader %d compilation error:%s", shader_type_c_str, shader, info);
-		}
-		return shader;
 	}
 }

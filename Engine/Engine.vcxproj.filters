@@ -47,6 +47,9 @@
     <ClInclude Include="Objects\mesh_cpu.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\shader.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine_instance.cpp" />
@@ -76,8 +79,15 @@
     <ClCompile Include="Objects\mesh_cpu.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\shader.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Shaders\default.frag" />
+    <CopyFileToFolders Include="Shaders\default.vert" />
   </ItemGroup>
 </Project>

@@ -5,13 +5,24 @@
 #include <assimp/scene.h>
 #include <SDL3/SDL_filesystem.h>
 
+#include "../path_utility.h"
+
 namespace modules
 {
 	SDL_AppResult asset_module::init()
 	{
-		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Base path: %s", SDL_GetBasePath());
-		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Current directory: %s", SDL_GetCurrentDirectory());
-		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Pref path: %s", SDL_GetPrefPath("post.ghost", "sorbet3D"));
+		SDL_LogVerbose(
+			SDL_LOG_CATEGORY_APPLICATION,
+			"Base path: %s",
+			path_utility::get_base_path().c_str());
+		SDL_LogVerbose(
+			SDL_LOG_CATEGORY_APPLICATION,
+			"Current directory: %s",
+			path_utility::get_current_directory().c_str());
+		SDL_LogVerbose(
+			SDL_LOG_CATEGORY_APPLICATION,
+			"Pref path: %s",
+			path_utility::get_pref_path("post.ghost", "sorbet3D"));
 		return SDL_APP_CONTINUE;
 	}
 
@@ -21,15 +32,16 @@ namespace modules
 
 	std::unique_ptr<objects::shader> asset_module::load_shader(const std::string& path)
 	{
-		auto vert_src = load_shader_stage(path, "vert");
-		auto frag_src = load_shader_stage(path, "frag");
+		const std::string absolute_path = path_utility::get_absolute_asset_path(path);
+		auto vert_src = load_shader_stage(absolute_path, "vert");
+		auto frag_src = load_shader_stage(absolute_path, "frag");
 		return std::make_unique<objects::shader>(vert_src, frag_src);
 	}
 
 	std::string asset_module::load_shader_stage(const std::string& path, const std::string& ext)
 	{
 		size_t data_size;
-		std::string stage_path = SDL_GetBasePath() + path + "." + ext;
+		std::string stage_path = std::format("{}.{}", path, ext);
 		void* data = SDL_LoadFile(stage_path.c_str(), &data_size);
 
 		if (data == nullptr)
@@ -55,21 +67,21 @@ namespace modules
 			| aiProcess_ImproveCacheLocality
 			| aiProcess_SortByPType;
 
-		path = SDL_GetBasePath() + path;
-		SDL_LogVerbose(SDL_LOG_CATEGORY_CUSTOM, "Loading model from path: %s", path.c_str());
+		const std::string absolute_path = path_utility::get_absolute_asset_path(path);
+		SDL_LogVerbose(SDL_LOG_CATEGORY_CUSTOM, "Loading model from path: %s", absolute_path.c_str());
 
 		Assimp::Importer importer;
 		size_t data_size;
-		void* data = SDL_LoadFile(path.c_str(), &data_size);
+		void* data = SDL_LoadFile(absolute_path.c_str(), &data_size);
 
-		const auto ext = get_file_ext(path);
+		const auto ext = get_file_ext(absolute_path);
 		const auto scene = importer.ReadFileFromMemory(data, data_size, flags, ext.c_str());
 		SDL_free(data);
 		if (scene == nullptr)
 		{
 			const std::string msg = std::format(
 				"Failed to load model from path '{}' with error: {}",
-				path,
+				absolute_path,
 				importer.GetErrorString());
 			SDL_LogError(SDL_LOG_CATEGORY_CUSTOM, msg.c_str());
 			throw std::runtime_error(msg);

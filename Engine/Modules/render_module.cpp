@@ -111,7 +111,7 @@ namespace modules
 
 		// Create shaders
 		auto& asset_module = engine_instance::get_instance().get_engine_module<modules::asset_module>();
-		default_shader_ = asset_module.load_shader("default");
+		default_shader_ = asset_module.load_shader("Engine/Shaders/default");
 
 		return SDL_APP_CONTINUE;
 	}

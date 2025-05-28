@@ -52,6 +52,8 @@
     </ClInclude>
     <ClInclude Include="Objects\camera.h" />
     <ClInclude Include="Objects\transform.h" />
+    <ClInclude Include="path_utility.h" />
+    <ClInclude Include="string_utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine_instance.cpp" />
@@ -86,12 +88,13 @@
     </ClCompile>
     <ClCompile Include="Objects\camera.cpp" />
     <ClCompile Include="Objects\transform.cpp" />
+    <ClCompile Include="path_utility.cpp" />
+    <ClCompile Include="string_utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
-  </ItemGroup>
-  <ItemGroup>
-    <CopyFileToFolders Include="Shaders\default.frag" />
-    <CopyFileToFolders Include="Shaders\default.vert" />
+    <None Include="Assets\Engine\Shaders\default.vert" />
+    <None Include="Assets\Engine\Models\monkey.fbx" />
+    <None Include="Assets\Engine\Shaders\default.frag" />
   </ItemGroup>
 </Project>

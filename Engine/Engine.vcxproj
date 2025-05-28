@@ -95,7 +95,7 @@
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>if exist "$(OutDir)Assets" rmdir /S /Q "$(OutDir)Assets"
+      <Command>if exist "$(OutDir)Assets\Engine" rmdir /S /Q "$(OutDir)Assets\Engine"
 
 xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /E /I /Y</Command>
     </PostBuildEvent>
@@ -120,7 +120,7 @@ xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /E /I /Y</Command>
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>if exist "$(OutDir)Assets" rmdir /S /Q "$(OutDir)Assets"
+      <Command>if exist "$(OutDir)Assets\Engine" rmdir /S /Q "$(OutDir)Assets\Engine"
 
 xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /E /I /Y</Command>
     </PostBuildEvent>
@@ -143,7 +143,7 @@ xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /E /I /Y</Command>
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>if exist "$(OutDir)Assets" rmdir /S /Q "$(OutDir)Assets"
+      <Command>if exist "$(OutDir)Assets\Engine" rmdir /S /Q "$(OutDir)Assets\Engine"
 
 xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /E /I /Y</Command>
     </PostBuildEvent>
@@ -168,7 +168,7 @@ xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /E /I /Y</Command>
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>if exist "$(OutDir)Assets" rmdir /S /Q "$(OutDir)Assets"
+      <Command>if exist "$(OutDir)Assets\Engine" rmdir /S /Q "$(OutDir)Assets\Engine"
 
 xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /E /I /Y</Command>
     </PostBuildEvent>

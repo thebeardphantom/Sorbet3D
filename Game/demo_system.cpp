@@ -14,7 +14,7 @@ void demo_system::tick(tick_args& args)
 void demo_system::init()
 {
 	modules::asset_module& asset_module = engine_instance::get_instance().get_engine_module<modules::asset_module>();
-	std::unique_ptr<objects::mesh_cpu> mesh_cpu = asset_module.load_model("Engine/Models/monkey.fbx");
+	std::unique_ptr<objects::mesh_cpu> mesh_cpu = asset_module.load_model("Game/Models/torus.fbx");
 	mesh_ = std::move(mesh_cpu);
 }
 

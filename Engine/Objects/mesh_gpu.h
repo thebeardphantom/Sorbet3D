@@ -15,13 +15,11 @@ namespace objects
 
 	private:
 		// Fields
-		std::vector<GLfloat> verts_;
+		std::vector<GLfloat> vbo_data_;
 		std::vector<GLuint> indices_;
-		std::vector<GLfloat> colors_;
 
 		GLuint vbo_id_;
 		GLuint vao_id_;
 		GLuint ebo_id_;
-		GLuint color_buffer_id_;
 	};
 }

@@ -7,29 +7,40 @@ namespace objects
 	mesh_gpu::mesh_gpu(mesh_cpu& mesh_cpu)
 	{
 		const std::vector<glm::vec3> verts = mesh_cpu.get_verts();
-		const std::vector<uint32_t> indices = mesh_cpu.get_indices();
 		const std::vector<glm::vec3> colors = mesh_cpu.get_colors();
 		const size_t vert_count = verts.size();
+		const bool has_colors = !colors.empty();
 
-		for (size_t i = 0; i < vert_count; i++)
+		if (has_colors)
 		{
-			glm::vec3 vert = verts[i];
-			verts_.push_back(vert.x);
-			verts_.push_back(vert.y);
-			verts_.push_back(vert.z);
-
-			if (!colors.empty())
+			for (size_t i = 0; i < vert_count; i++)
 			{
+				glm::vec3 vert = verts[i];
+				vbo_data_.push_back(vert.x);
+				vbo_data_.push_back(vert.y);
+				vbo_data_.push_back(vert.z);
+
 				glm::vec3 color = colors[i];
-				colors_.push_back(color.r);
-				colors_.push_back(color.g);
-				colors_.push_back(color.b);
+				vbo_data_.push_back(color.r);
+				vbo_data_.push_back(color.g);
+				vbo_data_.push_back(color.b);
+			}
+		}
+		else
+		{
+			for (size_t i = 0; i < vert_count; i++)
+			{
+				glm::vec3 vert = verts[i];
+				vbo_data_.push_back(vert.x);
+				vbo_data_.push_back(vert.y);
+				vbo_data_.push_back(vert.z);
 			}
 		}
 
-		for (size_t i = 0; i < indices.size(); i++)
+		const std::vector<uint32_t> indices = mesh_cpu.get_indices();
+		for (uint32_t indice : indices)
 		{
-			indices_.push_back(indices[i]);
+			indices_.push_back(indice);
 		}
 
 		// Setup vertex array object (VAO)
@@ -39,20 +50,39 @@ namespace objects
 		// Setup vertex buffer object (VBO)
 		glGenBuffers(1, &vbo_id_);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_id_);
-		glBufferData(GL_ARRAY_BUFFER, verts_.size() * sizeof(GLfloat), verts_.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), static_cast<void*>(nullptr));
+		glBufferData(
+			GL_ARRAY_BUFFER,
+			sizeof(GLfloat) * vbo_data_.size(),
+			vbo_data_.data(),
+			GL_STATIC_DRAW);
+		const GLsizei stride = has_colors ? 6 * sizeof(GLfloat) : 3 * sizeof(GLfloat);
+		glVertexAttribPointer(
+			0,
+			3,
+			GL_FLOAT,
+			GL_FALSE,
+			stride,
+			static_cast<void*>(nullptr));
+		if (has_colors)
+		{
+			glVertexAttribPointer(
+				1,
+				3,
+				GL_FLOAT,
+				GL_FALSE,
+				stride,
+				reinterpret_cast<void*>(3 * sizeof(float)));
+		}
+		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(0);
 
 		glGenBuffers(1, &ebo_id_);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id_);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_.size() * sizeof(GLuint), indices_.data(), GL_STATIC_DRAW);
-
-
-		glGenBuffers(1, &color_buffer_id_);
-		glBindBuffer(GL_ARRAY_BUFFER, color_buffer_id_);
-		glBufferData(GL_ARRAY_BUFFER, colors_.size() * sizeof(GLfloat), colors_.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), static_cast<void*>(nullptr));
-		glEnableVertexAttribArray(1);
+		glBufferData(
+			GL_ELEMENT_ARRAY_BUFFER,
+			sizeof(GLuint) * indices_.size(),
+			indices_.data(),
+			GL_STATIC_DRAW);
 
 		glBindVertexArray(0);
 	}
@@ -70,12 +100,6 @@ namespace objects
 		assert(ebo_id_ != 0);
 		glDeleteBuffers(1, &ebo_id_);
 		ebo_id_ = 0;
-
-		if (color_buffer_id_ != 0)
-		{
-			glDeleteBuffers(1, &color_buffer_id_);
-			color_buffer_id_ = 0;
-		}
 	}
 
 	void mesh_gpu::render() const

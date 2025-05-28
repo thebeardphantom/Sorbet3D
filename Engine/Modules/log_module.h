@@ -11,6 +11,6 @@ namespace modules
 		void cleanup() override;
 		void shutdown() override;
 		std::string get_name() override;
-		static void append_prefix(std::ostream& stream, const SDL_LogPriority priority);
+		static void append_prefix(std::ostream& stream, SDL_LogPriority priority);
 	};
 }

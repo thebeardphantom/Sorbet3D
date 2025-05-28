@@ -1,13 +1,14 @@
-	#pragma once
+#pragma once
 #include "pch.h"
 
 class entity_system
 {
 public:
-	virtual ~entity_system() {
-        // Optional: Add a log or breakpoint here
-        SDL_Log("entity_system dtor called");
-    }
+	virtual ~entity_system()
+	{
+		// Optional: Add a log or breakpoint here
+		SDL_Log("entity_system dtor called");
+	}
 
 	struct tick_args
 	{

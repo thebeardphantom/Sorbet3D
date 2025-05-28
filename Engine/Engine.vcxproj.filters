@@ -50,6 +50,8 @@
     <ClInclude Include="Objects\shader.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\camera.h" />
+    <ClInclude Include="Objects\transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine_instance.cpp" />
@@ -82,6 +84,8 @@
     <ClCompile Include="Objects\shader.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\camera.cpp" />
+    <ClCompile Include="Objects\transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

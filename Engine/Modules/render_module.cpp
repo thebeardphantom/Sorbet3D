@@ -112,6 +112,9 @@ namespace modules
 		// Create shaders
 		auto& asset_module = engine_instance::get_instance().get_engine_module<modules::asset_module>();
 		default_shader_ = asset_module.load_shader("Engine/Shaders/default");
+		normals_shader_ = asset_module.load_shader(
+			"Engine/Shaders/normals",
+			"Engine/Shaders/default");
 
 		return SDL_APP_CONTINUE;
 	}
@@ -138,6 +141,18 @@ namespace modules
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 
+		objects::shader* current_shader;
+		if (normals_mode)
+		{
+			current_shader = normals_shader_.get();
+		}
+		else
+		{
+			current_shader = default_shader_.get();
+		}
+
+		current_shader->use();
+
 		const time_module& time_module = engine_instance::get_instance().get_engine_module<modules::time_module>();
 		const float time = static_cast<float>(time_module.get_time()) * 2.0f;
 
@@ -153,10 +168,8 @@ namespace modules
 		const glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 		const glm::mat4 mvp = projection * view * model;
-		const int model_loc = glGetUniformLocation(default_shader_->get_id(), "mvp");
+		const int model_loc = glGetUniformLocation(current_shader->get_id(), "mvp");
 		glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(mvp));
-
-		default_shader_->use();
 
 		for (const std::weak_ptr<objects::mesh_cpu>& mesh : render_list_)
 		{

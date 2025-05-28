@@ -275,6 +275,7 @@ xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /E /I /Y</Command>
     <ClCompile Include="string_utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Engine\Shaders\normals.vert" />
     <None Include="cpp.hint" />
     <None Include="Assets\Engine\Shaders\default.frag">
       <FileType>Document</FileType>

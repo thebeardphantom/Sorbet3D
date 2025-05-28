@@ -22,6 +22,7 @@ namespace modules
 
 		// Public Fields
 		bool wireframe_mode = false;
+		bool normals_mode = false;
 
 	private:
 		// Private Methods
@@ -33,10 +34,11 @@ namespace modules
 		void post_render() const;
 
 		// Fields
+		std::vector<std::weak_ptr<objects::mesh_cpu>> render_list_;
 		SDL_Window* window_ = nullptr;
 		SDL_Renderer* renderer_ = nullptr;
 		SDL_GLContext gl_context_ = nullptr;
 		std::unique_ptr<objects::shader> default_shader_ = nullptr;
-		std::vector<std::weak_ptr<objects::mesh_cpu>> render_list_;
+		std::unique_ptr<objects::shader> normals_shader_ = nullptr;
 	};
 }

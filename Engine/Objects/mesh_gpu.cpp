@@ -8,10 +8,49 @@ namespace objects
 	{
 		const std::vector<glm::vec3> verts = mesh_cpu.get_verts();
 		const std::vector<glm::vec3> colors = mesh_cpu.get_colors();
+		const std::vector<glm::vec3> normals = mesh_cpu.get_normals();
+
+
 		const size_t vert_count = verts.size();
 		const bool has_colors = !colors.empty();
+		const bool has_normals = !normals.empty();
 
-		if (has_colors)
+		if (has_colors && has_normals)
+		{
+			for (size_t i = 0; i < vert_count; i++)
+			{
+				glm::vec3 vert = verts[i];
+				vbo_data_.push_back(vert.x);
+				vbo_data_.push_back(vert.y);
+				vbo_data_.push_back(vert.z);
+
+				glm::vec3 normal = normals[i];
+				vbo_data_.push_back(normal.x);
+				vbo_data_.push_back(normal.y);
+				vbo_data_.push_back(normal.z);
+
+				glm::vec3 color = colors[i];
+				vbo_data_.push_back(color.r);
+				vbo_data_.push_back(color.g);
+				vbo_data_.push_back(color.b);
+			}
+		}
+		else if (has_normals)
+		{
+			for (size_t i = 0; i < vert_count; i++)
+			{
+				glm::vec3 vert = verts[i];
+				vbo_data_.push_back(vert.x);
+				vbo_data_.push_back(vert.y);
+				vbo_data_.push_back(vert.z);
+
+				glm::vec3 normal = normals[i];
+				vbo_data_.push_back(normal.x);
+				vbo_data_.push_back(normal.y);
+				vbo_data_.push_back(normal.z);
+			}
+		}
+		else if (has_colors)
 		{
 			for (size_t i = 0; i < vert_count; i++)
 			{
@@ -52,35 +91,39 @@ namespace objects
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_id_);
 		glBufferData(
 			GL_ARRAY_BUFFER,
-			sizeof(GLfloat) * vbo_data_.size(),
+			vbo_data_.size() * sizeof(GLfloat),
 			vbo_data_.data(),
 			GL_STATIC_DRAW);
-		const GLsizei stride = has_colors ? 6 * sizeof(GLfloat) : 3 * sizeof(GLfloat);
-		glVertexAttribPointer(
-			0,
-			3,
-			GL_FLOAT,
-			GL_FALSE,
-			stride,
-			static_cast<void*>(nullptr));
+
+		GLuint attribute_count = 1;
 		if (has_colors)
 		{
+			attribute_count++;
+		}
+		if (has_normals)
+		{
+			attribute_count++;
+		}
+
+		const GLsizei stride = attribute_count * 3 * sizeof(GLfloat);
+		for (GLuint i = 0; i < attribute_count; i++)
+		{
+			const GLuint offset = i * 3 * sizeof(float);
 			glVertexAttribPointer(
-				1,
+				i,
 				3,
 				GL_FLOAT,
 				GL_FALSE,
 				stride,
-				reinterpret_cast<void*>(3 * sizeof(float)));
+				reinterpret_cast<void*>(offset));
+			glEnableVertexAttribArray(i);
 		}
-		glEnableVertexAttribArray(1);
-		glEnableVertexAttribArray(0);
 
 		glGenBuffers(1, &ebo_id_);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_id_);
 		glBufferData(
 			GL_ELEMENT_ARRAY_BUFFER,
-			sizeof(GLuint) * indices_.size(),
+			indices_.size() * sizeof(GLuint),
 			indices_.data(),
 			GL_STATIC_DRAW);
 

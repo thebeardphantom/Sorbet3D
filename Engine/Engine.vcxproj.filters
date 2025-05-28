@@ -96,5 +96,6 @@
     <None Include="Assets\Engine\Shaders\default.vert" />
     <None Include="Assets\Engine\Models\monkey.fbx" />
     <None Include="Assets\Engine\Shaders\default.frag" />
+    <None Include="Assets\Engine\Shaders\normals.vert" />
   </ItemGroup>
 </Project>

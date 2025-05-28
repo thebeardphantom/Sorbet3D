@@ -16,6 +16,7 @@ namespace modules
 		std::string get_name() override;
 		ENGINE_API std::unique_ptr<objects::mesh_cpu> load_model(std::string path);
 		ENGINE_API std::unique_ptr<objects::shader> load_shader(const std::string& path);
+		ENGINE_API std::unique_ptr<objects::shader> load_shader(const std::string& vert_path, const std::string& frag_path);
 
 	private:
 		static std::string get_file_ext(const std::string& path);

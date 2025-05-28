@@ -20,6 +20,12 @@ namespace objects
 				const aiColor4D& color = ai_mesh->mColors[0][i];
 				colors_.emplace_back(color.r, color.g, color.b);
 			}
+
+			if (ai_mesh->HasNormals())
+			{
+				const aiVector3D& normal = ai_mesh->mNormals[i];
+				normals_.emplace_back(normal.x, normal.y, normal.z);
+			}
 		}
 
 		for (size_t i = 0; i < ai_mesh->mNumFaces; i++)
@@ -44,6 +50,11 @@ namespace objects
 	std::vector<glm::vec3>& mesh_cpu::get_verts()
 	{
 		return verts_;
+	}
+
+	std::vector<glm::vec3>& mesh_cpu::get_normals()
+	{
+		return normals_;
 	}
 
 	std::vector<uint32_t>& mesh_cpu::get_indices()

@@ -82,10 +82,14 @@ SDL_AppResult engine_instance::process_event(const SDL_Event* event)
 	}
 	if (event->type == SDL_EVENT_KEY_DOWN)
 	{
+		auto& render_module = get_engine_module<modules::render_module>();
 		if (event->key.key == SDLK_F1)
 		{
-			auto& render_module = get_engine_module<modules::render_module>();
 			render_module.wireframe_mode = !render_module.wireframe_mode;
+		}
+		else if (event->key.key == SDLK_F2)
+		{
+			render_module.normals_mode = !render_module.normals_mode;
 		}
 	}
 

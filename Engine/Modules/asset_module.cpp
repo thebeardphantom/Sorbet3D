@@ -38,6 +38,19 @@ namespace modules
 		return std::make_unique<objects::shader>(vert_src, frag_src);
 	}
 
+	std::unique_ptr<objects::shader> asset_module::load_shader(
+		const std::string& vert_path,
+		const std::string& frag_path)
+	{
+		std::string absolute_path = path_utility::get_absolute_asset_path(vert_path);
+		auto vert_src = load_shader_stage(absolute_path, "vert");
+
+		absolute_path = path_utility::get_absolute_asset_path(frag_path);
+		auto frag_src = load_shader_stage(absolute_path, "frag");
+
+		return std::make_unique<objects::shader>(vert_src, frag_src);
+	}
+
 	std::string asset_module::load_shader_stage(const std::string& path, const std::string& ext)
 	{
 		size_t data_size;

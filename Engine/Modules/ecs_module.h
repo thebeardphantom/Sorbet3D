@@ -19,6 +19,7 @@ namespace modules
 		T& create_system()
 		{
 			T* system_ptr = new T();
+
 			const auto generic_system_ptr = dynamic_cast<entity_system*>(system_ptr);
 			const std::string& name = generic_system_ptr->get_name();
 			SDL_LogVerbose(
@@ -26,7 +27,7 @@ namespace modules
 				"Created system %s at address %p",
 				name.c_str(),
 				system_ptr);
-			SDL_LogVerbose(
+			SDL_LogDebug(
 				SDL_LOG_CATEGORY_APPLICATION,
 				"== Init ECS System %s ==",
 				name.c_str());

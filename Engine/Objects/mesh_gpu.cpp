@@ -1,35 +1,35 @@
 #include "../pch.h"
-#include "render_mesh.h"
+#include "mesh_gpu.h"
+#include "mesh_cpu.h"
 
 namespace objects
 {
-	void render_mesh::populate_data(const aiMesh* ai_mesh)
+	mesh_gpu::mesh_gpu(mesh_cpu& mesh_cpu)
 	{
-		const int vert_count = ai_mesh->mNumVertices;
+		const std::vector<glm::vec3> verts = mesh_cpu.get_verts();
+		const std::vector<uint32_t> indices = mesh_cpu.get_indices();
+		const std::vector<glm::vec3> colors = mesh_cpu.get_colors();
+		const size_t vert_count = verts.size();
 
 		for (size_t i = 0; i < vert_count; i++)
 		{
-			auto vert = ai_mesh->mVertices[i];
+			glm::vec3 vert = verts[i];
 			verts_.push_back(vert.x);
 			verts_.push_back(vert.y);
 			verts_.push_back(vert.z);
 
-			if (ai_mesh->HasVertexColors(0))
+			if (!colors.empty())
 			{
-				aiColor4D color = ai_mesh->mColors[0][i];
+				glm::vec3 color = colors[i];
 				colors_.push_back(color.r);
 				colors_.push_back(color.g);
 				colors_.push_back(color.b);
 			}
 		}
 
-		for (size_t i = 0; i < ai_mesh->mNumFaces; i++)
+		for (size_t i = 0; i < indices.size(); i++)
 		{
-			const auto& face = ai_mesh->mFaces[i];
-			for (size_t j = 0; j < face.mNumIndices; j++)
-			{
-				indices_.push_back(face.mIndices[j]);
-			}
+			indices_.push_back(indices[i]);
 		}
 
 		// Setup vertex array object (VAO)
@@ -57,14 +57,7 @@ namespace objects
 		glBindVertexArray(0);
 	}
 
-	void render_mesh::render() const
-	{
-		glBindVertexArray(vao_id_);
-		glDrawElements(GL_TRIANGLES, indices_.size(), GL_UNSIGNED_INT, nullptr);
-		glBindVertexArray(0);
-	}
-
-	void render_mesh::clear_data()
+	mesh_gpu::~mesh_gpu()
 	{
 		assert(vao_id_ != 0);
 		glDeleteVertexArrays(1, &vao_id_);
@@ -83,5 +76,12 @@ namespace objects
 			glDeleteBuffers(1, &color_buffer_id_);
 			color_buffer_id_ = 0;
 		}
+	}
+
+	void mesh_gpu::render() const
+	{
+		glBindVertexArray(vao_id_);
+		glDrawElements(GL_TRIANGLES, indices_.size(), GL_UNSIGNED_INT, nullptr);
+		glBindVertexArray(0);
 	}
 }

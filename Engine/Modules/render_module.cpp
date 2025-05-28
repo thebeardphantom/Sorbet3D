@@ -4,6 +4,7 @@
 #include "time_module.h"
 #include "../engine_instance.h"
 #include "../enum_strings.h"
+#include "../Objects/mesh_cpu.h"
 
 namespace modules
 {
@@ -63,9 +64,9 @@ void main()
 
 	void render_module::shutdown() {}
 
-	ENGINE_API void render_module::submit(const std::shared_ptr<objects::render_mesh>& render_mesh)
+	ENGINE_API void render_module::submit(const std::shared_ptr<objects::mesh_cpu>& mesh)
 	{
-		render_list_.push_back(render_mesh);
+		render_list_.push_back(std::weak_ptr(mesh));
 	}
 
 	void render_module::render()
@@ -183,9 +184,12 @@ void main()
 		const int model_loc = glGetUniformLocation(shader_program_, "mvp");
 		glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(mvp));
 
-		for (const std::shared_ptr<objects::render_mesh>& mesh : render_list_)
+		for (const std::weak_ptr<objects::mesh_cpu>& mesh : render_list_)
 		{
-			mesh->render();
+			if (const std::shared_ptr<objects::mesh_cpu> mesh_ptr = mesh.lock())
+			{
+				mesh_ptr->get_mesh_gpu().render();
+			}
 		}
 		render_list_.clear();
 	}

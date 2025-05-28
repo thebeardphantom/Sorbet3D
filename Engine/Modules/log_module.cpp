@@ -43,7 +43,7 @@ namespace modules
 			}
 			case SDL_LOG_PRIORITY_DEBUG:
 			{
-				stream << "[" << ticks << "]" << " [DBG] ";
+				stream << "\033[32m" << "[" << ticks << "]" << " [DBG] ";
 				break;
 			}
 			case SDL_LOG_PRIORITY_INFO:

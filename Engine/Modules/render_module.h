@@ -2,7 +2,7 @@
 #include <SDL3/SDL_init.h>
 #include <SDL3/SDL_render.h>
 #include "engine_module.h"
-#include "../Objects/render_mesh.h"
+#include "../Objects/mesh_gpu.h"
 
 namespace modules
 {
@@ -16,7 +16,7 @@ namespace modules
 		std::string get_name() override;
 
 		// Public Methods
-		ENGINE_API void submit(const std::shared_ptr<objects::render_mesh>& render_mesh);
+		ENGINE_API void submit(const std::shared_ptr<objects::mesh_cpu>& mesh);
 		void render();
 
 		// Public Fields
@@ -67,6 +67,6 @@ namespace modules
 		SDL_Renderer* renderer_ = nullptr;
 		SDL_GLContext gl_context_ = nullptr;
 		GLuint shader_program_ = 0;
-		std::vector<std::shared_ptr<objects::render_mesh>> render_list_;
+		std::vector<std::weak_ptr<objects::mesh_cpu>> render_list_;
 	};
 }

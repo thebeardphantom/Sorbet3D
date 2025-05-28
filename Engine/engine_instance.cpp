@@ -28,7 +28,7 @@ SDL_AppResult engine_instance::on_app_iterate()
 
 void engine_instance::on_app_quit()
 {
-	get_instance().cleanup();
+	get_instance().cleanup_and_shutdown();
 }
 
 ENGINE_API engine_instance& engine_instance::get_instance()
@@ -122,12 +122,19 @@ void engine_instance::render()
 	render_module.render();
 }
 
-void engine_instance::cleanup() const
+void engine_instance::cleanup_and_shutdown() const
 {
-	SDL_Log("Cleaning engine instance.");
+	SDL_Log("Cleaning up engine instance.");
 	for (const auto& module : modules_)
 	{
 		SDL_Log("== %s::Cleanup ==", module->get_name().c_str());
 		module->cleanup();
+	}
+
+	SDL_Log("Shutting down engine instance.");
+	for (const auto& module : modules_)
+	{
+		SDL_Log("== %s::Shutdown ==", module->get_name().c_str());
+		module->shutdown();
 	}
 }

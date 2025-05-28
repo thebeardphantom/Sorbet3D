@@ -10,16 +10,17 @@ namespace modules
 	{
 	public:
 		// Overridden Methods
-		ENGINE_API SDL_AppResult init() override;
-		ENGINE_API void cleanup() override;
-		ENGINE_API std::string get_name() override;
+		SDL_AppResult init() override;
+		void cleanup() override;
+		void shutdown() override;
+		std::string get_name() override;
 
 		// Public Methods
 		ENGINE_API void submit(const std::shared_ptr<objects::render_mesh>& render_mesh);
 		void render();
 
 		// Public Fields
-		bool wireframe_mode;
+		bool wireframe_mode = false;
 
 	private:
 		// Private Methods

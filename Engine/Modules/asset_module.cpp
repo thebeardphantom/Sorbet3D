@@ -14,6 +14,7 @@ namespace modules
 	}
 
 	void asset_module::cleanup() {}
+	void asset_module::shutdown() {}
 
 	const aiScene* asset_module::get_scene() const
 	{

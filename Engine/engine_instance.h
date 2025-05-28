@@ -46,5 +46,5 @@ private:
 	SDL_AppResult iterate();
 	void update();
 	void render();
-	void cleanup() const;
+	void cleanup_and_shutdown() const;
 };

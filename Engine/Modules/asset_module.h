@@ -10,6 +10,7 @@ namespace modules
 	public:
 		SDL_AppResult init() override;
 		void cleanup() override;
+		void shutdown() override;
 		std::string get_name() override;
 
 		ENGINE_API const aiScene* load_model(std::string path);

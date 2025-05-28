@@ -9,6 +9,7 @@ namespace modules
 		virtual ~engine_module() = default;
 		virtual SDL_AppResult init() = 0;
 		virtual void cleanup() = 0;
+		virtual void shutdown() = 0;
 		virtual std::string get_name() = 0;
 	};
 }

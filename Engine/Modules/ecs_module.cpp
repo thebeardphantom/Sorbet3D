@@ -10,7 +10,12 @@ namespace modules
 		return SDL_APP_CONTINUE;
 	}
 
-	void ecs_module::cleanup() {}
+	void ecs_module::cleanup()
+	{
+		entity_systems_.clear();
+	}
+
+	void ecs_module::shutdown() {}
 
 	std::string ecs_module::get_name()
 	{
@@ -20,7 +25,11 @@ namespace modules
 	void ecs_module::tick()
 	{
 		const auto& time_module = engine_instance::get_instance().get_engine_module<modules::time_module>();
-		entity_system::tick_args tick_args = {time_module.get_delta_time(), registry_};
+		entity_system::tick_args tick_args =
+		{
+			.delta_time = time_module.get_delta_time(),
+			.registry = registry_
+		};
 		for (const auto& system : entity_systems_)
 		{
 			system->tick(tick_args);

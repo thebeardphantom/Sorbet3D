@@ -16,6 +16,8 @@ namespace modules
 
 	void time_module::cleanup() {}
 
+	void time_module::shutdown() {}
+
 	std::string time_module::get_name()
 	{
 		return "time_module";

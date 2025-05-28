@@ -61,6 +61,8 @@ void main()
 		SDL_DestroyWindow(window_);
 	}
 
+	void render_module::shutdown() {}
+
 	ENGINE_API void render_module::submit(const std::shared_ptr<objects::render_mesh>& render_mesh)
 	{
 		render_list_.push_back(render_mesh);

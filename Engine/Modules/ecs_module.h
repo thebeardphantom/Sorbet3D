@@ -4,11 +4,13 @@
 
 namespace modules
 {
-	class ecs_module : public engine_module
+	class ecs_module final : public engine_module
 	{
 	public:
+		~ecs_module() override = default;
 		SDL_AppResult init() override;
 		void cleanup() override;
+		void shutdown() override;
 		std::string get_name() override;
 		void tick();
 		ENGINE_API entt::registry& get_registry();
@@ -17,15 +19,21 @@ namespace modules
 		T& create_system()
 		{
 			T* system_ptr = new T();
-			const auto generic_system = dynamic_cast<entity_system*>(system_ptr);
-			SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "== Init ECS System %s ==",
-				generic_system->get_name().c_str());
-			generic_system->init();
+			const auto generic_system_ptr = dynamic_cast<entity_system*>(system_ptr);
+			const std::string& name = generic_system_ptr->get_name();
+			SDL_LogVerbose(
+				SDL_LOG_CATEGORY_APPLICATION,
+				"Created system %s at address %p",
+				name.c_str(),
+				system_ptr);
+			SDL_LogVerbose(
+				SDL_LOG_CATEGORY_APPLICATION,
+				"== Init ECS System %s ==",
+				name.c_str());
+			generic_system_ptr->init();
 
-			std::unique_ptr<T> system = std::unique_ptr<T>(system_ptr);
-			T& ref = *system;
-			entity_systems_.push_back(std::move(system));
-			return ref;
+			entity_systems_.push_back(std::unique_ptr<entity_system>(generic_system_ptr));
+			return *system_ptr;
 		}
 
 	private:

@@ -21,8 +21,6 @@ void game_instance::initialize()
 
 	auto& ecs_module = engine.get_engine_module<modules::ecs_module>();
 	ecs_module.create_system<demo_system>();
-
-	auto ent = ecs_module.get_registry().create();
 }
 
 void game_instance::quit() const

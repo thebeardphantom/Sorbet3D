@@ -19,6 +19,7 @@ namespace modules
 	}
 
 	void log_module::cleanup() {}
+	void log_module::shutdown() {}
 
 	std::string log_module::get_name()
 	{

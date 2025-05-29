@@ -23,31 +23,23 @@ namespace modules
 		return "time_module";
 	}
 
-	bool time_module::update()
+	void time_module::update()
 	{
 		const uint64_t ticks_ns = SDL_GetTicksNS();
 		time_ = ns_to_seconds(ticks_ns);
-		if (last_tick_time_ == 0.0)
+		if (time_last_update_ == 0.0)
 		{
 			// Avoids a much larger initial deltaTime value
-			last_tick_time_ = time_;
+			time_last_update_ = time_;
 		}
-		delta_time_ = time_ - last_tick_time_;
-
-		constexpr double_t tick_cooldown = 1.0 / 60.0;
-		if (delta_time_ < tick_cooldown)
-		{
-			return false;
-		}
-
-		last_tick_time_ = time_;
-		tick_count_++;
-		return true;
+		delta_time_ = time_ - time_last_update_;
+		time_last_update_ = time_;
+		update_count++;
 	}
 
-	ENGINE_API uint64_t time_module::get_tick_count() const
+	ENGINE_API uint64_t time_module::get_update_count() const
 	{
-		return tick_count_;
+		return update_count;
 	}
 
 	ENGINE_API double_t time_module::get_delta_time() const

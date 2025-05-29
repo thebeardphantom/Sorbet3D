@@ -101,13 +101,9 @@ SDL_AppResult engine_instance::process_event(const SDL_Event* event)
 SDL_AppResult engine_instance::iterate()
 {
 	auto& time_module = get_engine_module<modules::time_module>();
-	const bool should_tick = time_module.update();
-
-	if (should_tick)
-	{
-		update();
-		render();
-	}
+	time_module.update();
+	update();
+	render();
 	return SDL_APP_CONTINUE;
 }
 

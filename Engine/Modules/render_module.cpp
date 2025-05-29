@@ -2,13 +2,21 @@
 #include "render_module.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "asset_module.h"
-#include "time_module.h"
 #include "../engine_instance.h"
 #include "../Objects/mesh_cpu.h"
 #include "../Objects/mesh_gpu.h"
 
 namespace modules
 {
+	uint64_t render_module::render_calls_;
+
+	Uint32 render_module::log_framerate(void* userdata, SDL_TimerID timer_id, Uint32 interval)
+	{
+		SDL_Log("FPS: %d", render_calls_);
+		render_calls_ = 0;
+		return 1000;
+	}
+
 	SDL_AppResult render_module::init()
 	{
 		SDL_AppResult result = init_sdl_window();
@@ -24,6 +32,7 @@ namespace modules
 		}
 
 		result = init_render_statics();
+		SDL_AddTimer(1000, log_framerate, nullptr);
 		return result;
 	}
 
@@ -31,7 +40,6 @@ namespace modules
 	void render_module::cleanup()
 	{
 		SDL_GL_DestroyContext(gl_context_);
-		SDL_DestroyRenderer(renderer_);
 		SDL_DestroyWindow(window_);
 	}
 
@@ -47,6 +55,7 @@ namespace modules
 		pre_render();
 		render_internal();
 		post_render();
+		render_calls_++;
 	}
 
 	std::string render_module::get_name()
@@ -64,6 +73,7 @@ namespace modules
 			return SDL_APP_FAILURE;
 		}
 
+		SDL_SetHint(SDL_HINT_RENDER_VSYNC, "0");
 		SDL_SetHint(SDL_HINT_VIDEO_FORCE_EGL, "0");
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
@@ -108,6 +118,8 @@ namespace modules
 		SDL_Log(" == init_render_statics == ");
 		glClearColor(0.0, 0.0, 0.0, 1.0);
 		glEnable(GL_DEPTH_TEST);
+
+		SDL_GL_SetSwapInterval(-1);
 
 		// Create shaders
 		auto& asset_module = engine_instance::get_instance().get_engine_module<modules::asset_module>();
@@ -156,7 +168,7 @@ namespace modules
 		auto view = glm::mat4(1.0f);
 		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 		const glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-		for (const render_command cmd : render_list_)
+		for (const render_command& cmd : render_list_)
 		{
 			if (const std::shared_ptr<objects::mesh_cpu> mesh_ptr = cmd.mesh.lock())
 			{

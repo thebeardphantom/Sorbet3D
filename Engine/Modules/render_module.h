@@ -11,6 +11,8 @@ namespace modules
 	class render_module final : public engine_module
 	{
 	public:
+		static Uint32 log_framerate(void* userdata, SDL_TimerID timer_id, Uint32 interval);
+
 		// Overridden Methods
 		SDL_AppResult init() override;
 		void cleanup() override;
@@ -35,11 +37,11 @@ namespace modules
 		void post_render() const;
 
 		// Fields
+		static uint64_t render_calls_;
 		std::vector<render_command> render_list_;
 		SDL_Window* window_ = nullptr;
-		SDL_Renderer* renderer_ = nullptr;
 		SDL_GLContext gl_context_ = nullptr;
-		std::unique_ptr<objects::shader> default_shader_ = nullptr;
-		std::unique_ptr<objects::shader> normals_shader_ = nullptr;
+		std::shared_ptr<objects::shader> default_shader_ = nullptr;
+		std::shared_ptr<objects::shader> normals_shader_ = nullptr;
 	};
 }

@@ -11,14 +11,14 @@ namespace modules
 		void shutdown() override;
 		std::string get_name() override;
 
-		bool update();
-		ENGINE_API uint64_t get_tick_count() const;
+		void update();
+		ENGINE_API uint64_t get_update_count() const;
 		ENGINE_API double_t get_delta_time() const;
 		ENGINE_API double_t get_time() const;
 
 	private:
-		uint64_t tick_count_ = 0;
-		double_t last_tick_time_ = 0;
+		uint64_t update_count = 0;
+		double_t time_last_update_ = 0;
 		double_t time_ = 0;
 		double_t delta_time_ = 0;
 	};

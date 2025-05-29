@@ -30,15 +30,15 @@ namespace modules
 
 	void asset_module::shutdown() {}
 
-	std::unique_ptr<objects::shader> asset_module::load_shader(const std::string& path)
+	std::shared_ptr<objects::shader> asset_module::load_shader(const std::string& path)
 	{
 		const std::string absolute_path = path_utility::get_absolute_asset_path(path);
 		auto vert_src = load_shader_stage(absolute_path, "vert");
 		auto frag_src = load_shader_stage(absolute_path, "frag");
-		return std::make_unique<objects::shader>(vert_src, frag_src);
+		return std::make_shared<objects::shader>(vert_src, frag_src);
 	}
 
-	std::unique_ptr<objects::shader> asset_module::load_shader(
+	std::shared_ptr<objects::shader> asset_module::load_shader(
 		const std::string& vert_path,
 		const std::string& frag_path)
 	{
@@ -48,7 +48,7 @@ namespace modules
 		absolute_path = path_utility::get_absolute_asset_path(frag_path);
 		auto frag_src = load_shader_stage(absolute_path, "frag");
 
-		return std::make_unique<objects::shader>(vert_src, frag_src);
+		return std::make_shared<objects::shader>(vert_src, frag_src);
 	}
 
 	std::string asset_module::load_shader_stage(const std::string& path, const std::string& ext)
@@ -69,7 +69,7 @@ namespace modules
 		return src;
 	}
 
-	ENGINE_API std::unique_ptr<objects::mesh_cpu> asset_module::load_model(std::string path)
+	ENGINE_API std::shared_ptr<objects::mesh_cpu> asset_module::load_model(std::string path)
 	{
 		static uint32_t flags =
 			aiProcess_Triangulate
@@ -100,7 +100,7 @@ namespace modules
 			throw std::runtime_error(msg);
 		}
 
-		return std::make_unique<objects::mesh_cpu>(scene->mMeshes[0]);
+		return std::make_shared<objects::mesh_cpu>(scene->mMeshes[0]);
 	}
 
 	std::string asset_module::get_file_ext(const std::string& path)

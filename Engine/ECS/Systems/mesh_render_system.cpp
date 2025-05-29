@@ -23,7 +23,7 @@ void ecs::systems::mesh_render_system::tick(tick_args& args)
 	}
 
 	const auto renderer_and_transform_view = args.registry.view<components::mesh_renderer, components::transform>();
-	for (const auto entity : renderer_and_transform_view)
+	for (auto entity : renderer_and_transform_view)
 	{
 		auto [mesh_renderer, transform] = renderer_and_transform_view.get<
 			components::mesh_renderer,

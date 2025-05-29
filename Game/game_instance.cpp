@@ -26,20 +26,23 @@ void game_instance::initialize()
 	});
 
 	modules::asset_module& asset_module = engine_instance::get_instance().get_engine_module<modules::asset_module>();
-	std::unique_ptr<objects::mesh_cpu> mesh_cpu = asset_module.load_model("Engine/Models/monkey.fbx");
+	std::shared_ptr<objects::mesh_cpu> mesh_cpu = asset_module.load_model("Engine/Models/monkey.fbx");
 
 
 	auto& ecs_module = engine.get_engine_module<modules::ecs_module>();
 	ecs_module.create_system<ecs::systems::mesh_render_system>();
 	ecs_module.create_system<spin_system>();
 
-	auto& registry = ecs_module.get_registry();
-	const auto entity = registry.create();
-	auto& [mesh] = registry.emplace_or_replace<ecs::components::mesh_renderer>(entity);
-	mesh = std::move(mesh_cpu);
+	for (size_t i = 0; i < 1; i++)
+	{
+		auto& registry = ecs_module.get_registry();
+		const auto entity = registry.create();
+		auto& [mesh] = registry.emplace_or_replace<ecs::components::mesh_renderer>(entity);
+		mesh = mesh_cpu;
 
-	auto& [local_position, local_rotation] = registry.emplace_or_replace<ecs::components::transform>(entity);
-	local_position = {0.0f, 0.0f, 0.0f};
+		auto& [local_position, local_rotation] = registry.emplace_or_replace<ecs::components::transform>(entity);
+		local_position = {SDL_randf() * 2.0f - 1.0f, SDL_randf() * 2.0f - 1.0f, SDL_randf() * 2.0f - 1.0f};
+	}
 }
 
 void game_instance::quit() const

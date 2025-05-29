@@ -6,8 +6,8 @@ namespace modules
 	SDL_AppResult game_layer_module::init()
 	{
 		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Loading Game.dll.");
-		game_module_ = SDL_LoadObject("Game.dll");
-		if (game_module_ == nullptr)
+		game_so_ = SDL_LoadObject("Game.dll");
+		if (game_so_ == nullptr)
 		{
 			const char* error = SDL_GetError();
 			SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Failed to load Game.dll: %s.", error);
@@ -16,11 +16,11 @@ namespace modules
 
 		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Locating game_entry_point.");
 
-		const auto game_entry_point = SDL_LoadFunction(game_module_, "game_entry_point");
+		const auto game_entry_point = SDL_LoadFunction(game_so_, "game_entry_point");
 		if (game_entry_point == nullptr)
 		{
 			const char* error = SDL_GetError();
-			SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Cannot locate GameEntryPoint in Game.dll: %s.", error);
+			SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Cannot locate game_entry_point in Game.dll: %s.", error);
 			return SDL_APP_FAILURE;
 		}
 
@@ -33,10 +33,10 @@ namespace modules
 
 	void game_layer_module::shutdown()
 	{
-		if (game_module_ != nullptr)
+		if (game_so_ != nullptr)
 		{
-			SDL_UnloadObject(game_module_);
-			game_module_ = nullptr;
+			SDL_UnloadObject(game_so_);
+			game_so_ = nullptr;
 		}
 	}
 

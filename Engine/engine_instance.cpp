@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "engine_instance.h"
 #include <SDL3/SDL_filesystem.h>
+#include "editor_layer_module.h"
 #include "enum_strings.h"
+#include "logging.h"
 #include "Modules/asset_module.h"
 #include "Modules/ecs_module.h"
 #include "Modules/game_layer_module.h"
-#include "Modules/log_module.h"
 #include "Modules/render_module.h"
 #include "Modules/time_module.h"
 
@@ -13,6 +14,7 @@ bool engine_instance::is_quitting_ = false;
 
 SDL_AppResult engine_instance::on_app_init()
 {
+	logging::init();
 	return get_instance().init();
 }
 
@@ -48,12 +50,12 @@ SDL_AppResult engine_instance::init()
 
 	is_quitting_ = false;
 
-	modules_.push_back(std::make_unique<modules::log_module>());
 	modules_.push_back(std::make_unique<modules::time_module>());
 	modules_.push_back(std::make_unique<modules::render_module>());
-	modules_.push_back(std::make_unique<modules::game_layer_module>());
 	modules_.push_back(std::make_unique<modules::ecs_module>());
 	modules_.push_back(std::make_unique<modules::asset_module>());
+	modules_.push_back(std::make_unique<modules::game_layer_module>());
+	modules_.push_back(std::make_unique<modules::editor_layer_module>());
 
 	SDL_AppResult result = SDL_APP_CONTINUE;
 	for (const auto& module : modules_)

@@ -6,6 +6,14 @@
     "glad",
     "assimp",
     "glm",
-    "freeglut"
+    "freeglut",
+    {
+      "name": "imgui",
+      "features": [
+        "opengl3-binding",
+        "win32-binding",
+        "sdl3-binding"
+      ]
+    }
   ]
 }

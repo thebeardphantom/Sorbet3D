@@ -16,6 +16,6 @@ namespace modules
 	private:
 		// Fields  
 		using game_entry_point = void(*)();
-		SDL_SharedObject* game_module_ = nullptr;
+		SDL_SharedObject* game_so_ = nullptr;
 	};
 }

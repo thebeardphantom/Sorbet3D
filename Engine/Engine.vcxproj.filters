@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Modules">
       <UniqueIdentifier>{d3831ae0-ee61-450a-93e0-96716a44c7c5}</UniqueIdentifier>
     </Filter>
@@ -41,9 +37,6 @@
     <ClInclude Include="Objects\mesh_gpu.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\log_module.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\mesh_cpu.h">
       <Filter>Objects</Filter>
     </ClInclude>
@@ -54,6 +47,10 @@
     <ClInclude Include="Objects\transform.h" />
     <ClInclude Include="path_utility.h" />
     <ClInclude Include="string_utility.h" />
+    <ClInclude Include="editor_layer_module.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="logging.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine_instance.cpp" />
@@ -77,9 +74,6 @@
     <ClCompile Include="Objects\mesh_gpu.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\log_module.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\mesh_cpu.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -90,6 +84,10 @@
     <ClCompile Include="Objects\transform.cpp" />
     <ClCompile Include="path_utility.cpp" />
     <ClCompile Include="string_utility.cpp" />
+    <ClCompile Include="editor_layer_module.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="logging.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

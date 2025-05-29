@@ -25,9 +25,10 @@ void ecs::systems::mesh_render_system::tick(tick_args& args)
 	const auto renderer_and_transform_view = args.registry.view<components::mesh_renderer, components::transform>();
 	for (const auto entity : renderer_and_transform_view)
 	{
-		auto& [mesh] = renderer_and_transform_view.get<components::mesh_renderer>(entity);
-		auto& transform = renderer_and_transform_view.get<components::transform>(entity);
-		render_command cmd(mesh);
+		auto [mesh_renderer, transform] = renderer_and_transform_view.get<
+			components::mesh_renderer,
+			components::transform>(entity);
+		render_command cmd(mesh_renderer.mesh);
 		cmd.model_matrix = transform.get_trs_matrix();
 		module.submit(cmd);
 	}

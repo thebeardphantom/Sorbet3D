@@ -37,9 +37,9 @@ namespace modules
 
 	void render_module::shutdown() {}
 
-	ENGINE_API void render_module::submit(const std::shared_ptr<objects::mesh_cpu>& mesh)
+	ENGINE_API void render_module::submit(const render_command& cmd)
 	{
-		render_list_.push_back(std::weak_ptr(mesh));
+		render_list_.push_back(cmd);
 	}
 
 	void render_module::render()
@@ -153,28 +153,17 @@ namespace modules
 
 		current_shader->use();
 
-		const time_module& time_module = engine_instance::get_instance().get_engine_module<modules::time_module>();
-		const float time = static_cast<float>(time_module.get_time()) * 2.0f;
-
-		auto model = glm::mat4(1.0f);
-		model = glm::rotate(model, glm::degrees(time * 0.01f), glm::vec3(0.0f, 1.0f, 0.0f));
-
 		auto view = glm::mat4(1.0f);
-
-		float offset = (std::sin(time) + 1.0) / 2.0;
-		offset = glm::mix(-2.0f, -4.0f, offset);
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, offset));
-
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 		const glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-
-		const glm::mat4 mvp = projection * view * model;
-		const int model_loc = glGetUniformLocation(current_shader->get_id(), "mvp");
-		glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(mvp));
-
-		for (const std::weak_ptr<objects::mesh_cpu>& mesh : render_list_)
+		for (const render_command cmd : render_list_)
 		{
-			if (const std::shared_ptr<objects::mesh_cpu> mesh_ptr = mesh.lock())
+			if (const std::shared_ptr<objects::mesh_cpu> mesh_ptr = cmd.mesh.lock())
 			{
+				const glm::mat4 mvp = projection * view * cmd.model_matrix;
+				const int model_loc = glGetUniformLocation(current_shader->get_id(), "mvp");
+				glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(mvp));
+
 				mesh_ptr->get_mesh_gpu().render();
 			}
 		}

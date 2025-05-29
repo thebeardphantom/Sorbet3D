@@ -2,7 +2,6 @@
 #include <format>
 #include <SDL3/SDL_init.h>
 #include "engine_api.h"
-#include "entity_system.h"
 #include "event.h"
 #include "Modules/engine_module.h"
 

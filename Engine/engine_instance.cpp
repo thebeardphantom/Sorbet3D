@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "engine_instance.h"
 #include <SDL3/SDL_filesystem.h>
-#include "editor_layer_module.h"
 #include "enum_strings.h"
 #include "logging.h"
 #include "Modules/asset_module.h"
 #include "Modules/ecs_module.h"
+#include "Modules/editor_layer_module.h"
 #include "Modules/game_layer_module.h"
 #include "Modules/render_module.h"
 #include "Modules/time_module.h"

@@ -1,6 +1,6 @@
 #pragma once
 #include "engine_module.h"
-#include "../entity_system.h"
+#include "../ecs/systems/entity_system.h"
 
 namespace modules
 {
@@ -12,15 +12,15 @@ namespace modules
 		void cleanup() override;
 		void shutdown() override;
 		std::string get_name() override;
-		void tick();
-		ENGINE_API entt::registry& get_registry();
+		void tick() const;
+		ENGINE_API entt::registry& get_registry() const;
 
 		template <class T>
 		T& create_system()
 		{
 			T* system_ptr = new T();
 
-			const auto generic_system_ptr = dynamic_cast<entity_system*>(system_ptr);
+			const auto generic_system_ptr = static_cast<ecs::systems::entity_system*>(system_ptr);
 			const std::string& name = generic_system_ptr->get_name();
 			SDL_LogVerbose(
 				SDL_LOG_CATEGORY_APPLICATION,
@@ -33,13 +33,13 @@ namespace modules
 				name.c_str());
 			generic_system_ptr->init();
 
-			entity_systems_.push_back(std::unique_ptr<entity_system>(generic_system_ptr));
+			entity_systems_.push_back(std::unique_ptr<ecs::systems::entity_system>(generic_system_ptr));
 			return *system_ptr;
 		}
 
 	private:
-		entt::registry registry_;
+		std::unique_ptr<entt::registry> registry_ = std::make_unique<entt::registry>();
 
-		std::vector<std::unique_ptr<entity_system>> entity_systems_;
+		std::vector<std::unique_ptr<ecs::systems::entity_system>> entity_systems_;
 	};
 }

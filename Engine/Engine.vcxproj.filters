@@ -13,7 +13,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="event.h" />
-    <ClInclude Include="entity_system.h" />
+    <ClInclude Include="ECS\Systems\entity_system.h" />
     <ClInclude Include="enum_strings.h" />
     <ClInclude Include="engine_api.h" />
     <ClInclude Include="Modules\asset_module.h">
@@ -43,14 +43,17 @@
     <ClInclude Include="Objects\shader.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\camera.h" />
-    <ClInclude Include="Objects\transform.h" />
+    <ClInclude Include="ECS\Components\camera.h" />
+    <ClInclude Include="ECS\Components\transform.h" />
     <ClInclude Include="path_utility.h" />
     <ClInclude Include="string_utility.h" />
-    <ClInclude Include="editor_layer_module.h">
+    <ClInclude Include="Modules\editor_layer_module.h">
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="logging.h" />
+    <ClInclude Include="ECS\Components\mesh_renderer.h" />
+    <ClInclude Include="ECS\Systems\mesh_render_system.h" />
+    <ClInclude Include="render_command.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine_instance.cpp" />
@@ -80,14 +83,17 @@
     <ClCompile Include="Objects\shader.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\camera.cpp" />
-    <ClCompile Include="Objects\transform.cpp" />
+    <ClCompile Include="ECS\Components\camera.cpp" />
+    <ClCompile Include="ECS\Components\transform.cpp" />
     <ClCompile Include="path_utility.cpp" />
     <ClCompile Include="string_utility.cpp" />
-    <ClCompile Include="editor_layer_module.cpp">
+    <ClCompile Include="Modules\editor_layer_module.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="logging.cpp" />
+    <ClCompile Include="ECS\Components\mesh_renderer.cpp" />
+    <ClCompile Include="ECS\Systems\mesh_render_system.cpp" />
+    <ClCompile Include="render_command.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

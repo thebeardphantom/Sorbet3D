@@ -12,6 +12,7 @@ namespace modules
 
 	void ecs_module::cleanup()
 	{
+		registry_.reset();
 		entity_systems_.clear();
 	}
 
@@ -22,13 +23,13 @@ namespace modules
 		return "ecs_module";
 	}
 
-	void ecs_module::tick()
+	void ecs_module::tick() const
 	{
 		const auto& time_module = engine_instance::get_instance().get_engine_module<modules::time_module>();
-		entity_system::tick_args tick_args =
+		ecs::systems::entity_system::tick_args tick_args =
 		{
 			.delta_time = time_module.get_delta_time(),
-			.registry = registry_
+			.registry = *registry_
 		};
 		for (const auto& system : entity_systems_)
 		{
@@ -36,8 +37,8 @@ namespace modules
 		}
 	}
 
-	ENGINE_API entt::registry& ecs_module::get_registry()
+	ENGINE_API entt::registry& ecs_module::get_registry() const
 	{
-		return registry_;
+		return *registry_;
 	}
 }

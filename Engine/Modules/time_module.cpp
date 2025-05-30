@@ -14,6 +14,8 @@ namespace modules
 		return SDL_APP_CONTINUE;
 	}
 
+	void time_module::collaborate() {}
+
 	void time_module::cleanup() {}
 
 	void time_module::shutdown() {}

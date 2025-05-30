@@ -22,15 +22,17 @@ namespace modules
 		SDL_LogVerbose(
 			SDL_LOG_CATEGORY_APPLICATION,
 			"Pref path: %s",
-			path_utility::get_pref_path("post.ghost", "sorbet3D"));
+			path_utility::get_pref_path("post.ghost", "sorbet3D").c_str());
 		return SDL_APP_CONTINUE;
 	}
+
+	void asset_module::collaborate() {}
 
 	void asset_module::cleanup() {}
 
 	void asset_module::shutdown() {}
 
-	std::shared_ptr<objects::shader> asset_module::load_shader(const std::string& path)
+	ENGINE_API std::shared_ptr<objects::shader> asset_module::load_shader(const std::string& path)
 	{
 		const std::string absolute_path = path_utility::get_absolute_asset_path(path);
 		auto vert_src = load_shader_stage(absolute_path, "vert");
@@ -38,7 +40,7 @@ namespace modules
 		return std::make_shared<objects::shader>(vert_src, frag_src);
 	}
 
-	std::shared_ptr<objects::shader> asset_module::load_shader(
+	ENGINE_API std::shared_ptr<objects::shader> asset_module::load_shader(
 		const std::string& vert_path,
 		const std::string& frag_path)
 	{

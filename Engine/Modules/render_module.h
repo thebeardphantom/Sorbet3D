@@ -1,10 +1,11 @@
 #pragma once
 #include <SDL3/SDL_init.h>
-#include <SDL3/SDL_render.h>
+#include <SDL3/SDL_timer.h>
 #include "asset_module.h"
 #include "engine_module.h"
+#include "../engine_api.h"
+#include "../event.h"
 #include "../render_command.h"
-#include "../Objects/mesh_gpu.h"
 
 namespace modules
 {
@@ -15,13 +16,17 @@ namespace modules
 
 		// Overridden Methods
 		SDL_AppResult init() override;
+		void collaborate() override;
 		void cleanup() override;
 		void shutdown() override;
 		std::string get_name() override;
 
 		// Public Methods
-		ENGINE_API void submit(const render_command& cmd);
+		void submit(const render_command& cmd);
 		void render();
+		ENGINE_API SDL_Window* get_window() const;
+		ENGINE_API SDL_GLContext get_context() const;
+		ENGINE_API event<>& get_render_event();
 
 		// Public Fields
 		bool wireframe_mode = false;
@@ -38,6 +43,7 @@ namespace modules
 
 		// Fields
 		static uint64_t render_calls_;
+		event<> render_event_;
 		std::vector<render_command> render_list_;
 		SDL_Window* window_ = nullptr;
 		SDL_GLContext gl_context_ = nullptr;

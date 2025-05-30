@@ -8,6 +8,7 @@ namespace modules
 	public:
 		// Methods  
 		SDL_AppResult init() override;
+		void collaborate() override;
 		void cleanup() override;
 		void shutdown() override;
 		std::string get_name() override;

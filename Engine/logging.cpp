@@ -5,10 +5,10 @@
 
 void (*logging::default_function_)(void*, int, SDL_LogPriority, const char*) = nullptr;
 
-void logging::init()
+void logging::init(const SDL_LogPriority global_log_priority)
 {
 	default_function_ = SDL_GetDefaultLogOutputFunction();
-	SDL_SetLogPriorities(SDL_LOG_PRIORITY_VERBOSE);
+	SDL_SetLogPriorities(global_log_priority);
 	SDL_SetLogOutputFunction(log, nullptr);
 }
 

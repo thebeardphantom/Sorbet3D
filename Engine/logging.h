@@ -4,7 +4,7 @@
 class logging
 {
 public:
-	static void init();
+	static void init(SDL_LogPriority global_log_priority);
 
 private:
 	static void log(void* userdata, int category, SDL_LogPriority priority, const char* message);

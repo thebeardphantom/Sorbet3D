@@ -10,13 +10,7 @@
 #include "../Engine/Modules/ecs_module.h"
 #include "../Engine/Objects/mesh_cpu.h"
 
-game_instance& game_instance::get_instance()
-{
-	static game_instance instance;
-	return instance;
-}
-
-void game_instance::initialize()
+void game_instance::init()
 {
 	SDL_Log("game_instance initializing.");
 	quit_callback_id_ = engine::get_quit_event().subscribe([this]
@@ -24,11 +18,11 @@ void game_instance::initialize()
 		this->quit();
 	});
 
-	modules::asset_module& asset_module = engine::get_engine_module<modules::asset_module>();
+	modules::asset_module& asset_module = engine::get_module<modules::asset_module>();
 	std::shared_ptr<objects::mesh_cpu> mesh_cpu = asset_module.load_model("Engine/Models/monkey.fbx");
 
 
-	auto& ecs_module = engine::get_engine_module<modules::ecs_module>();
+	auto& ecs_module = engine::get_module<modules::ecs_module>();
 	ecs_module.create_system<ecs::systems::mesh_render_system>();
 	ecs_module.create_system<spin_system>();
 

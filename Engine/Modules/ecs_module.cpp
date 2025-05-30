@@ -10,6 +10,8 @@ namespace modules
 		return SDL_APP_CONTINUE;
 	}
 
+	void ecs_module::collaborate() {}
+
 	void ecs_module::cleanup()
 	{
 		registry_.reset();
@@ -25,7 +27,7 @@ namespace modules
 
 	void ecs_module::tick() const
 	{
-		const auto& time_module = engine::get_engine_module<modules::time_module>();
+		const auto& time_module = engine::get_module<modules::time_module>();
 		ecs::systems::entity_system::tick_args tick_args =
 		{
 			.delta_time = time_module.get_delta_time(),

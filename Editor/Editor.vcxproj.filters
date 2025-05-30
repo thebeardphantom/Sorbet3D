@@ -10,10 +10,13 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="editor_instance.h" />
+    <ClInclude Include="editor.h" />
+    <ClInclude Include="editor_module.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="editor_entry.cpp" />
     <ClCompile Include="editor_instance.cpp" />
+    <ClCompile Include="editor.cpp" />
+    <ClCompile Include="editor_module.cpp" />
   </ItemGroup>
 </Project>

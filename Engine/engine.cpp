@@ -8,9 +8,9 @@ engine_instance& engine::get_instance()
 	return instance;
 }
 
-SDL_AppResult engine::on_app_init()
+SDL_AppResult engine::on_app_init(const SDL_LogPriority global_log_priority)
 {
-	logging::init();
+	logging::init(global_log_priority);
 	return get_instance().init();
 }
 
@@ -29,7 +29,17 @@ void engine::on_app_quit()
 	get_instance().cleanup_and_shutdown();
 }
 
-event<> engine::get_quit_event()
+event<>& engine::get_update_event()
+{
+	return get_instance().update_event_;
+}
+
+event<const SDL_Event&>& engine::get_sdl_event_event()
+{
+	return get_instance().sdl_event_event_;
+}
+
+event<>& engine::get_quit_event()
 {
 	return get_instance().quit_event_;
 }

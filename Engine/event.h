@@ -36,6 +36,11 @@ public:
 		}
 	}
 
+	void clear()
+	{
+		handlers_.clear();
+	}
+
 private:
 	struct handler_entry
 	{

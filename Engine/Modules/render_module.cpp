@@ -36,16 +36,18 @@ namespace modules
 		return result;
 	}
 
+	void render_module::collaborate() {}
 
 	void render_module::cleanup()
 	{
+		render_event_.clear();
 		SDL_GL_DestroyContext(gl_context_);
 		SDL_DestroyWindow(window_);
 	}
 
 	void render_module::shutdown() {}
 
-	ENGINE_API void render_module::submit(const render_command& cmd)
+	void render_module::submit(const render_command& cmd)
 	{
 		render_list_.push_back(cmd);
 	}
@@ -58,9 +60,24 @@ namespace modules
 		render_calls_++;
 	}
 
+	SDL_Window* render_module::get_window() const
+	{
+		return window_;
+	}
+
+	SDL_GLContext render_module::get_context() const
+	{
+		return gl_context_;
+	}
+
 	std::string render_module::get_name()
 	{
 		return "render_module";
+	}
+
+	event<>& render_module::get_render_event()
+	{
+		return render_event_;
 	}
 
 	SDL_AppResult render_module::init_sdl_window()
@@ -82,7 +99,7 @@ namespace modules
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Creating window.");
-		window_ = SDL_CreateWindow("", 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+		window_ = SDL_CreateWindow("", 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
 		if (window_ == nullptr)
 		{
 			SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window: %s", SDL_GetError());
@@ -122,7 +139,7 @@ namespace modules
 		SDL_GL_SetSwapInterval(-1);
 
 		// Create shaders
-		auto& asset_module = engine::get_engine_module<modules::asset_module>();
+		auto& asset_module = engine::get_module<modules::asset_module>();
 		default_shader_ = asset_module.load_shader("Engine/Shaders/default");
 		normals_shader_ = asset_module.load_shader(
 			"Engine/Shaders/normals",
@@ -180,6 +197,8 @@ namespace modules
 			}
 		}
 		render_list_.clear();
+
+		render_event_();
 	}
 
 	void render_module::post_render() const

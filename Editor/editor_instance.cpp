@@ -1,13 +1,9 @@
 #include "pch.h"
 #include "editor_instance.h"
+#include "editor_module.h"
+#include "../Engine/engine.h"
 
-editor_instance& editor_instance::get_instance()
+void editor_instance::init()
 {
-	static editor_instance instance;
-	return instance;
-}
-
-void editor_instance::initialize()
-{
-	
+	engine::create_module<editor_module>();
 }

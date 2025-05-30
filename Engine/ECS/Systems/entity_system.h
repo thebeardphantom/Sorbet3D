@@ -1,16 +1,12 @@
 #pragma once
-#include <SDL3/SDL_log.h>
+#include "../../engine_api.h"
 
 namespace ecs::systems
 {
 	class entity_system
 	{
 	public:
-		virtual ~entity_system()
-		{
-			// Optional: Add a log or breakpoint here
-			SDL_Log("entity_system dtor called");
-		}
+		ENGINE_API virtual ~entity_system() = default;
 
 		struct tick_args
 		{
@@ -18,8 +14,8 @@ namespace ecs::systems
 			entt::registry& registry;
 		};
 
-		virtual void init() = 0;
-		virtual void tick(tick_args& args) = 0;
-		virtual std::string get_name() = 0;
+		ENGINE_API virtual void init() = 0;
+		ENGINE_API virtual void tick(tick_args& args) = 0;
+		ENGINE_API virtual std::string get_name() = 0;
 	};
 }

@@ -7,8 +7,8 @@ namespace modules
 	class ecs_module final : public engine_module
 	{
 	public:
-		~ecs_module() override = default;
 		SDL_AppResult init() override;
+		void collaborate() override;
 		void cleanup() override;
 		void shutdown() override;
 		std::string get_name() override;

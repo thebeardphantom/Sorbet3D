@@ -9,7 +9,7 @@ void ecs::systems::mesh_render_system::init() {}
 
 void ecs::systems::mesh_render_system::tick(tick_args& args)
 {
-	auto& module = engine::get_engine_module<modules::render_module>();
+	auto& module = engine::get_module<modules::render_module>();
 
 	const auto no_transform_view = args.registry.view<components::mesh_renderer>(entt::exclude<components::transform>);
 	constexpr auto identity = glm::mat4(1.0f);

@@ -2,7 +2,7 @@
 #include "render_module.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "asset_module.h"
-#include "../engine_instance.h"
+#include "../engine.h"
 #include "../Objects/mesh_cpu.h"
 #include "../Objects/mesh_gpu.h"
 
@@ -12,7 +12,7 @@ namespace modules
 
 	Uint32 render_module::log_framerate(void* userdata, SDL_TimerID timer_id, Uint32 interval)
 	{
-		SDL_Log("FPS: %d", render_calls_);
+		SDL_Log("FPS: %llu", render_calls_);
 		render_calls_ = 0;
 		return 1000;
 	}
@@ -122,7 +122,7 @@ namespace modules
 		SDL_GL_SetSwapInterval(-1);
 
 		// Create shaders
-		auto& asset_module = engine_instance::get_instance().get_engine_module<modules::asset_module>();
+		auto& asset_module = engine::get_engine_module<modules::asset_module>();
 		default_shader_ = asset_module.load_shader("Engine/Shaders/default");
 		normals_shader_ = asset_module.load_shader(
 			"Engine/Shaders/normals",

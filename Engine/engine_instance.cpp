@@ -10,45 +10,9 @@
 #include "Modules/render_module.h"
 #include "Modules/time_module.h"
 
-bool engine_instance::is_quitting_ = false;
-
-SDL_AppResult engine_instance::on_app_init()
-{
-	logging::init();
-	return get_instance().init();
-}
-
-SDL_AppResult engine_instance::on_app_event(const SDL_Event* event)
-{
-	return get_instance().process_event(event);
-}
-
-SDL_AppResult engine_instance::on_app_iterate()
-{
-	return get_instance().iterate();
-}
-
-void engine_instance::on_app_quit()
-{
-	get_instance().cleanup_and_shutdown();
-}
-
-ENGINE_API engine_instance& engine_instance::get_instance()
-{
-	static engine_instance instance;
-	return instance;
-}
-
-ENGINE_API bool engine_instance::is_shutting_down()
-{
-	return is_quitting_;
-}
-
 SDL_AppResult engine_instance::init()
 {
 	SDL_Log("== init ==");
-
-	is_quitting_ = false;
 
 	modules_.push_back(std::make_unique<modules::time_module>());
 	modules_.push_back(std::make_unique<modules::render_module>());
@@ -72,24 +36,24 @@ SDL_AppResult engine_instance::init()
 	return result;
 }
 
-SDL_AppResult engine_instance::process_event(const SDL_Event* event)
+SDL_AppResult engine_instance::process_event(const SDL_Event& event)
 {
-	if (event->type == SDL_EVENT_QUIT)
+	if (event.type == SDL_EVENT_QUIT)
 	{
 		// end the program, reporting success to the OS.
 		SDL_Log("engine_instance quitting");
 		is_quitting_ = true;
-		quit_event();
+		quit_event_();
 		return SDL_APP_SUCCESS;
 	}
-	if (event->type == SDL_EVENT_KEY_DOWN)
+	if (event.type == SDL_EVENT_KEY_DOWN)
 	{
 		auto& render_module = get_engine_module<modules::render_module>();
-		if (event->key.key == SDLK_F1)
+		if (event.key.key == SDLK_F1)
 		{
 			render_module.wireframe_mode = !render_module.wireframe_mode;
 		}
-		else if (event->key.key == SDLK_F2)
+		else if (event.key.key == SDLK_F2)
 		{
 			render_module.normals_mode = !render_module.normals_mode;
 		}
@@ -111,11 +75,8 @@ void engine_instance::update()
 {
 	SDL_LogTrace(SDL_LOG_CATEGORY_APPLICATION, "engine_instance ticking.");
 
-	auto& ecs_module = get_engine_module<modules::ecs_module>();
+	const auto& ecs_module = get_engine_module<modules::ecs_module>();
 	ecs_module.tick();
-
-	const auto& time_module = get_engine_module<modules::time_module>();
-	tick_event(time_module.get_delta_time());
 }
 
 void engine_instance::render()

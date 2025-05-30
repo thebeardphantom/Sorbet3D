@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "game_instance.h"
-
 #include "spin_system.h"
+#include "../Engine/engine.h"
 #include "../Engine/engine_instance.h"
 #include "../Engine/ECS/Components/mesh_renderer.h"
 #include "../Engine/ECS/Components/transform.h"
@@ -19,17 +19,16 @@ game_instance& game_instance::get_instance()
 void game_instance::initialize()
 {
 	SDL_Log("game_instance initializing.");
-	auto& engine = engine_instance::get_instance();
-	quit_callback_id_ = engine.quit_event.subscribe([this]
+	quit_callback_id_ = engine::get_quit_event().subscribe([this]
 	{
 		this->quit();
 	});
 
-	modules::asset_module& asset_module = engine_instance::get_instance().get_engine_module<modules::asset_module>();
+	modules::asset_module& asset_module = engine::get_engine_module<modules::asset_module>();
 	std::shared_ptr<objects::mesh_cpu> mesh_cpu = asset_module.load_model("Engine/Models/monkey.fbx");
 
 
-	auto& ecs_module = engine.get_engine_module<modules::ecs_module>();
+	auto& ecs_module = engine::get_engine_module<modules::ecs_module>();
 	ecs_module.create_system<ecs::systems::mesh_render_system>();
 	ecs_module.create_system<spin_system>();
 
@@ -48,6 +47,5 @@ void game_instance::initialize()
 void game_instance::quit() const
 {
 	SDL_Log("game_instance quitting.");
-	auto& engine = engine_instance::get_instance();
-	engine.quit_event.unsubscribe(quit_callback_id_);
+	engine::get_quit_event().unsubscribe(quit_callback_id_);
 }

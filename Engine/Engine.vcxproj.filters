@@ -54,6 +54,7 @@
     <ClInclude Include="ECS\Components\mesh_renderer.h" />
     <ClInclude Include="ECS\Systems\mesh_render_system.h" />
     <ClInclude Include="render_command.h" />
+    <ClInclude Include="engine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine_instance.cpp" />
@@ -94,6 +95,7 @@
     <ClCompile Include="ECS\Components\mesh_renderer.cpp" />
     <ClCompile Include="ECS\Systems\mesh_render_system.cpp" />
     <ClCompile Include="render_command.cpp" />
+    <ClCompile Include="engine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

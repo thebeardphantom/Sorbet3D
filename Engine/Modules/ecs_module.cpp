@@ -1,7 +1,7 @@
 #include "../pch.h"
 #include "ecs_module.h"
 #include "time_module.h"
-#include "../engine_instance.h"
+#include "../engine.h"
 
 namespace modules
 {
@@ -25,7 +25,7 @@ namespace modules
 
 	void ecs_module::tick() const
 	{
-		const auto& time_module = engine_instance::get_instance().get_engine_module<modules::time_module>();
+		const auto& time_module = engine::get_engine_module<modules::time_module>();
 		ecs::systems::entity_system::tick_args tick_args =
 		{
 			.delta_time = time_module.get_delta_time(),

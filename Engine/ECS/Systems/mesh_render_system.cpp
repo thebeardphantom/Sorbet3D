@@ -1,7 +1,6 @@
 #include "../../pch.h"
 #include "mesh_render_system.h"
-
-#include "../../engine_instance.h"
+#include "../../engine.h"
 #include "../../Modules/render_module.h"
 #include "../Components/mesh_renderer.h"
 #include "../Components/transform.h"
@@ -10,7 +9,7 @@ void ecs::systems::mesh_render_system::init() {}
 
 void ecs::systems::mesh_render_system::tick(tick_args& args)
 {
-	auto& module = engine_instance::get_instance().get_engine_module<modules::render_module>();
+	auto& module = engine::get_engine_module<modules::render_module>();
 
 	const auto no_transform_view = args.registry.view<components::mesh_renderer>(entt::exclude<components::transform>);
 	constexpr auto identity = glm::mat4(1.0f);
@@ -23,7 +22,7 @@ void ecs::systems::mesh_render_system::tick(tick_args& args)
 	}
 
 	const auto renderer_and_transform_view = args.registry.view<components::mesh_renderer, components::transform>();
-	for (auto entity : renderer_and_transform_view)
+	for (const auto entity : renderer_and_transform_view)
 	{
 		auto [mesh_renderer, transform] = renderer_and_transform_view.get<
 			components::mesh_renderer,

@@ -5,7 +5,7 @@
 #include "../Objects/mesh_cpu.h"
 #include "../Objects/shader.h"
 
-namespace modules
+namespace sorbet::modules
 {
 	class asset_module final : public engine_module
 	{

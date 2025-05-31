@@ -1,11 +1,14 @@
 #pragma once
 
-class game_instance
+namespace demo_game
 {
-	void init();
-	void quit() const;
-	int tick_callback_id_ = 0;
-	int quit_callback_id_ = 0;
+	class game_instance
+	{
+		void init();
+		void quit() const;
+		int tick_callback_id_ = 0;
+		int quit_callback_id_ = 0;
 
-	friend class game;
-};
+		friend class game;
+	};
+}

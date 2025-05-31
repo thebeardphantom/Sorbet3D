@@ -7,7 +7,7 @@
 #include "../event.h"
 #include "../render_command.h"
 
-namespace modules
+namespace sorbet::modules
 {
 	class render_module final : public engine_module
 	{
@@ -27,6 +27,8 @@ namespace modules
 		ENGINE_API SDL_Window* get_window() const;
 		ENGINE_API SDL_GLContext get_context() const;
 		ENGINE_API event<>& get_render_event();
+		void set_view(const glm::mat4& view);
+		void set_projection(const glm::mat4& projection);
 
 		// Public Fields
 		bool wireframe_mode = false;
@@ -43,11 +45,14 @@ namespace modules
 
 		// Fields
 		static uint64_t render_calls_;
+
 		event<> render_event_;
 		std::vector<render_command> render_list_;
 		SDL_Window* window_ = nullptr;
 		SDL_GLContext gl_context_ = nullptr;
 		std::shared_ptr<objects::shader> default_shader_ = nullptr;
 		std::shared_ptr<objects::shader> normals_shader_ = nullptr;
+		glm::mat4 view_ = glm::mat4(1.0f);
+		glm::mat4 projection_ = glm::mat4(1.0f);
 	};
 }

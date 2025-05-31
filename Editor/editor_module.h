@@ -1,7 +1,7 @@
 #pragma once
 #include "../Engine/Modules/engine_module.h"
 
-class editor_module final : public modules::engine_module
+class editor_module final : public sorbet::modules::engine_module
 {
 public:
 	SDL_AppResult init() override;

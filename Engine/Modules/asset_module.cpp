@@ -7,7 +7,7 @@
 
 #include "../path_utility.h"
 
-namespace modules
+namespace sorbet::modules
 {
 	SDL_AppResult asset_module::init()
 	{

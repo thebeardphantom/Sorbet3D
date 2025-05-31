@@ -1,7 +1,7 @@
 #pragma once
 #include "../../engine_api.h"
 
-namespace ecs::systems
+namespace sorbet::ecs::systems
 {
 	class entity_system
 	{

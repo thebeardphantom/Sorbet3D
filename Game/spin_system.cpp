@@ -1,24 +1,29 @@
 #include "pch.h"
 #include "spin_system.h"
 #include <glm/ext/quaternion_trigonometric.hpp>
+#include "spinnable.h"
 #include "../Engine/ECS/Components/transform.h"
 
-void spin_system::init() {}
-
-void spin_system::tick(tick_args& args)
+namespace demo_game::ecs::systems
 {
-	const auto transform_view = args.registry.view<ecs::components::transform>();
-	const auto spin = glm::angleAxis(
-		glm::radians(90.0f * static_cast<float>(args.delta_time)),
-		glm::vec3(0.0f, 1.0f, 0.0f));
-	for (const auto& entity : transform_view)
+	void spin_system::init() {}
+
+	void spin_system::tick(tick_args& args)
 	{
-		auto& [local_position, local_rotation] = transform_view.get<ecs::components::transform>(entity);
-		local_rotation = local_rotation * spin;
-	}
-}
+		const auto view = args.registry.view<sorbet::ecs::components::transform, components::spinnable>();
 
-std::string spin_system::get_name()
-{
-	return "spin_system";
+		const auto dt_float = static_cast<float>(args.delta_time);
+		constexpr auto axis = glm::vec3(0.0f, 1.0f, 0.0f);
+		for (const auto& entity : view)
+		{
+			auto [transform, spinnable] = view.get<sorbet::ecs::components::transform, components::spinnable>(entity);
+			const auto spin = glm::angleAxis(glm::radians(spinnable.speed * dt_float), axis);
+			transform.local_rotation *= spin;
+		}
+	}
+
+	std::string spin_system::get_name()
+	{
+		return "spin_system";
+	}
 }

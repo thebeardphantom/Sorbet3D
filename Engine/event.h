@@ -3,51 +3,54 @@
 #include <functional>
 #include <vector>
 
-template <typename... Args>
-class event
+namespace sorbet
 {
-public:
-	using handler_type = std::function<void(Args...)>;
-
-	// Add handler with operator+=
-	int subscribe(handler_type handler)
+	template <typename... Args>
+	class event
 	{
-		handlers_.push_back({++current_id_, handler});
-		return current_id_;
-	}
+	public:
+		using handler_type = std::function<void(Args...)>;
 
-	// Remove handler with operator-=
-	void unsubscribe(int id)
-	{
-		handlers_.erase(std::remove_if(handlers_.begin(), handlers_.end(),
-				[id](const auto& h)
-				{
-					return h.id == id;
-				}),
-			handlers_.end());
-	}
-
-	// Fire the event
-	void operator()(Args... args) const
-	{
-		for (const auto& h : handlers_)
+		// Add handler with operator+=
+		int subscribe(handler_type handler)
 		{
-			h.handler(args...);
+			handlers_.push_back({++current_id_, handler});
+			return current_id_;
 		}
-	}
 
-	void clear()
-	{
-		handlers_.clear();
-	}
+		// Remove handler with operator-=
+		void unsubscribe(int id)
+		{
+			handlers_.erase(std::remove_if(handlers_.begin(), handlers_.end(),
+					[id](const auto& h)
+					{
+						return h.id == id;
+					}),
+				handlers_.end());
+		}
 
-private:
-	struct handler_entry
-	{
-		int id;
-		handler_type handler;
+		// Fire the event
+		void operator()(Args... args) const
+		{
+			for (const auto& h : handlers_)
+			{
+				h.handler(args...);
+			}
+		}
+
+		void clear()
+		{
+			handlers_.clear();
+		}
+
+	private:
+		struct handler_entry
+		{
+			int id;
+			handler_type handler;
+		};
+
+		std::vector<handler_entry> handlers_;
+		int current_id_ = 0;
 	};
-
-	std::vector<handler_entry> handlers_;
-	int current_id_ = 0;
-};
+}

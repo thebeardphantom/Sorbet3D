@@ -7,11 +7,6 @@
 #include "../Engine/engine.h"
 #include "../Engine/Modules/render_module.h"
 
-namespace modules
-{
-	class render_module;
-}
-
 SDL_AppResult editor_module::init()
 {
 	IMGUI_CHECKVERSION();
@@ -24,7 +19,7 @@ SDL_AppResult editor_module::init()
 
 void editor_module::collaborate()
 {
-	auto& render_module = engine::get_module<modules::render_module>();
+	auto& render_module = sorbet::engine::get_module<sorbet::modules::render_module>();
 
 	ImGuiIO& io = ImGui::GetIO();
 	const auto window = render_module.get_window();
@@ -35,12 +30,12 @@ void editor_module::collaborate()
 	ImGui_ImplSDL3_InitForOpenGL(render_module.get_window(), render_module.get_context());
 	ImGui_ImplOpenGL3_Init();
 
-	engine::get_sdl_event_event().subscribe([this](const SDL_Event& evt)
+	sorbet::engine::get_sdl_event_event().subscribe([this](const SDL_Event& evt)
 	{
 		ImGui_ImplSDL3_ProcessEvent(&evt);
 	});
 
-	engine::get_update_event().subscribe([this]
+	sorbet::engine::get_update_event().subscribe([this]
 	{
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL3_NewFrame();

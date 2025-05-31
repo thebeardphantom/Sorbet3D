@@ -2,7 +2,7 @@
 #include "transform.h"
 #include <glm/gtc/quaternion.hpp>
 
-namespace ecs::components
+namespace sorbet::ecs::components
 {
 	glm::vec3 transform::get_forward() const
 	{

@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Objects/mesh_cpu.h"
 
-namespace ecs::components
+namespace sorbet::ecs::components
 {
 	struct mesh_renderer
 	{

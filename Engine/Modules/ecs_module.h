@@ -2,7 +2,7 @@
 #include "engine_module.h"
 #include "../ecs/systems/entity_system.h"
 
-namespace modules
+namespace sorbet::modules
 {
 	class ecs_module final : public engine_module
 	{

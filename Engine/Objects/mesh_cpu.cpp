@@ -2,7 +2,7 @@
 #include "mesh_cpu.h"
 #include "mesh_gpu.h"
 
-namespace objects
+namespace sorbet::objects
 {
 	mesh_cpu::~mesh_cpu() = default;
 

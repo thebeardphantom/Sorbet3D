@@ -6,7 +6,7 @@
 #include "../Objects/mesh_cpu.h"
 #include "../Objects/mesh_gpu.h"
 
-namespace modules
+namespace sorbet::modules
 {
 	uint64_t render_module::render_calls_;
 
@@ -80,6 +80,16 @@ namespace modules
 		return render_event_;
 	}
 
+	void render_module::set_view(const glm::mat4& view)
+	{
+		view_ = view;
+	}
+
+	void render_module::set_projection(const glm::mat4& projection)
+	{
+		projection_ = projection;
+	}
+
 	SDL_AppResult render_module::init_sdl_window()
 	{
 		SDL_Log("== init_sdl_window ==");
@@ -99,7 +109,8 @@ namespace modules
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Creating window.");
-		window_ = SDL_CreateWindow("", 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
+		window_ = SDL_CreateWindow("", 800, 600,
+			SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
 		if (window_ == nullptr)
 		{
 			SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window: %s", SDL_GetError());
@@ -182,14 +193,11 @@ namespace modules
 
 		current_shader->use();
 
-		auto view = glm::mat4(1.0f);
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-		const glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 		for (const render_command& cmd : render_list_)
 		{
 			if (const std::shared_ptr<objects::mesh_cpu> mesh_ptr = cmd.mesh.lock())
 			{
-				const glm::mat4 mvp = projection * view * cmd.model_matrix;
+				const glm::mat4 mvp = projection_ * view_ * cmd.model_matrix;
 				const int model_loc = glGetUniformLocation(current_shader->get_id(), "mvp");
 				glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(mvp));
 

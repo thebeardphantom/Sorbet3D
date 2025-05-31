@@ -1,7 +1,7 @@
 #include "../pch.h"
 #include "time_module.h"
 
-namespace modules
+namespace sorbet::modules
 {
 	template <typename T>
 	static constexpr auto ns_to_seconds(T ns)

@@ -5,5 +5,5 @@
 
 void editor_instance::init()
 {
-	engine::create_module<editor_module>();
+	sorbet::engine::create_module<editor_module>();
 }

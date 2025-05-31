@@ -2,11 +2,15 @@
 #include "ecs_module.h"
 #include "time_module.h"
 #include "../engine.h"
+#include "../ECS/Systems/camera_system.h"
+#include "../ECS/Systems/mesh_render_system.h"
 
-namespace modules
+namespace sorbet::modules
 {
 	SDL_AppResult ecs_module::init()
 	{
+		create_system<ecs::systems::mesh_render_system>();
+		create_system<ecs::systems::camera_system>();
 		return SDL_APP_CONTINUE;
 	}
 

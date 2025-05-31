@@ -1,4 +1,4 @@
 #include "../../pch.h"
 #include "mesh_renderer.h"
 
-namespace ecs::components {}
+namespace sorbet::ecs::components {}

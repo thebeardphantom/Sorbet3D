@@ -1,11 +1,15 @@
 #pragma once
 #include "game_instance.h"
 
-class game
+namespace demo_game
 {
-public:
-	static void init();
+	class game
+	{
+	public:
+		static void init();
 
-private:
-	static game_instance& get_instance();
-};
+	private:
+		static game_instance& get_instance();
+	};
+
+}

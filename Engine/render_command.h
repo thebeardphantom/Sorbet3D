@@ -2,14 +2,17 @@
 #include <glm/matrix.hpp>
 #include "Objects/mesh_cpu.h"
 
-struct render_command
+namespace sorbet
 {
-	std::weak_ptr<objects::mesh_cpu> mesh;
-
-	glm::mat4 model_matrix = glm::mat4(1.0f);
-
-	explicit render_command(const std::shared_ptr<objects::mesh_cpu>& mesh_shared_ptr)
+	struct render_command
 	{
-		mesh = mesh_shared_ptr;
-	}
-};
+		std::weak_ptr<objects::mesh_cpu> mesh;
+
+		glm::mat4 model_matrix = glm::mat4(1.0f);
+
+		explicit render_command(const std::shared_ptr<objects::mesh_cpu>& mesh_shared_ptr)
+		{
+			mesh = mesh_shared_ptr;
+		}
+	};
+}

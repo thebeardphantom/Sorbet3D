@@ -1,10 +1,13 @@
 #pragma once
 #include "../Engine/ECS/Systems/entity_system.h"
 
-class spin_system final : public ecs::systems::entity_system
+namespace demo_game::ecs::systems
 {
-public:
-	void init() override;
-	void tick(tick_args& args) override;
-	std::string get_name() override;
-};
+	class spin_system final : public sorbet::ecs::systems::entity_system
+	{
+	public:
+		void init() override;
+		void tick(tick_args& args) override;
+		std::string get_name() override;
+	};
+}

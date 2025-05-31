@@ -1,7 +1,7 @@
 #pragma once
 #include "engine_module.h"
 
-namespace modules
+namespace sorbet::modules
 {
 	class time_module : public engine_module
 	{

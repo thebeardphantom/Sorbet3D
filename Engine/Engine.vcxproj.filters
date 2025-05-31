@@ -56,6 +56,7 @@
     <ClInclude Include="render_command.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="fast_noise_lite.h" />
+    <ClInclude Include="ECS\Systems\camera_system.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine_instance.cpp" />
@@ -97,6 +98,7 @@
     <ClCompile Include="ECS\Systems\mesh_render_system.cpp" />
     <ClCompile Include="render_command.cpp" />
     <ClCompile Include="engine.cpp" />
+    <ClCompile Include="ECS\Systems\camera_system.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

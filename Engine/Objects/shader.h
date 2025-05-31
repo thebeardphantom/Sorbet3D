@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 #include "../engine_api.h"
 
-namespace objects
+namespace sorbet::objects
 {
 	class shader
 	{

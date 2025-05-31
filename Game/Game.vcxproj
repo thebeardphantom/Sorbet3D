@@ -175,6 +175,7 @@ xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /E /I /Y</Command>
     <ClInclude Include="game.h" />
     <ClInclude Include="game_instance.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="spinnable.h" />
     <ClInclude Include="spin_system.h" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +187,7 @@ xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /E /I /Y</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="spinnable.cpp" />
     <ClCompile Include="spin_system.cpp" />
   </ItemGroup>
   <ItemGroup>

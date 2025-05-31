@@ -3,6 +3,7 @@
 #include "spin_system.h"
 #include "../Engine/engine.h"
 #include "../Engine/engine_instance.h"
+#include "../Engine/fast_noise_lite.h"
 #include "../Engine/ECS/Components/mesh_renderer.h"
 #include "../Engine/ECS/Components/transform.h"
 #include "../Engine/ECS/Systems/mesh_render_system.h"
@@ -19,14 +20,16 @@ void game_instance::init()
 	});
 
 	modules::asset_module& asset_module = engine::get_module<modules::asset_module>();
-	std::shared_ptr<objects::mesh_cpu> mesh_cpu = asset_module.load_model("Engine/Models/monkey.fbx");
+	const std::shared_ptr<objects::mesh_cpu> mesh_cpu = asset_module.load_model("Engine/Models/monkey.fbx");
 
 
 	auto& ecs_module = engine::get_module<modules::ecs_module>();
 	ecs_module.create_system<ecs::systems::mesh_render_system>();
 	ecs_module.create_system<spin_system>();
 
-	for (size_t i = 0; i < 1; i++)
+	fast_noise_lite fnl(SDL_rand_bits());
+	fnl.SetFrequency(5.41324f);
+	for (size_t i = 0; i < 100; i++)
 	{
 		auto& registry = ecs_module.get_registry();
 		const auto entity = registry.create();
@@ -34,7 +37,11 @@ void game_instance::init()
 		mesh = mesh_cpu;
 
 		auto& [local_position, local_rotation] = registry.emplace_or_replace<ecs::components::transform>(entity);
-		local_position = {SDL_randf() * 2.0f - 1.0f, SDL_randf() * 2.0f - 1.0f, SDL_randf() * 2.0f - 1.0f};
+
+		auto x = fnl.GetNoise(static_cast<float>(i), 0.0f);
+		auto y = fnl.GetNoise(static_cast<float>(i), 1.0f);
+		auto z = fnl.GetNoise(static_cast<float>(i), 2.0f);
+		local_position = {x, y, z};
 	}
 }
 

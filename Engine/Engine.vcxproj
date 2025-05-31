@@ -177,6 +177,7 @@ xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /E /I /Y</Command>
     <ClInclude Include="ECS\Components\mesh_renderer.h" />
     <ClInclude Include="ECS\Systems\mesh_render_system.h" />
     <ClInclude Include="engine.h" />
+    <ClInclude Include="fast_noise_lite.h" />
     <ClInclude Include="Modules\editor_layer_module.h" />
     <ClInclude Include="logging.h" />
     <ClInclude Include="ECS\Components\camera.h" />

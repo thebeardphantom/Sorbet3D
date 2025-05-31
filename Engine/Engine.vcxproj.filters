@@ -55,6 +55,7 @@
     <ClInclude Include="ECS\Systems\mesh_render_system.h" />
     <ClInclude Include="render_command.h" />
     <ClInclude Include="engine.h" />
+    <ClInclude Include="fast_noise_lite.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine_instance.cpp" />

@@ -3,7 +3,7 @@
 
 namespace demo_game::ecs::systems
 {
-	class spin_system final : public sorbet::ecs::systems::entity_system
+	class spin_system final : public sorbengine::ecs::systems::entity_system
 	{
 	public:
 		void init() override;

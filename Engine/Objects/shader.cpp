@@ -2,7 +2,7 @@
 #include "shader.h"
 #include "../enum_strings.h"
 
-namespace sorbet::objects
+namespace sorbengine::objects
 {
 	shader::shader(const std::string& vertex_src, const std::string& frag_src)
 	{

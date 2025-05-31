@@ -3,7 +3,7 @@
 #include <SDL3/SDL_filesystem.h>
 #include "string_utility.h"
 
-namespace sorbet
+namespace sorbengine
 {
 	std::string& path_utility::get_base_path()
 	{

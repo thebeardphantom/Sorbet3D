@@ -3,7 +3,10 @@
 #include "editor_module.h"
 #include "../Engine/engine.h"
 
-void editor_instance::init()
+namespace sorbeditor
 {
-	sorbet::engine::create_module<editor_module>();
+	void editor_instance::init()
+	{
+		sorbengine::engine::create_module<editor_module>();
+	}
 }

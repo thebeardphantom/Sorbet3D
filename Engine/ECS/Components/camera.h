@@ -1,7 +1,7 @@
 #pragma once
 #include <glm/matrix.hpp>
 
-namespace sorbet::ecs::components
+namespace sorbengine::ecs::components
 {
 	struct camera
 	{

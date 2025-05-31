@@ -1,7 +1,7 @@
 #include "../../pch.h"
 #include "camera.h"
 
-namespace sorbet::ecs::components
+namespace sorbengine::ecs::components
 {
 	glm::mat4 camera::get_perspective_matrix() const
 	{

@@ -7,7 +7,7 @@
 #include "../Components/camera.h"
 #include "../Components/transform.h"
 
-namespace sorbet::ecs::systems
+namespace sorbengine::ecs::systems
 {
 	void camera_system::init() {}
 

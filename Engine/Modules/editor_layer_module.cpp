@@ -1,7 +1,7 @@
 #include "../pch.h"
 #include "editor_layer_module.h"
 
-namespace sorbet::modules
+namespace sorbengine::modules
 {
 	SDL_AppResult editor_layer_module::init()
 	{

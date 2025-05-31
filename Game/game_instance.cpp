@@ -17,20 +17,20 @@ namespace demo_game
 	void game_instance::init()
 	{
 		SDL_Log("game_instance initializing.");
-		quit_callback_id_ = sorbet::engine::get_quit_event().subscribe([this]
+		quit_callback_id_ = sorbengine::engine::get_quit_event().subscribe([this]
 		{
 			this->quit();
 		});
 
-		sorbet::modules::asset_module& asset_module = sorbet::engine::get_module<sorbet::modules::asset_module>();
-		const std::shared_ptr<sorbet::objects::mesh_cpu> mesh_cpu = asset_module.load_model("Engine/Models/monkey.fbx");
+		sorbengine::modules::asset_module& asset_module = sorbengine::engine::get_module<sorbengine::modules::asset_module>();
+		const std::shared_ptr<sorbengine::objects::mesh_cpu> mesh_cpu = asset_module.load_model("Engine/Models/monkey.fbx");
 
 
-		auto& ecs_module = sorbet::engine::get_module<sorbet::modules::ecs_module>();
+		auto& ecs_module = sorbengine::engine::get_module<sorbengine::modules::ecs_module>();
 		auto& registry = ecs_module.get_registry();
 		const auto camera_entity = registry.create();
-		registry.emplace_or_replace<sorbet::ecs::components::camera>(camera_entity);
-		registry.emplace_or_replace<sorbet::ecs::components::transform>(camera_entity);
+		registry.emplace_or_replace<sorbengine::ecs::components::camera>(camera_entity);
+		registry.emplace_or_replace<sorbengine::ecs::components::transform>(camera_entity);
 		ecs_module.create_system<ecs::systems::spin_system>();
 
 		fast_noise_lite fnl(SDL_rand_bits());
@@ -39,11 +39,11 @@ namespace demo_game
 		{
 			const auto entity = registry.create();
 			registry.emplace_or_replace<ecs::components::spinnable>(entity);
-			auto& [mesh] = registry.emplace_or_replace<sorbet::ecs::components::mesh_renderer>(entity);
+			auto& [mesh] = registry.emplace_or_replace<sorbengine::ecs::components::mesh_renderer>(entity);
 			mesh = mesh_cpu;
 
 			auto& [local_position, local_rotation] = registry.emplace_or_replace<
-				sorbet::ecs::components::transform>(entity);
+				sorbengine::ecs::components::transform>(entity);
 
 			auto x = fnl.GetNoise(static_cast<float>(i), 0.0f);
 			auto y = fnl.GetNoise(static_cast<float>(i), 1.0f);
@@ -56,6 +56,6 @@ namespace demo_game
 	void game_instance::quit() const
 	{
 		SDL_Log("game_instance quitting.");
-		sorbet::engine::get_quit_event().unsubscribe(quit_callback_id_);
+		sorbengine::engine::get_quit_event().unsubscribe(quit_callback_id_);
 	}
 }

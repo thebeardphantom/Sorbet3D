@@ -2,7 +2,7 @@
 #include <glm/matrix.hpp>
 #include "Objects/mesh_cpu.h"
 
-namespace sorbet
+namespace sorbengine
 {
 	struct render_command
 	{

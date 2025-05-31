@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "enum_strings.h"
 
-namespace sorbet
+namespace sorbengine
 {
 	ENGINE_API std::string enum_strings::to_string(const SDL_AppResult value)
 	{

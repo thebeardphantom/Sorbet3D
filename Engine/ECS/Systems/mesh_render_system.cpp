@@ -5,7 +5,7 @@
 #include "../Components/mesh_renderer.h"
 #include "../Components/transform.h"
 
-namespace sorbet::ecs::systems
+namespace sorbengine::ecs::systems
 {
 	void mesh_render_system::init() {}
 

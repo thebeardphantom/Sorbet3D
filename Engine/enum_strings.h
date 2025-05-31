@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 
-namespace sorbet
+namespace sorbengine
 {
 	class enum_strings
 	{

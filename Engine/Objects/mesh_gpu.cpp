@@ -2,7 +2,7 @@
 #include "mesh_gpu.h"
 #include "mesh_cpu.h"
 
-namespace sorbet::objects
+namespace sorbengine::objects
 {
 	mesh_gpu::mesh_gpu(mesh_cpu& mesh_cpu)
 	{

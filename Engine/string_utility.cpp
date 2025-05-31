@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "string_utility.h"
 
-namespace sorbet
+namespace sorbengine
 {
 	std::string& string_utility::replace_all(std::string& str, const std::string& from, const std::string& to)
 	{

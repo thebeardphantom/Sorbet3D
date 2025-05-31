@@ -1,5 +1,5 @@
 #pragma once
-namespace sorbet
+namespace sorbengine
 {
 	class string_utility
 	{

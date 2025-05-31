@@ -3,7 +3,7 @@
 #include <glm/vec3.hpp>
 #include "../engine_api.h"
 
-namespace sorbet::objects
+namespace sorbengine::objects
 {
 	class mesh_gpu;
 

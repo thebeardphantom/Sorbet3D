@@ -10,7 +10,7 @@
 #include "Modules/render_module.h"
 #include "Modules/time_module.h"
 
-namespace sorbet
+namespace sorbengine
 {
 	SDL_AppResult engine_instance::init()
 	{

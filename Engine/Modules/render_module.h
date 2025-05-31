@@ -7,7 +7,7 @@
 #include "../event.h"
 #include "../render_command.h"
 
-namespace sorbet::modules
+namespace sorbengine::modules
 {
 	class render_module final : public engine_module
 	{

@@ -2,7 +2,7 @@
 #include <SDL3/SDL_loadso.h>
 #include "engine_module.h"
 
-namespace sorbet::modules
+namespace sorbengine::modules
 {
 	class game_layer_module : public engine_module
 	{

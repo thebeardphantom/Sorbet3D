@@ -1,7 +1,7 @@
 #pragma once
 #include "entity_system.h"
 
-namespace sorbet::ecs::systems
+namespace sorbengine::ecs::systems
 {
 	class camera_system final : public entity_system
 	{

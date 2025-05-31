@@ -7,44 +7,44 @@
 
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
 {
-	const SDL_AppResult result = sorbet::engine::on_app_init(SDL_LOG_PRIORITY_INFO);
+	const SDL_AppResult result = sorbengine::engine::on_app_init(SDL_LOG_PRIORITY_INFO);
 	if (result != SDL_APP_CONTINUE)
 	{
 		SDL_LogError(
 			SDL_LOG_CATEGORY_APPLICATION,
 			"sorbet::on_app_init() returned %s",
-			sorbet::enum_strings::to_string(result).c_str());
+			sorbengine::enum_strings::to_string(result).c_str());
 	}
 	return result;
 }
 
 SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event)
 {
-	const SDL_AppResult result = sorbet::engine::on_app_event(*event);
+	const SDL_AppResult result = sorbengine::engine::on_app_event(*event);
 	if (result == SDL_APP_FAILURE)
 	{
 		SDL_LogError(
 			SDL_LOG_CATEGORY_APPLICATION,
 			"sorbet::on_app_event() returned %s",
-			sorbet::enum_strings::to_string(result).c_str());
+			sorbengine::enum_strings::to_string(result).c_str());
 	}
 	return result;
 }
 
 SDL_AppResult SDL_AppIterate(void* appstate)
 {
-	const SDL_AppResult result = sorbet::engine::on_app_iterate();
+	const SDL_AppResult result = sorbengine::engine::on_app_iterate();
 	if (result != SDL_APP_CONTINUE)
 	{
 		SDL_LogError(
 			SDL_LOG_CATEGORY_APPLICATION,
 			"sorbet::on_app_iterate() returned %s",
-			sorbet::enum_strings::to_string(result).c_str());
+			sorbengine::enum_strings::to_string(result).c_str());
 	}
 	return result;
 }
 
 void SDL_AppQuit(void* appstate, SDL_AppResult result)
 {
-	sorbet::engine::on_app_quit();
+	sorbengine::engine::on_app_quit();
 }

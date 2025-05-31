@@ -2,7 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/ext/quaternion_float.hpp>
 
-namespace sorbet::ecs::components
+namespace sorbengine::ecs::components
 {
 	struct transform
 	{

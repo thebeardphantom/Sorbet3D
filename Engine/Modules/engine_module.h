@@ -2,7 +2,7 @@
 #include <string>
 #include <SDL3/SDL_init.h>
 
-namespace sorbet::modules
+namespace sorbengine::modules
 {
 	class engine_module
 	{

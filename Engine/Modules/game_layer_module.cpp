@@ -1,7 +1,7 @@
 #include "../pch.h"
 #include "game_layer_module.h"
 
-namespace sorbet::modules
+namespace sorbengine::modules
 {
 	SDL_AppResult game_layer_module::init()
 	{

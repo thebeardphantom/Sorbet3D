@@ -2,7 +2,7 @@
 #include "entity_system.h"
 #include "../../engine_api.h"
 
-namespace sorbet::ecs::systems
+namespace sorbengine::ecs::systems
 {
 	class mesh_render_system final : public entity_system
 	{

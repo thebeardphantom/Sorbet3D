@@ -6,7 +6,7 @@
 #include "event.h"
 #include "Modules/engine_module.h"
 
-namespace sorbet
+namespace sorbengine
 {
 	class engine_instance
 	{

@@ -5,7 +5,7 @@
 #include "../ECS/Systems/camera_system.h"
 #include "../ECS/Systems/mesh_render_system.h"
 
-namespace sorbet::modules
+namespace sorbengine::modules
 {
 	SDL_AppResult ecs_module::init()
 	{

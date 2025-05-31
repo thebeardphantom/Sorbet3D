@@ -1,7 +1,11 @@
 #pragma once
-class editor_instance
-{
-	void init();
 
-	friend class editor;
-};
+namespace sorbeditor
+{
+	class editor_instance
+	{
+		void init();
+
+		friend class editor;
+	};
+}

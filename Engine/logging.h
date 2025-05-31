@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL3/SDL_log.h>
 
-namespace sorbet
+namespace sorbengine
 {
 	class logging
 	{

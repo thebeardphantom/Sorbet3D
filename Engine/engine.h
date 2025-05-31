@@ -4,7 +4,7 @@
 #include "engine_api.h"
 #include "engine_instance.h"
 
-namespace sorbet
+namespace sorbengine
 {
 	class engine
 	{

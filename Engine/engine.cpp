@@ -2,7 +2,7 @@
 #include "engine.h"
 #include "logging.h"
 
-namespace sorbet
+namespace sorbengine
 {
 	engine_instance& engine::get_instance()
 	{

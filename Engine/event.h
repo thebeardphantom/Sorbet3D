@@ -3,7 +3,7 @@
 #include <functional>
 #include <vector>
 
-namespace sorbet
+namespace sorbengine
 {
 	template <typename... Args>
 	class event

@@ -1,11 +1,14 @@
 #pragma once
 #include "editor_instance.h"
 
-class editor
+namespace sorbeditor
 {
-public:
-	static void init();
+	class editor
+	{
+	public:
+		static void init();
 
-private:
-	static editor_instance& get_instance();
-};
+	private:
+		static editor_instance& get_instance();
+	};
+}

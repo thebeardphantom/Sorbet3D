@@ -4,8 +4,8 @@
 #include "asset_module.h"
 #include "engine_module.h"
 #include "../engine_api.h"
-#include "../event.h"
 #include "../render_command.h"
+#include "../Events/engine_events.h"
 
 namespace sorbengine::modules
 {
@@ -26,7 +26,6 @@ namespace sorbengine::modules
 		void render();
 		ENGINE_API SDL_Window* get_window() const;
 		ENGINE_API SDL_GLContext get_context() const;
-		ENGINE_API event<>& get_render_event();
 		void set_view(const glm::mat4& view);
 		void set_projection(const glm::mat4& projection);
 
@@ -42,11 +41,10 @@ namespace sorbengine::modules
 		void pre_render() const;
 		void render_internal();
 		void post_render() const;
+		void on_receive_event(const events::receieve_event_event& event);
 
 		// Fields
 		static uint64_t render_calls_;
-
-		event<> render_event_;
 		std::vector<render_command> render_list_;
 		SDL_Window* window_ = nullptr;
 		SDL_GLContext gl_context_ = nullptr;

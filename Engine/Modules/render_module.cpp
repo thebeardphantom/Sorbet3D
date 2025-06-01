@@ -33,6 +33,10 @@ namespace sorbengine::modules
 
 		result = init_render_statics();
 		SDL_AddTimer(1000, log_framerate, nullptr);
+
+		auto& dispatcher = engine::get_dispatcher();
+		dispatcher.sink<events::receieve_event_event>()
+		          .connect<&render_module::on_receive_event>(this);
 		return result;
 	}
 
@@ -40,7 +44,6 @@ namespace sorbengine::modules
 
 	void render_module::cleanup()
 	{
-		render_event_.clear();
 		SDL_GL_DestroyContext(gl_context_);
 		SDL_DestroyWindow(window_);
 	}
@@ -75,11 +78,6 @@ namespace sorbengine::modules
 		return "render_module";
 	}
 
-	event<>& render_module::get_render_event()
-	{
-		return render_event_;
-	}
-
 	void render_module::set_view(const glm::mat4& view)
 	{
 		view_ = view;
@@ -88,6 +86,18 @@ namespace sorbengine::modules
 	void render_module::set_projection(const glm::mat4& projection)
 	{
 		projection_ = projection;
+	}
+
+	void render_module::on_receive_event(const events::receieve_event_event& event)
+	{
+		if (event.event.key.key == SDLK_F1)
+		{
+			wireframe_mode = !wireframe_mode;
+		}
+		else if (event.event.key.key == SDLK_F2)
+		{
+			normals_mode = !normals_mode;
+		}
 	}
 
 	SDL_AppResult render_module::init_sdl_window()
@@ -168,6 +178,7 @@ namespace sorbengine::modules
 
 		// Clear the screen and depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		engine::get_dispatcher().trigger<events::prerender_event>();
 	}
 
 	void render_module::render_internal()
@@ -206,11 +217,12 @@ namespace sorbengine::modules
 		}
 		render_list_.clear();
 
-		render_event_();
+		engine::get_dispatcher().trigger<events::render_event>();
 	}
 
 	void render_module::post_render() const
 	{
 		SDL_GL_SwapWindow(window_);
+		engine::get_dispatcher().trigger<events::postrender_event>();
 	}
 }

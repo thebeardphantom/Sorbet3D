@@ -1,4 +1,5 @@
 #pragma once
+#include "../Engine/Events/engine_events.h"
 #include "../Engine/Modules/engine_module.h"
 
 namespace sorbeditor
@@ -11,5 +12,10 @@ namespace sorbeditor
 		void cleanup() override;
 		void shutdown() override;
 		std::string get_name() override;
+
+	private:
+		void receive_event(const sorbengine::events::receieve_event_event& event);
+		void update(const sorbengine::events::update_event& event);
+		void render(const sorbengine::events::render_event& event);
 	};
 }

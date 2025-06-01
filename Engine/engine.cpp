@@ -18,7 +18,7 @@ namespace sorbengine
 
 	SDL_AppResult engine::on_app_event(const SDL_Event& event)
 	{
-		return get_instance().process_event(event);
+		return get_instance().receive_event(event);
 	}
 
 	SDL_AppResult engine::on_app_iterate()
@@ -31,19 +31,9 @@ namespace sorbengine
 		get_instance().cleanup_and_shutdown();
 	}
 
-	event<>& engine::get_update_event()
+	entt::dispatcher& engine::get_dispatcher()
 	{
-		return get_instance().update_event_;
-	}
-
-	event<const SDL_Event&>& engine::get_sdl_event_event()
-	{
-		return get_instance().sdl_event_event_;
-	}
-
-	event<>& engine::get_quit_event()
-	{
-		return get_instance().quit_event_;
+		return *get_instance().dispatcher_;
 	}
 
 	bool engine::get_is_quitting()

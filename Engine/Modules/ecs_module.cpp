@@ -4,13 +4,19 @@
 #include "../engine.h"
 #include "../ECS/Systems/camera_system.h"
 #include "../ECS/Systems/mesh_render_system.h"
+#include "../Events/update_event.h"
+
+using namespace sorbengine::events;
+using namespace sorbengine::ecs::systems;
 
 namespace sorbengine::modules
 {
 	SDL_AppResult ecs_module::init()
 	{
-		create_system<ecs::systems::mesh_render_system>();
-		create_system<ecs::systems::camera_system>();
+		auto& dispatcher = engine::get_dispatcher();
+		dispatcher.sink<update_event>().connect<&ecs_module::on_update>(this);
+		create_system<mesh_render_system>();
+		create_system<camera_system>();
 		return SDL_APP_CONTINUE;
 	}
 
@@ -29,10 +35,10 @@ namespace sorbengine::modules
 		return "ecs_module";
 	}
 
-	void ecs_module::tick() const
+	void ecs_module::on_update() const
 	{
 		const auto& time_module = engine::get_module<modules::time_module>();
-		ecs::systems::entity_system::tick_args tick_args =
+		entity_system::tick_args tick_args =
 		{
 			.delta_time = time_module.get_delta_time(),
 			.registry = *registry_

@@ -8,42 +8,48 @@
 #include "../Engine/ECS/Components/camera.h"
 #include "../Engine/ECS/Components/mesh_renderer.h"
 #include "../Engine/ECS/Components/transform.h"
+#include "../Engine/Events/engine_events.h"
 #include "../Engine/Modules/asset_module.h"
 #include "../Engine/Modules/ecs_module.h"
 #include "../Engine/Objects/mesh_cpu.h"
+
+using namespace sorbengine;
+using namespace sorbengine::ecs;
+using namespace sorbengine::ecs::components;
+using namespace demo_game::ecs::components;
+using namespace demo_game::ecs::systems;
 
 namespace demo_game
 {
 	void game_instance::init()
 	{
 		SDL_Log("game_instance initializing.");
-		quit_callback_id_ = sorbengine::engine::get_quit_event().subscribe([this]
-		{
-			this->quit();
-		});
+		auto& dispatcher = engine::get_dispatcher();
+		dispatcher.sink<events::quitting_event>().connect<&game_instance::on_quitting>(this);
 
-		sorbengine::modules::asset_module& asset_module = sorbengine::engine::get_module<sorbengine::modules::asset_module>();
-		const std::shared_ptr<sorbengine::objects::mesh_cpu> mesh_cpu = asset_module.load_model("Engine/Models/monkey.fbx");
+		auto& asset_module = engine::get_module<modules::asset_module>();
+		const std::shared_ptr<objects::mesh_cpu> mesh_cpu = asset_module.load_model(
+			"Engine/Models/monkey.fbx");
 
 
-		auto& ecs_module = sorbengine::engine::get_module<sorbengine::modules::ecs_module>();
+		auto& ecs_module = engine::get_module<modules::ecs_module>();
 		auto& registry = ecs_module.get_registry();
 		const auto camera_entity = registry.create();
-		registry.emplace_or_replace<sorbengine::ecs::components::camera>(camera_entity);
-		registry.emplace_or_replace<sorbengine::ecs::components::transform>(camera_entity);
-		ecs_module.create_system<ecs::systems::spin_system>();
+		registry.emplace_or_replace<camera>(camera_entity);
+		registry.emplace_or_replace<transform>(camera_entity);
+		ecs_module.create_system<spin_system>();
 
 		fast_noise_lite fnl(SDL_rand_bits());
 		fnl.SetFrequency(5.41324f);
 		for (size_t i = 0; i < 1; i++)
 		{
 			const auto entity = registry.create();
-			registry.emplace_or_replace<ecs::components::spinnable>(entity);
-			auto& [mesh] = registry.emplace_or_replace<sorbengine::ecs::components::mesh_renderer>(entity);
+			registry.emplace_or_replace<spinnable>(entity);
+			auto& [mesh] = registry.emplace_or_replace<mesh_renderer>(entity);
 			mesh = mesh_cpu;
 
 			auto& [local_position, local_rotation] = registry.emplace_or_replace<
-				sorbengine::ecs::components::transform>(entity);
+				transform>(entity);
 
 			auto x = fnl.GetNoise(static_cast<float>(i), 0.0f);
 			auto y = fnl.GetNoise(static_cast<float>(i), 1.0f);
@@ -53,9 +59,8 @@ namespace demo_game
 		}
 	}
 
-	void game_instance::quit() const
+	void game_instance::on_quitting()
 	{
-		SDL_Log("game_instance quitting.");
-		sorbengine::engine::get_quit_event().unsubscribe(quit_callback_id_);
+		SDL_Log("game_instance on_quitting.");
 	}
 }

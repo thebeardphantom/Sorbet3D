@@ -2,8 +2,8 @@
 #include <format>
 #include <memory>
 #include <vector>
+#include <entt/entt.hpp>
 #include <SDL3/SDL_init.h>
-#include "event.h"
 #include "Modules/engine_module.h"
 
 namespace sorbengine
@@ -21,7 +21,7 @@ namespace sorbengine
 		T& create_module(const bool is_external)
 		{
 			T* new_system_ptr = new T();
-			registered_modules_.push_back({ is_external, false, std::unique_ptr<T>(new_system_ptr) });
+			registered_modules_.push_back({is_external, false, std::unique_ptr<T>(new_system_ptr)});
 			return *new_system_ptr;
 		}
 
@@ -43,18 +43,15 @@ namespace sorbengine
 
 		// Private Methods
 		SDL_AppResult init();
-		SDL_AppResult process_event(const SDL_Event& event);
+		SDL_AppResult receive_event(const SDL_Event& event);
 		SDL_AppResult iterate();
-		void update();
+		void update() const;
 		void render();
 		void cleanup_and_shutdown();
 		void cleanup_and_shutdown_modules(bool external_modules);
-		event<const SDL_Event&> sdl_event_event_;
-		event<> update_event_;
-		event<> quit_event_;
+		std::unique_ptr<entt::dispatcher> dispatcher_ = nullptr;
 		bool is_quitting_ = false;
 
 		friend class engine;
 	};
-
 }

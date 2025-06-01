@@ -1,5 +1,6 @@
 #pragma once
 #include "engine_module.h"
+#include "../events/engine_events.h"
 
 namespace sorbengine::modules
 {
@@ -12,7 +13,6 @@ namespace sorbengine::modules
 		void shutdown() override;
 		std::string get_name() override;
 
-		void update();
 		ENGINE_API uint64_t get_update_count() const;
 		ENGINE_API double_t get_delta_time() const;
 		ENGINE_API double_t get_time() const;
@@ -22,5 +22,7 @@ namespace sorbengine::modules
 		double_t time_last_update_ = 0;
 		double_t time_ = 0;
 		double_t delta_time_ = 0;
+
+		void on_update(const events::update_event& event);
 	};
 }

@@ -3,6 +3,7 @@
 #include <SDL3/SDL_filesystem.h>
 #include "enum_strings.h"
 #include "logging.h"
+#include "Events/engine_events.h"
 #include "Modules/asset_module.h"
 #include "Modules/ecs_module.h"
 #include "Modules/editor_layer_module.h"
@@ -10,19 +11,22 @@
 #include "Modules/render_module.h"
 #include "Modules/time_module.h"
 
+using namespace sorbengine::modules;
+
 namespace sorbengine
 {
 	SDL_AppResult engine_instance::init()
 	{
 		SDL_Log("== init ==");
 		SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+		dispatcher_ = std::make_unique<entt::dispatcher>();
 
-		create_module<modules::time_module>(false);
-		create_module<modules::render_module>(false);
-		create_module<modules::ecs_module>(false);
-		create_module<modules::asset_module>(false);
-		create_module<modules::game_layer_module>(false);
-		create_module<modules::editor_layer_module>(false);
+		create_module<time_module>(false);
+		create_module<render_module>(false);
+		create_module<ecs_module>(false);
+		create_module<asset_module>(false);
+		create_module<game_layer_module>(false);
+		create_module<editor_layer_module>(false);
 
 		SDL_AppResult result = SDL_APP_CONTINUE;
 		bool check_for_inits = true;
@@ -57,62 +61,47 @@ namespace sorbengine
 		return result;
 	}
 
-	SDL_AppResult engine_instance::process_event(const SDL_Event& event)
+	SDL_AppResult engine_instance::receive_event(const SDL_Event& event)
 	{
 		if (event.type == SDL_EVENT_QUIT)
 		{
 			// end the program, reporting success to the OS.
 			SDL_Log("engine_instance quitting");
 			is_quitting_ = true;
-			quit_event_();
 			return SDL_APP_SUCCESS;
 		}
-		if (event.type == SDL_EVENT_KEY_DOWN)
-		{
-			auto& render_module = get_module<modules::render_module>();
-			if (event.key.key == SDLK_F1)
-			{
-				render_module.wireframe_mode = !render_module.wireframe_mode;
-			}
-			else if (event.key.key == SDLK_F2)
-			{
-				render_module.normals_mode = !render_module.normals_mode;
-			}
-		}
 
-		sdl_event_event_(event);
+		dispatcher_->trigger<events::receieve_event_event>(events::receieve_event_event{event});
 		return SDL_APP_CONTINUE;
 	}
 
 	SDL_AppResult engine_instance::iterate()
 	{
-		auto& time_module = get_module<modules::time_module>();
-		time_module.update();
 		update();
 		render();
 		return SDL_APP_CONTINUE;
 	}
 
-	void engine_instance::update()
+	void engine_instance::update() const
 	{
-		SDL_LogTrace(SDL_LOG_CATEGORY_APPLICATION, "engine_instance ticking.");
+		SDL_LogTrace(SDL_LOG_CATEGORY_APPLICATION, "engine_instance updating.");
 
-		const auto& ecs_module = get_module<modules::ecs_module>();
-		ecs_module.tick();
-		update_event_();
+		dispatcher_->trigger<events::update_event>();
+		dispatcher_->update();
 	}
 
 	void engine_instance::render()
 	{
+		SDL_LogTrace(SDL_LOG_CATEGORY_APPLICATION, "engine_instance rendering.");
+
 		auto& render_module = get_module<modules::render_module>();
 		render_module.render();
 	}
 
 	void engine_instance::cleanup_and_shutdown()
 	{
-		update_event_.clear();
-		sdl_event_event_.clear();
-		quit_event_.clear();
+		dispatcher_->trigger<events::quitting_event>();
+		dispatcher_.reset();
 		cleanup_and_shutdown_modules(true);
 		cleanup_and_shutdown_modules(false);
 	}
@@ -145,5 +134,4 @@ namespace sorbengine
 			}
 		}
 	}
-
 }

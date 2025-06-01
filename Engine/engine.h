@@ -1,5 +1,4 @@
 #pragma once
-#include <SDL3/SDL_events.h>
 #include <SDL3/SDL_log.h>
 #include "engine_api.h"
 #include "engine_instance.h"
@@ -13,25 +12,26 @@ namespace sorbengine
 		ENGINE_API static SDL_AppResult on_app_event(const SDL_Event& event);
 		ENGINE_API static SDL_AppResult on_app_iterate();
 		ENGINE_API static void on_app_quit();
-
 		template <class T>
-		static T& create_module()
-		{
-			return get_instance().create_module<T>(true);
-		}
-
+		static T& create_module();
 		template <class T>
-		static T& get_module()
-		{
-			return get_instance().get_module<T>();
-		}
-
-		ENGINE_API static event<>& get_update_event();
-		ENGINE_API static event<const SDL_Event&>& get_sdl_event_event();
-		ENGINE_API static event<>& get_quit_event();
+		static T& get_module();
+		ENGINE_API static entt::dispatcher& get_dispatcher();
 		ENGINE_API static bool get_is_quitting();
 
 	private:
 		ENGINE_API static engine_instance& get_instance();
 	};
+
+	template <class T>
+	T& engine::create_module()
+	{
+		return get_instance().create_module<T>(true);
+	}
+
+	template <class T>
+	T& engine::get_module()
+	{
+		return get_instance().get_module<T>();
+	}
 }

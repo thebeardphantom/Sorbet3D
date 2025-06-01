@@ -12,7 +12,6 @@ namespace sorbengine::modules
 		void cleanup() override;
 		void shutdown() override;
 		std::string get_name() override;
-		void tick() const;
 		ENGINE_API entt::registry& get_registry() const;
 
 		template <class T>
@@ -39,7 +38,8 @@ namespace sorbengine::modules
 
 	private:
 		std::unique_ptr<entt::registry> registry_ = std::make_unique<entt::registry>();
-
 		std::vector<std::unique_ptr<ecs::systems::entity_system>> entity_systems_;
+
+		void on_update() const;
 	};
 }

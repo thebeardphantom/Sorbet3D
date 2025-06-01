@@ -8,6 +8,7 @@ namespace demo_game
 		void quit() const;
 		int tick_callback_id_ = 0;
 		int quit_callback_id_ = 0;
+		void on_quitting();
 
 		friend class game;
 	};

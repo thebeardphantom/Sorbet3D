@@ -3,7 +3,7 @@
 
 namespace sorbengine::events
 {
-	struct receieve_event_event
+	struct receive_event_event
 	{
 		SDL_Event event;
 	};

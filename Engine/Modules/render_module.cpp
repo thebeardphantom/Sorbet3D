@@ -35,7 +35,7 @@ namespace sorbengine::modules
 		SDL_AddTimer(1000, log_framerate, nullptr);
 
 		auto& dispatcher = engine::get_dispatcher();
-		dispatcher.sink<events::receieve_event_event>()
+		dispatcher.sink<events::receive_event_event>()
 		          .connect<&render_module::on_receive_event>(this);
 		return result;
 	}
@@ -88,7 +88,7 @@ namespace sorbengine::modules
 		projection_ = projection;
 	}
 
-	void render_module::on_receive_event(const events::receieve_event_event& event)
+	void render_module::on_receive_event(const events::receive_event_event& event)
 	{
 		if (event.event.key.key == SDLK_F1)
 		{

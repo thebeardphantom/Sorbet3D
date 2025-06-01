@@ -18,7 +18,7 @@ namespace sorbeditor
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 
 		auto& dispatcher = sorbengine::engine::get_dispatcher();
-		dispatcher.sink<sorbengine::events::receieve_event_event>().connect<&editor_module::receive_event>(this);
+		dispatcher.sink<sorbengine::events::receive_event_event>().connect<&editor_module::receive_event>(this);
 		dispatcher.sink<sorbengine::events::update_event>().connect<&editor_module::update>(this);
 		dispatcher.sink<sorbengine::events::render_event>().connect<&editor_module::render>(this);
 
@@ -54,7 +54,7 @@ namespace sorbeditor
 		return "editor_module";
 	}
 
-	void editor_module::receive_event(const sorbengine::events::receieve_event_event& event)
+	void editor_module::receive_event(const sorbengine::events::receive_event_event& event)
 	{
 		ImGui_ImplSDL3_ProcessEvent(&event.event);
 	}

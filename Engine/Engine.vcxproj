@@ -182,10 +182,11 @@ xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /E /I /Y</Command>
     <ClInclude Include="Events\postrender_event.h" />
     <ClInclude Include="Events\prerender_event.h" />
     <ClInclude Include="Events\quitting_event.h" />
-    <ClInclude Include="Events\receieve_event_event.h" />
+    <ClInclude Include="Events\receive_event_event.h" />
     <ClInclude Include="Events\render_event.h" />
     <ClInclude Include="Events\update_event.h" />
     <ClInclude Include="fast_noise_lite.h" />
+    <ClInclude Include="Modules\input_module.h" />
     <ClInclude Include="Modules\editor_layer_module.h" />
     <ClInclude Include="logging.h" />
     <ClInclude Include="ECS\Components\camera.h" />
@@ -229,6 +230,12 @@ xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /E /I /Y</Command>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="engine.cpp" />
+    <ClCompile Include="Modules\input_module.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Modules\editor_layer_module.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>

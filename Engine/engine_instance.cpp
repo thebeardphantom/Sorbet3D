@@ -8,6 +8,7 @@
 #include "Modules/ecs_module.h"
 #include "Modules/editor_layer_module.h"
 #include "Modules/game_layer_module.h"
+#include "Modules/input_module.h"
 #include "Modules/render_module.h"
 #include "Modules/time_module.h"
 
@@ -22,9 +23,10 @@ namespace sorbengine
 		dispatcher_ = std::make_unique<entt::dispatcher>();
 
 		create_module<time_module>(false);
-		create_module<render_module>(false);
 		create_module<ecs_module>(false);
 		create_module<asset_module>(false);
+		create_module<input_module>(false);
+		create_module<render_module>(false);
 		create_module<game_layer_module>(false);
 		create_module<editor_layer_module>(false);
 
@@ -71,7 +73,7 @@ namespace sorbengine
 			return SDL_APP_SUCCESS;
 		}
 
-		dispatcher_->trigger<events::receieve_event_event>(events::receieve_event_event{event});
+		dispatcher_->trigger<events::receive_event_event>(events::receive_event_event{event});
 		return SDL_APP_CONTINUE;
 	}
 

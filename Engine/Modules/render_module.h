@@ -41,7 +41,7 @@ namespace sorbengine::modules
 		void pre_render() const;
 		void render_internal();
 		void post_render() const;
-		void on_receive_event(const events::receieve_event_event& event);
+		void on_receive_event(const events::receive_event_event& event);
 
 		// Fields
 		static uint64_t render_calls_;

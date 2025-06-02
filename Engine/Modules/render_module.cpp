@@ -119,7 +119,7 @@ namespace sorbengine::modules
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Creating window.");
-		window_ = SDL_CreateWindow("", 800, 600,
+		window_ = SDL_CreateWindow("Sorbet 3D", 800, 600,
 			SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
 		if (window_ == nullptr)
 		{
@@ -156,6 +156,9 @@ namespace sorbengine::modules
 		SDL_Log(" == init_render_statics == ");
 		glClearColor(0.0, 0.0, 0.0, 1.0);
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glFrontFace(GL_CW);
 
 		SDL_GL_SetSwapInterval(-1);
 		//SDL_GL_SetSwapInterval(0);

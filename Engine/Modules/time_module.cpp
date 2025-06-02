@@ -14,7 +14,7 @@ namespace sorbengine::modules
 	SDL_AppResult time_module::init()
 	{
 		auto& dispatcher = engine::get_dispatcher();
-		dispatcher.sink<events::update_event>().connect<&time_module::on_update>(this);
+		dispatcher.sink<events::void_event>(update).connect<&time_module::on_update>(this);
 		return SDL_APP_CONTINUE;
 	}
 
@@ -29,7 +29,7 @@ namespace sorbengine::modules
 		return "time_module";
 	}
 
-	void time_module::on_update(const events::update_event& event)
+	void time_module::on_update()
 	{
 		const uint64_t ticks_ns = SDL_GetTicksNS();
 		time_ = ns_to_seconds(ticks_ns);

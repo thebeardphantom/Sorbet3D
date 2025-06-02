@@ -23,6 +23,6 @@ namespace sorbengine::modules
 		double_t time_ = 0;
 		double_t delta_time_ = 0;
 
-		void on_update(const events::update_event& event);
+		void on_update();
 	};
 }

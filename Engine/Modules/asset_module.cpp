@@ -71,7 +71,7 @@ namespace sorbengine::modules
 		return src;
 	}
 
-	ENGINE_API std::shared_ptr<objects::mesh_cpu> asset_module::load_model(std::string path)
+	ENGINE_API std::shared_ptr<objects::mesh_cpu> asset_module::load_model(const std::string& path)
 	{
 		static uint32_t flags =
 			aiProcess_Triangulate

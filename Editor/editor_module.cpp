@@ -7,6 +7,8 @@
 #include "../Engine/engine.h"
 #include "../Engine/Modules/render_module.h"
 
+using namespace sorbengine::events;
+
 namespace sorbeditor
 {
 	SDL_AppResult editor_module::init()
@@ -18,9 +20,9 @@ namespace sorbeditor
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 
 		auto& dispatcher = sorbengine::engine::get_dispatcher();
-		dispatcher.sink<sorbengine::events::receive_event_event>().connect<&editor_module::receive_event>(this);
-		dispatcher.sink<sorbengine::events::update_event>().connect<&editor_module::update>(this);
-		dispatcher.sink<sorbengine::events::render_event>().connect<&editor_module::render>(this);
+		dispatcher.sink<receive_sdlevent_event>().connect<&editor_module::on_receive_event>(this);
+		dispatcher.sink<void_event>(update).connect<&editor_module::on_update>(this);
+		dispatcher.sink<void_event>(render).connect<&editor_module::on_render>(this);
 
 		return SDL_APP_CONTINUE;
 	}
@@ -29,14 +31,14 @@ namespace sorbeditor
 	{
 		const auto& render_module = sorbengine::engine::get_module<sorbengine::modules::render_module>();
 
-		const auto window = render_module.get_window();
+		const auto window = &render_module.get_window();
 		const float display_scale = SDL_GetWindowDisplayScale(window);
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.DisplayFramebufferScale = ImVec2(display_scale, display_scale);
 		io.FontGlobalScale = display_scale;
 
-		ImGui_ImplSDL3_InitForOpenGL(render_module.get_window(), render_module.get_context());
+		ImGui_ImplSDL3_InitForOpenGL(window, render_module.get_context());
 		ImGui_ImplOpenGL3_Init();
 	}
 
@@ -54,12 +56,12 @@ namespace sorbeditor
 		return "editor_module";
 	}
 
-	void editor_module::receive_event(const sorbengine::events::receive_event_event& event)
+	void editor_module::on_receive_event(const receive_sdlevent_event& event)
 	{
 		ImGui_ImplSDL3_ProcessEvent(&event.event);
 	}
 
-	void editor_module::update(const sorbengine::events::update_event& event)
+	void editor_module::on_update()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL3_NewFrame();
@@ -67,7 +69,7 @@ namespace sorbeditor
 		ImGui::ShowDemoWindow();
 	}
 
-	void editor_module::render(const sorbengine::events::render_event& event)
+	void editor_module::on_render()
 	{
 		ImGui::Render();
 		const auto draw_data = ImGui::GetDrawData();

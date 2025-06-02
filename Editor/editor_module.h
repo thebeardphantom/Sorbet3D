@@ -14,8 +14,8 @@ namespace sorbeditor
 		std::string get_name() override;
 
 	private:
-		void receive_event(const sorbengine::events::receive_event_event& event);
-		void update(const sorbengine::events::update_event& event);
-		void render(const sorbengine::events::render_event& event);
+		void on_receive_event(const sorbengine::events::receive_sdlevent_event& event);
+		void on_update();
+		void on_render();
 	};
 }

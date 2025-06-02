@@ -23,7 +23,7 @@ namespace demo_game::ecs::systems
 			auto [transform, spinnable] = view.get<sorbengine::ecs::components::transform,
 				components::spinnable>(entity);
 			const auto spin = angleAxis(radians(spinnable.speed * dt_float), axis);
-			transform.local_rotation *= spin;
+			transform.set_local_rotation(transform.get_local_rotation() * spin);
 		}
 	}
 

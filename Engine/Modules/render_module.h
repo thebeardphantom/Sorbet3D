@@ -5,6 +5,7 @@
 #include "engine_module.h"
 #include "../engine_api.h"
 #include "../render_command.h"
+#include "../smath.h"
 #include "../Events/engine_events.h"
 
 namespace sorbengine::modules
@@ -24,7 +25,7 @@ namespace sorbengine::modules
 		// Public Methods
 		void submit(const render_command& cmd);
 		void render();
-		ENGINE_API SDL_Window* get_window() const;
+		ENGINE_API SDL_Window& get_window() const;
 		ENGINE_API SDL_GLContext get_context() const;
 		void set_view(const glm::mat4& view);
 		void set_projection(const glm::mat4& projection);
@@ -41,7 +42,7 @@ namespace sorbengine::modules
 		void pre_render() const;
 		void render_internal();
 		void post_render() const;
-		void on_receive_event(const events::receive_event_event& event);
+		void on_key_down(const events::key_down_event& event);
 
 		// Fields
 		static uint64_t render_calls_;
@@ -50,7 +51,7 @@ namespace sorbengine::modules
 		SDL_GLContext gl_context_ = nullptr;
 		std::shared_ptr<objects::shader> default_shader_ = nullptr;
 		std::shared_ptr<objects::shader> normals_shader_ = nullptr;
-		glm::mat4 view_ = glm::mat4(1.0f);
-		glm::mat4 projection_ = glm::mat4(1.0f);
+		glm::mat4 view_ = smath::identity_matrix;
+		glm::mat4 projection_ = smath::identity_matrix;
 	};
 }

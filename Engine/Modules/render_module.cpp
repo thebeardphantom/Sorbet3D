@@ -35,8 +35,8 @@ namespace sorbengine::modules
 		SDL_AddTimer(1000, log_framerate, nullptr);
 
 		auto& dispatcher = engine::get_dispatcher();
-		dispatcher.sink<events::receive_event_event>()
-		          .connect<&render_module::on_receive_event>(this);
+		dispatcher.sink<events::key_down_event>()
+		          .connect<&render_module::on_key_down>(this);
 		return result;
 	}
 
@@ -63,9 +63,9 @@ namespace sorbengine::modules
 		render_calls_++;
 	}
 
-	SDL_Window* render_module::get_window() const
+	SDL_Window& render_module::get_window() const
 	{
-		return window_;
+		return *window_;
 	}
 
 	SDL_GLContext render_module::get_context() const
@@ -88,13 +88,13 @@ namespace sorbengine::modules
 		projection_ = projection;
 	}
 
-	void render_module::on_receive_event(const events::receive_event_event& event)
+	void render_module::on_key_down(const events::key_down_event& event)
 	{
-		if (event.event.key.key == SDLK_F1)
+		if (event.key == SDLK_F1)
 		{
 			wireframe_mode = !wireframe_mode;
 		}
-		else if (event.event.key.key == SDLK_F2)
+		else if (event.key == SDLK_F2)
 		{
 			normals_mode = !normals_mode;
 		}
@@ -158,6 +158,7 @@ namespace sorbengine::modules
 		glEnable(GL_DEPTH_TEST);
 
 		SDL_GL_SetSwapInterval(-1);
+		//SDL_GL_SetSwapInterval(0);
 
 		// Create shaders
 		auto& asset_module = engine::get_module<modules::asset_module>();
@@ -178,7 +179,7 @@ namespace sorbengine::modules
 
 		// Clear the screen and depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		engine::get_dispatcher().trigger<events::prerender_event>();
+		engine::get_dispatcher().trigger<events::void_event>(void_events::pre_render);
 	}
 
 	void render_module::render_internal()
@@ -217,12 +218,12 @@ namespace sorbengine::modules
 		}
 		render_list_.clear();
 
-		engine::get_dispatcher().trigger<events::render_event>();
+		engine::get_dispatcher().trigger<events::void_event>(void_events::render);
 	}
 
 	void render_module::post_render() const
 	{
 		SDL_GL_SwapWindow(window_);
-		engine::get_dispatcher().trigger<events::postrender_event>();
+		engine::get_dispatcher().trigger<events::void_event>(void_events::post_render);
 	}
 }

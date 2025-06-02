@@ -4,6 +4,7 @@
 #include "../../Modules/render_module.h"
 #include "../Components/mesh_renderer.h"
 #include "../Components/transform.h"
+#include "../../smath.h"
 
 namespace sorbengine::ecs::systems
 {
@@ -15,12 +16,11 @@ namespace sorbengine::ecs::systems
 
 		const auto no_transform_view = args.registry.view<components::mesh_renderer>(
 			entt::exclude<components::transform>);
-		constexpr auto identity = glm::mat4(1.0f);
 		for (const auto entity : no_transform_view)
 		{
 			auto& [mesh] = no_transform_view.get<components::mesh_renderer>(entity);
 			render_command cmd(mesh);
-			cmd.model_matrix = identity;
+			cmd.model_matrix = smath::identity_matrix;
 			module.submit(cmd);
 		}
 

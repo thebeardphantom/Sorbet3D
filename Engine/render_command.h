@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/matrix.hpp>
+#include "smath.h"
 #include "Objects/mesh_cpu.h"
 
 namespace sorbengine
@@ -8,7 +9,7 @@ namespace sorbengine
 	{
 		std::weak_ptr<objects::mesh_cpu> mesh;
 
-		glm::mat4 model_matrix = glm::mat4(1.0f);
+		glm::mat4 model_matrix = smath::identity_matrix;
 
 		explicit render_command(const std::shared_ptr<objects::mesh_cpu>& mesh_shared_ptr)
 		{

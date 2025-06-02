@@ -13,6 +13,7 @@
 #include "Modules/time_module.h"
 
 using namespace sorbengine::modules;
+using namespace sorbengine::events;
 
 namespace sorbengine
 {
@@ -65,6 +66,7 @@ namespace sorbengine
 
 	SDL_AppResult engine_instance::receive_event(const SDL_Event& event)
 	{
+		SDL_LogTrace(SDL_LOG_CATEGORY_APPLICATION, "engine_instance::receive_event()");
 		if (event.type == SDL_EVENT_QUIT)
 		{
 			// end the program, reporting success to the OS.
@@ -73,12 +75,13 @@ namespace sorbengine
 			return SDL_APP_SUCCESS;
 		}
 
-		dispatcher_->trigger<events::receive_event_event>(events::receive_event_event{event});
+		dispatcher_->trigger<receive_sdlevent_event>(receive_sdlevent_event{event});
 		return SDL_APP_CONTINUE;
 	}
 
 	SDL_AppResult engine_instance::iterate()
 	{
+		SDL_LogTrace(SDL_LOG_CATEGORY_APPLICATION, "engine_instance::iterate()");
 		update();
 		render();
 		return SDL_APP_CONTINUE;
@@ -88,7 +91,7 @@ namespace sorbengine
 	{
 		SDL_LogTrace(SDL_LOG_CATEGORY_APPLICATION, "engine_instance updating.");
 
-		dispatcher_->trigger<events::update_event>();
+		dispatcher_->trigger<void_event>(void_events::update);
 		dispatcher_->update();
 	}
 
@@ -102,7 +105,7 @@ namespace sorbengine
 
 	void engine_instance::cleanup_and_shutdown()
 	{
-		dispatcher_->trigger<events::quitting_event>();
+		dispatcher_->trigger<void_event>(quitting);
 		dispatcher_.reset();
 		cleanup_and_shutdown_modules(true);
 		cleanup_and_shutdown_modules(false);

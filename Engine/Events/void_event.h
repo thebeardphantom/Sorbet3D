@@ -2,6 +2,5 @@
 
 namespace sorbengine::events
 {
-	struct postrender_event {};
-
+	class void_event {};
 }

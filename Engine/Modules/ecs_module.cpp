@@ -4,7 +4,6 @@
 #include "../engine.h"
 #include "../ECS/Systems/camera_system.h"
 #include "../ECS/Systems/mesh_render_system.h"
-#include "../Events/update_event.h"
 
 using namespace sorbengine::events;
 using namespace sorbengine::ecs::systems;
@@ -14,7 +13,7 @@ namespace sorbengine::modules
 	SDL_AppResult ecs_module::init()
 	{
 		auto& dispatcher = engine::get_dispatcher();
-		dispatcher.sink<update_event>().connect<&ecs_module::on_update>(this);
+		dispatcher.sink<void_event>(update).connect<&ecs_module::on_update>(this);
 		create_system<mesh_render_system>();
 		create_system<camera_system>();
 		return SDL_APP_CONTINUE;

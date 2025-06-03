@@ -1,4 +1,6 @@
 #pragma once
+#include <cmath>
+#include <entt/entt.hpp>
 #include "../../engine_api.h"
 
 namespace sorbengine::ecs::systems
@@ -14,8 +16,8 @@ namespace sorbengine::ecs::systems
 			entt::registry& registry;
 		};
 
-		ENGINE_API virtual void init() = 0;
-		ENGINE_API virtual void tick(tick_args& args) = 0;
+		ENGINE_API virtual void init();
+		ENGINE_API virtual void tick(tick_args& args);
 		ENGINE_API virtual std::string get_name() = 0;
 	};
 }

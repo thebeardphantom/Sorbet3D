@@ -11,9 +11,6 @@ namespace sorbengine::modules
 	{
 	public:
 		SDL_AppResult init() override;
-		void collaborate() override;
-		void cleanup() override;
-		void shutdown() override;
 		std::string get_name() override;
 		ENGINE_API std::shared_ptr<objects::shader> load_shader(const std::string& path);
 		ENGINE_API std::shared_ptr<objects::shader> load_shader(const std::string& vert_path, const std::string& frag_path);

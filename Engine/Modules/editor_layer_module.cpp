@@ -29,10 +29,6 @@ namespace sorbengine::modules
 		return SDL_APP_CONTINUE;
 	}
 
-	void editor_layer_module::collaborate() {}
-
-	void editor_layer_module::cleanup() {}
-
 	void editor_layer_module::shutdown()
 	{
 		if (editor_so_ != nullptr)

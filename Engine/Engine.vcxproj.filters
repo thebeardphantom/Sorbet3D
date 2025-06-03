@@ -64,6 +64,8 @@
     <ClInclude Include="Events\key_down_event.h" />
     <ClInclude Include="Events\key_up_event.h" />
     <ClInclude Include="smath.h" />
+    <ClInclude Include="Events\mouse_button_up_event.h" />
+    <ClInclude Include="Events\mouse_button_down_event.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine_instance.cpp" />
@@ -107,6 +109,8 @@
     <ClCompile Include="ECS\Systems\camera_system.cpp" />
     <ClCompile Include="Modules\input_module.cpp" />
     <ClCompile Include="smath.cpp" />
+    <ClCompile Include="Modules\engine_module.cpp" />
+    <ClCompile Include="ECS\Systems\entity_system.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

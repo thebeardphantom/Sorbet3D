@@ -1,6 +1,7 @@
 #include "../pch.h"
 #include "time_module.h"
 #include "../engine.h"
+#include "../Events/engine_events.h"
 
 
 namespace sorbengine::modules
@@ -18,12 +19,6 @@ namespace sorbengine::modules
 		return SDL_APP_CONTINUE;
 	}
 
-	void time_module::collaborate() {}
-
-	void time_module::cleanup() {}
-
-	void time_module::shutdown() {}
-
 	std::string time_module::get_name()
 	{
 		return "time_module";
@@ -40,12 +35,12 @@ namespace sorbengine::modules
 		}
 		delta_time_ = time_ - time_last_update_;
 		time_last_update_ = time_;
-		update_count++;
+		update_count_++;
 	}
 
 	ENGINE_API uint64_t time_module::get_update_count() const
 	{
-		return update_count;
+		return update_count_;
 	}
 
 	ENGINE_API double_t time_module::get_delta_time() const

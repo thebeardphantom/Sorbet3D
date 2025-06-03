@@ -29,10 +29,6 @@ namespace sorbengine::modules
 		return SDL_APP_CONTINUE;
 	}
 
-	void game_layer_module::collaborate() {}
-
-	void game_layer_module::cleanup() {}
-
 	void game_layer_module::shutdown()
 	{
 		if (game_so_ != nullptr)

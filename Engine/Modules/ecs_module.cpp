@@ -4,6 +4,7 @@
 #include "../engine.h"
 #include "../ECS/Systems/camera_system.h"
 #include "../ECS/Systems/mesh_render_system.h"
+#include "../Events/engine_events.h"
 
 using namespace sorbengine::events;
 using namespace sorbengine::ecs::systems;
@@ -19,15 +20,11 @@ namespace sorbengine::modules
 		return SDL_APP_CONTINUE;
 	}
 
-	void ecs_module::collaborate() {}
-
 	void ecs_module::cleanup()
 	{
 		registry_.reset();
 		entity_systems_.clear();
 	}
-
-	void ecs_module::shutdown() {}
 
 	std::string ecs_module::get_name()
 	{

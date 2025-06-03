@@ -26,12 +26,6 @@ namespace sorbengine::modules
 		return SDL_APP_CONTINUE;
 	}
 
-	void asset_module::collaborate() {}
-
-	void asset_module::cleanup() {}
-
-	void asset_module::shutdown() {}
-
 	ENGINE_API std::shared_ptr<objects::shader> asset_module::load_shader(const std::string& path)
 	{
 		const std::string absolute_path = path_utility::get_absolute_asset_path(path);

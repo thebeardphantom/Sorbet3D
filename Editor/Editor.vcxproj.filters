@@ -12,11 +12,14 @@
     <ClInclude Include="editor_instance.h" />
     <ClInclude Include="editor.h" />
     <ClInclude Include="editor_module.h" />
+    <ClInclude Include="editor_camera.h" />
+    <ClInclude Include="editor_camera_system.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="editor_instance.cpp" />
     <ClCompile Include="editor.cpp" />
     <ClCompile Include="editor_module.cpp" />
+    <ClCompile Include="editor_camera_system.cpp" />
   </ItemGroup>
 </Project>

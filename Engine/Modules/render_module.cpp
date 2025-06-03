@@ -40,15 +40,11 @@ namespace sorbengine::modules
 		return result;
 	}
 
-	void render_module::collaborate() {}
-
 	void render_module::cleanup()
 	{
 		SDL_GL_DestroyContext(gl_context_);
 		SDL_DestroyWindow(window_);
 	}
-
-	void render_module::shutdown() {}
 
 	void render_module::submit(const render_command& cmd)
 	{

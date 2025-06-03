@@ -10,16 +10,9 @@ namespace sorbengine::modules
 {
 	SDL_AppResult input_module::init()
 	{
-		engine::get_dispatcher().sink<events::receive_sdlevent_event>().connect<&input_module::on_receive_event>(this);
 		engine::get_dispatcher().sink<events::void_event>(update).connect<&input_module::on_update>(this);
 		return SDL_APP_CONTINUE;
 	}
-
-	void input_module::collaborate() {}
-
-	void input_module::cleanup() {}
-
-	void input_module::shutdown() {}
 
 	std::string input_module::get_name()
 	{
@@ -53,33 +46,54 @@ namespace sorbengine::modules
 		return key_states_[key];
 	}
 
-	void input_module::on_receive_event(const events::receive_sdlevent_event& event)
+	engine_module::event_receive_result input_module::receive_event(const SDL_Event& event)
 	{
-		auto& sdl_event = event.event;
 		auto& dispatcher = engine::get_dispatcher();
-		if (sdl_event.type == SDL_EVENT_KEY_DOWN)
+		if (event.type == SDL_EVENT_KEY_DOWN)
 		{
 			dispatcher.enqueue<events::key_down_event>(
 				events::key_down_event
 				{
-					.key = sdl_event.key.key,
-					.mod = sdl_event.key.mod
+					.key = event.key.key,
+					.mod = event.key.mod
 				});
 		}
-		else if (sdl_event.type == SDL_EVENT_KEY_UP)
+		else if (event.type == SDL_EVENT_KEY_UP)
 		{
 			dispatcher.enqueue<events::key_up_event>(
 				events::key_up_event
 				{
-					.key = sdl_event.key.key,
-					.mod = sdl_event.key.mod
+					.key = event.key.key,
+					.mod = event.key.mod
 				});
 		}
-		else if (sdl_event.type == SDL_EVENT_MOUSE_MOTION)
+		else if (event.type == SDL_EVENT_MOUSE_MOTION)
 		{
-			auto& mouse = sdl_event.motion;
+			auto& mouse = event.motion;
 			mouse_velocity_accumulator_ += glm::vec2(mouse.xrel, mouse.yrel);
 		}
+		else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
+		{
+			dispatcher.enqueue<events::mouse_button_down_event>(
+				events::mouse_button_down_event
+				{
+					.button = event.button.button,
+				});
+		}
+		else if (event.type == SDL_EVENT_MOUSE_BUTTON_UP)
+		{
+			dispatcher.enqueue<events::mouse_button_up_event>(
+				events::mouse_button_up_event
+				{
+					.button = event.button.button,
+				});
+		}
+		return {false, SDL_APP_CONTINUE};
+	}
+
+	int8_t input_module::get_priority()
+	{
+		return 1;
 	}
 
 	void input_module::on_update()

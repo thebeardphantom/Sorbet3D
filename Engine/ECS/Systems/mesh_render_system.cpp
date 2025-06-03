@@ -1,15 +1,13 @@
 #include "../../pch.h"
 #include "mesh_render_system.h"
 #include "../../engine.h"
+#include "../../smath.h"
 #include "../../Modules/render_module.h"
 #include "../Components/mesh_renderer.h"
 #include "../Components/transform.h"
-#include "../../smath.h"
 
 namespace sorbengine::ecs::systems
 {
-	void mesh_render_system::init() {}
-
 	void mesh_render_system::tick(tick_args& args)
 	{
 		auto& module = engine::get_module<modules::render_module>();

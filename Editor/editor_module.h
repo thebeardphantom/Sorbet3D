@@ -1,5 +1,4 @@
 #pragma once
-#include "../Engine/Events/engine_events.h"
 #include "../Engine/Modules/engine_module.h"
 
 namespace sorbeditor
@@ -9,12 +8,10 @@ namespace sorbeditor
 	public:
 		SDL_AppResult init() override;
 		void collaborate() override;
-		void cleanup() override;
 		void shutdown() override;
 		std::string get_name() override;
-
+		event_receive_result receive_event(const SDL_Event& event) override;
 	private:
-		void on_receive_event(const sorbengine::events::receive_sdlevent_event& event);
 		void on_update();
 		void on_render();
 	};

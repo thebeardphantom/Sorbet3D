@@ -20,7 +20,6 @@ namespace sorbeditor
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 
 		auto& dispatcher = sorbengine::engine::get_dispatcher();
-		dispatcher.sink<receive_sdlevent_event>().connect<&editor_module::on_receive_event>(this);
 		dispatcher.sink<void_event>(update).connect<&editor_module::on_update>(this);
 		dispatcher.sink<void_event>(render).connect<&editor_module::on_render>(this);
 
@@ -42,8 +41,6 @@ namespace sorbeditor
 		ImGui_ImplOpenGL3_Init();
 	}
 
-	void editor_module::cleanup() {}
-
 	void editor_module::shutdown()
 	{
 		ImGui_ImplOpenGL3_Shutdown();
@@ -56,9 +53,23 @@ namespace sorbeditor
 		return "editor_module";
 	}
 
-	void editor_module::on_receive_event(const receive_sdlevent_event& event)
+	sorbengine::modules::engine_module::event_receive_result editor_module::receive_event(const SDL_Event& event)
 	{
-		ImGui_ImplSDL3_ProcessEvent(&event.event);
+		ImGui_ImplSDL3_ProcessEvent(&event);
+		const ImGuiIO& io = ImGui::GetIO();
+		if (io.WantCaptureMouse
+			&& (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN
+				|| event.type == SDL_EVENT_MOUSE_BUTTON_UP
+				|| event.type == SDL_EVENT_MOUSE_WHEEL))
+		{
+			return {.is_event_used = true, .app_result = SDL_APP_CONTINUE};
+		}
+		if ((io.WantCaptureKeyboard || io.WantTextInput)
+			&& (event.type == SDL_EVENT_KEY_UP || event.type == SDL_EVENT_KEY_DOWN))
+		{
+			return {.is_event_used = true, .app_result = SDL_APP_CONTINUE};
+		}
+		return {.is_event_used = false, .app_result = SDL_APP_CONTINUE};
 	}
 
 	void editor_module::on_update()

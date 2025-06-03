@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "../../engine_api.h"
 #include "../../smath.h"
 
 namespace sorbengine::ecs::components

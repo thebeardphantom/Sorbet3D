@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "game_instance.h"
-#include "camera_control_system.h"
 #include "spinnable.h"
 #include "spin_system.h"
 #include "../Engine/engine.h"
@@ -28,15 +27,12 @@ namespace demo_game
 		auto& dispatcher = engine::get_dispatcher();
 		dispatcher.sink<events::void_event>(quitting).connect<&game_instance::on_quitting>(this);
 
-		engine::get_module<modules::input_module>().set_fps_mode(true);
-
 		auto& asset_module = engine::get_module<modules::asset_module>();
 
 
 		// Create ECS Systems
 		auto& ecs_module = engine::get_module<modules::ecs_module>();
 		ecs_module.create_system<spin_system>();
-		ecs_module.create_system<camera_control_system>();
 
 		// Create camera entity
 		auto& registry = ecs_module.get_registry();

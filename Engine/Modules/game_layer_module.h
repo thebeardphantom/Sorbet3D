@@ -4,13 +4,11 @@
 
 namespace sorbengine::modules
 {
-	class game_layer_module : public engine_module
+	class game_layer_module final : public engine_module
 	{
 	public:
 		// Methods  
 		SDL_AppResult init() override;
-		void collaborate() override;
-		void cleanup() override;
 		void shutdown() override;
 		std::string get_name() override;
 

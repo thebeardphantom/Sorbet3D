@@ -10,8 +10,6 @@ using namespace glm;
 
 namespace demo_game::ecs::systems
 {
-	void spin_system::init() {}
-
 	void spin_system::tick(tick_args& args)
 	{
 		const auto view = args.registry.view<transform, components::spinnable>();

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "engine_instance.h"
+#include <algorithm>
 #include <SDL3/SDL_filesystem.h>
 #include "enum_strings.h"
 #include "logging.h"
@@ -26,10 +27,10 @@ namespace sorbengine
 		create_module<time_module>(false);
 		create_module<ecs_module>(false);
 		create_module<asset_module>(false);
-		create_module<input_module>(false);
 		create_module<render_module>(false);
 		create_module<game_layer_module>(false);
 		create_module<editor_layer_module>(false);
+		create_module<input_module>(false);
 
 		SDL_AppResult result = SDL_APP_CONTINUE;
 		bool check_for_inits = true;
@@ -54,6 +55,12 @@ namespace sorbengine
 			}
 		}
 
+		std::ranges::stable_sort(registered_modules_,
+			[](const auto& a, const auto& b)
+			{
+				return a.module->get_priority() < b.module->get_priority();
+			});
+
 		for (const auto& [is_external, has_called_init, module] : registered_modules_)
 		{
 			SDL_Log("== %s::collaborate ==", module->get_name().c_str());
@@ -66,6 +73,14 @@ namespace sorbengine
 
 	SDL_AppResult engine_instance::receive_event(const SDL_Event& event)
 	{
+		for (const auto& registered_module : registered_modules_)
+		{
+			auto [is_event_used, app_result] = registered_module.module->receive_event(event);
+			if (is_event_used)
+			{
+				return app_result;
+			}
+		}
 		SDL_LogTrace(SDL_LOG_CATEGORY_APPLICATION, "engine_instance::receive_event()");
 		if (event.type == SDL_EVENT_QUIT)
 		{
@@ -75,7 +90,6 @@ namespace sorbengine
 			return SDL_APP_SUCCESS;
 		}
 
-		dispatcher_->trigger<receive_sdlevent_event>(receive_sdlevent_event{event});
 		return SDL_APP_CONTINUE;
 	}
 

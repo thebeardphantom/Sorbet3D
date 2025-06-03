@@ -22,7 +22,8 @@ namespace sorbengine::ecs::components
 
 	glm::vec3 transform::get_euler_angles() const
 	{
-		return glm::eulerAngles(local_rotation_);
+		const glm::vec3 eulers = glm::eulerAngles(local_rotation_);
+		return glm::degrees(eulers);
 	}
 
 	glm::quat transform::get_local_rotation() const

@@ -1,4 +1,8 @@
 #pragma once
+#include <memory>
+#include <vector>
+#include <SDL3/SDL_loadso.h>
+#include "editor_window.h"
 #include "../Engine/Modules/engine_module.h"
 
 namespace sorbeditor
@@ -11,8 +15,22 @@ namespace sorbeditor
 		void shutdown() override;
 		std::string get_name() override;
 		event_receive_result receive_event(const SDL_Event& event) override;
+
+		template <typename T>
+		T& create_window()
+		{
+			T* window = new T();
+			const auto window_base = static_cast<editor_window*>(window);
+			windows_.emplace_back(std::unique_ptr<editor_window>(window_base));
+			return *window;
+		}
+
 	private:
-		void on_update();
+		std::vector<std::unique_ptr<editor_window>> windows_;
+		std::vector<SDL_SharedObject*> shared_objects_;
+
+		bool try_load_shared_object(const std::string& name, SDL_AppResult& app_result);
+		void on_update() const;
 		void on_render();
 	};
 }

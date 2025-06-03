@@ -21,8 +21,7 @@ namespace sorbeditor
 		auto& registry = ecs_module.get_registry();
 		const auto editor_camera_entity = registry.create();
 		registry.get_or_emplace<editor_camera>(editor_camera_entity);
-		auto& camera = registry.emplace_or_replace<sorbengine::ecs::components::camera>(editor_camera_entity);
-		camera.fov = 90.0f;
+		registry.emplace_or_replace<sorbengine::ecs::components::camera>(editor_camera_entity);
 		auto& transform = registry.emplace_or_replace<sorbengine::ecs::components::transform>(editor_camera_entity);
 		transform.local_position = {0.0f, 0.0f, -2.0f};
 	}

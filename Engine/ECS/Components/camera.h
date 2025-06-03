@@ -9,7 +9,7 @@ namespace sorbengine::ecs::components
 		float_t fov = 60.0f;
 		float_t pitch = 0.0f;
 		float_t yaw = 0.0f;
-		uint8_t priority = 0;
+		int32_t priority = 0;
 		bool is_active = false;
 		bool is_enabled = true;
 

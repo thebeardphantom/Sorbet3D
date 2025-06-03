@@ -16,7 +16,7 @@ namespace sorbengine::ecs::systems
 
 		const auto camera_tform_view = args.registry.view<components::camera, components::transform>();
 		entt::entity highest_priority_camera_entity = entt::null;
-		uint8_t highest_priority_camera_priority = 0xFF;
+		int32_t highest_priority_camera_priority = 0xFF;
 		for (const auto entity : camera_tform_view)
 		{
 			auto [camera, transform] = camera_tform_view.get<components::camera, components::transform>(entity);

@@ -20,7 +20,8 @@ namespace sorbengine::ecs::systems
 		for (const auto entity : camera_tform_view)
 		{
 			auto [camera, transform] = camera_tform_view.get<components::camera, components::transform>(entity);
-			if (camera.priority < highest_priority_camera_priority)
+			camera.is_active = false;
+			if (camera.is_enabled && camera.priority < highest_priority_camera_priority)
 			{
 				highest_priority_camera_entity = entity;
 				highest_priority_camera_priority = camera.priority;
@@ -29,10 +30,16 @@ namespace sorbengine::ecs::systems
 			transform.set_local_rotation(camera.get_pitch_yaw_rotation());
 		}
 
-		if (highest_priority_camera_entity != entt::null)
+		if (highest_priority_camera_entity == entt::null)
+		{
+			render_module.set_view(smath::identity_matrix);
+			render_module.set_projection(smath::identity_matrix);
+		}
+		else
 		{
 			auto [camera, transform] = camera_tform_view.get<components::camera, components::transform>(
 				highest_priority_camera_entity);
+			camera.is_active = true;
 			render_module.set_view(camera.get_view_matrix(transform));
 
 			const glm::mat4 projection = camera.get_perspective_matrix();

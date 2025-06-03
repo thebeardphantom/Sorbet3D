@@ -14,5 +14,6 @@ namespace sorbeditor
 	private:
 		void on_mouse_button_down(const sorbengine::events::mouse_button_down_event& evt);
 		void on_mouse_button_up(const sorbengine::events::mouse_button_up_event& evt);
+		bool has_active_editor_camera_ = false;
 	};
 }

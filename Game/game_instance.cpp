@@ -48,7 +48,7 @@ namespace demo_game
 		{
 			const auto monkey_entity = registry.create();
 			registry.emplace_or_replace<spinnable>(monkey_entity);
-			auto& [monkey_mesh] = registry.emplace_or_replace<mesh_renderer>(monkey_entity);
+			auto& [monkey_mesh] = registry.get_or_emplace<mesh_renderer>(monkey_entity);
 			monkey_mesh = monkey_mesh_asset;
 
 			auto& tform = registry.emplace_or_replace<transform>(monkey_entity);
@@ -62,7 +62,7 @@ namespace demo_game
 
 		// Create room entity
 		const auto room_entity = registry.create();
-		auto& [room_mesh] = registry.emplace_or_replace<mesh_renderer>(room_entity);
+		auto& [room_mesh] = registry.get_or_emplace<mesh_renderer>(room_entity);
 		room_mesh = asset_module.load_model("Engine/Models/debug_room.fbx");
 	}
 

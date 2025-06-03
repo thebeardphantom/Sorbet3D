@@ -22,17 +22,13 @@ namespace sorbeditor
 
 	void editor_camera_system::tick(tick_args& args)
 	{
-		const auto& input_module = sorbengine::engine::get_module<sorbengine::modules::input_module>();
-
-		if (!input_module.get_fps_mode())
-		{
-			return;
-		}
+		auto& input_module = sorbengine::engine::get_module<sorbengine::modules::input_module>();
 
 		const auto view = args.registry.view<
 			sorbengine::ecs::components::camera,
 			sorbengine::ecs::components::transform,
 			editor_camera>();
+
 		const auto mouse_velocity = input_module.get_mouse_velocity() * 0.1f;
 
 		const float speed = (input_module.get_keymod() & SDL_KMOD_SHIFT) == 0 ? 1.0f : 3.0f;
@@ -62,17 +58,30 @@ namespace sorbeditor
 			local_movement.y -= speed * static_cast<float>(args.delta_time);
 		}
 
+		has_active_editor_camera_ = false;
 		for (const auto entity : view)
 		{
 			auto [cam, tform] = view.get<
 				sorbengine::ecs::components::camera,
 				sorbengine::ecs::components::transform,
 				editor_camera>(entity);
-			cam.pitch += mouse_velocity.y;
-			cam.yaw += mouse_velocity.x;
+			if (cam.is_active)
+			{
+				has_active_editor_camera_ = true;
+			}
+			if (input_module.get_fps_mode())
+			{
+				cam.yaw += mouse_velocity.x;
+				cam.pitch += mouse_velocity.y;
 
-			const auto global_movement = tform.get_local_rotation() * local_movement;
-			tform.local_position += global_movement;
+				const auto global_movement = tform.get_local_rotation() * local_movement;
+				tform.local_position += global_movement;
+			}
+		}
+
+		if (!has_active_editor_camera_)
+		{
+			input_module.set_fps_mode(false);
 		}
 	}
 
@@ -83,7 +92,7 @@ namespace sorbeditor
 
 	void editor_camera_system::on_mouse_button_down(const sorbengine::events::mouse_button_down_event& evt)
 	{
-		if (evt.button == 3)
+		if (has_active_editor_camera_ && evt.button == 3)
 		{
 			auto& input_module = sorbengine::engine::get_module<sorbengine::modules::input_module>();
 			input_module.set_fps_mode(true);

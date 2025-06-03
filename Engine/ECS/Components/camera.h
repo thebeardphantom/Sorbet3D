@@ -10,6 +10,8 @@ namespace sorbengine::ecs::components
 		float_t pitch = 0.0f;
 		float_t yaw = 0.0f;
 		uint8_t priority = 0;
+		bool is_active = false;
+		bool is_enabled = true;
 
 		glm::mat4 get_view_matrix(const transform& tform) const;
 		glm::mat4 get_perspective_matrix() const;

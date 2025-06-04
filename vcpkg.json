@@ -3,7 +3,6 @@
     "nlohmann-json",
     "tomlplusplus",
     "entt",
-    "joltphysics",
     "sdl3",
     "glad",
     "assimp",

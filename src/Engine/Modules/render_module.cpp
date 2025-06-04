@@ -1,4 +1,3 @@
-#include "../pch.h"
 #include "render_module.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <SDL3/SDL_hints.h>

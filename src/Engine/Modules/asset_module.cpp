@@ -1,13 +1,12 @@
-#include "../pch.h"
 #include "asset_module.h"
 #include <filesystem>
 #include <assimp/cimport.h>
-#include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <assimp/scene.h>
 #include <SDL3/SDL_filesystem.h>
 
-#include "../path_utility.h"
 #include <assimp/Importer.hpp>
+#include "../path_utility.h"
 
 namespace sorbengine::modules
 {

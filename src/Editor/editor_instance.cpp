@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "editor_instance.h"
 #include <entt/entity/registry.hpp>
 #include "editor_camera.h"

@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "game_editor.h"
 #include <imgui.h>
 

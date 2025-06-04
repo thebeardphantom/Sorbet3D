@@ -1,4 +1,3 @@
-#include "../../pch.h"
 #include "transform.h"
 #include <glm/gtc/quaternion.hpp>
 #include "../../smath.h"

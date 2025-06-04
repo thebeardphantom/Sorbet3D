@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "string_utility.h"
 
 namespace sorbengine::utility::strings

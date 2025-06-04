@@ -1,4 +1,3 @@
-#include "../pch.h"
 #include "mesh_cpu.h"
 #include "mesh_gpu.h"
 

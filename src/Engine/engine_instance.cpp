@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "engine_instance.h"
 #include <algorithm>
 #include <SDL3/SDL_filesystem.h>

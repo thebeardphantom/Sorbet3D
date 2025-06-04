@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "engine_editor.h"
 #include <imgui.h>
 #include "camera_editor.h"

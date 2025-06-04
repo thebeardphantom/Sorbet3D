@@ -11,5 +11,4 @@ namespace demo_game
 	private:
 		static game_instance& get_instance();
 	};
-
 }

@@ -1,4 +1,3 @@
-#include "../../pch.h"
 #include "entity_system.h"
 
 namespace sorbengine::ecs::systems

@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "smath.h"
 
 namespace sorbengine::smath
@@ -9,6 +8,4 @@ namespace sorbengine::smath
 		projection_matrix *= glm::scale(identity_matrix, glm::vec3(1.0f, 1.0f, -1.0f));
 #endif
 	}
-
-
 }

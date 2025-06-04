@@ -1,4 +1,3 @@
-#include "../pch.h"
 #include "editor_layer_module.h"
 
 #include "config_module.h"

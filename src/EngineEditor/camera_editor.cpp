@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "camera_editor.h"
 #include <format>
 #include <imgui.h>

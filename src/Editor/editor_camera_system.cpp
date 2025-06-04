@@ -1,4 +1,4 @@
-#include "pch.h"
+
 #include "editor_camera_system.h"
 #include "editor_camera.h"
 #include "../Engine/engine.h"

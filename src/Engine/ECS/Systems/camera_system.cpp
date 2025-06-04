@@ -1,4 +1,3 @@
-#include "../../pch.h"
 #include "camera_system.h"
 #include <entt/entity/entity.hpp>
 #include <entt/entity/fwd.hpp>

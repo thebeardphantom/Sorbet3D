@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "ecs_utility.h"
 
 namespace sorbengine::utility::ecs

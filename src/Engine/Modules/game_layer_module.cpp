@@ -1,4 +1,3 @@
-#include "../pch.h"
 #include "game_layer_module.h"
 
 #include "SDL3/SDL_log.h"

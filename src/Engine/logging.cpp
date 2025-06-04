@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "logging.h"
 #include <SDL3/SDL_log.h>
 #include "engine_instance.h"
@@ -62,5 +61,4 @@ namespace sorbengine
 			}
 		}
 	}
-
 }

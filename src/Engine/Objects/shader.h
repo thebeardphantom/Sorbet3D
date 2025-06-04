@@ -1,8 +1,8 @@
 #pragma once
-#include "../engine_api.h"
+#include <string>
 #include <glad/glad.h>
 #include <SDL3/SDL_log.h>
-#include <string>
+#include "../engine_api.h"
 
 namespace sorbengine::objects
 {

@@ -1,8 +1,7 @@
-#include "pch.h"
 #include "path_utility.h"
+#include <format>
 #include <SDL3/SDL_filesystem.h>
 #include "string_utility.h"
-#include <format>
 
 namespace sorbengine::utility::path
 {

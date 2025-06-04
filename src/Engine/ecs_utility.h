@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include <SDL3/SDL_stdinc.h>
 #include <entt/entt.hpp>
+#include <SDL3/SDL_stdinc.h>
 #include "engine_api.h"
 
 namespace sorbengine::utility::ecs

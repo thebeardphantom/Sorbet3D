@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "spin_system.h"
 #include <glm/ext/quaternion_trigonometric.hpp>
 #include "spinnable.h"

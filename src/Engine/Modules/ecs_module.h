@@ -1,7 +1,7 @@
 #pragma once
-#include "../ecs/systems/entity_system.h"
-#include "engine_module.h"
 #include <SDL3/SDL_log.h>
+#include "engine_module.h"
+#include "../ecs/systems/entity_system.h"
 
 namespace sorbengine::modules
 {

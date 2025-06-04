@@ -1,4 +1,3 @@
-#include "../pch.h"
 #include "input_module.h"
 #include <SDL3/SDL_mouse.h>
 

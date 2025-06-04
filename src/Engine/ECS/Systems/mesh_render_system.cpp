@@ -1,4 +1,4 @@
-#include "../../pch.h"
+
 #include "mesh_render_system.h"
 #include "../../engine.h"
 #include "../../smath.h"

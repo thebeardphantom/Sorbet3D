@@ -17,7 +17,6 @@ namespace sorbengine::modules
 		ENGINE_API SDL_Keymod get_keymod() const;
 		ENGINE_API bool get_key_down(SDL_Scancode key) const;
 		event_receive_result receive_event(const SDL_Event& event) override;
-		int8_t get_priority() override;
 
 	private:
 		glm::vec2 mouse_velocity_ = {};

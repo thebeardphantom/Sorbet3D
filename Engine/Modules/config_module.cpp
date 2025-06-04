@@ -33,9 +33,4 @@ namespace sorbengine::modules
 	{
 		return config_[key];
 	}
-
-	int8_t config_module::get_priority()
-	{
-		return -1;
-	}
 }

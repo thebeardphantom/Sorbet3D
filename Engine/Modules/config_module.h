@@ -13,7 +13,6 @@ namespace sorbengine::modules
 		ENGINE_API const toml::table& get_config();
 
 		toml::node_view<const toml::node> operator[](const std::string& key) const noexcept;
-		int8_t get_priority() override;
 
 	private:
 		toml::table config_;

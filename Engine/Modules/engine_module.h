@@ -19,7 +19,6 @@ namespace sorbengine::modules
 		ENGINE_API virtual void collaborate();
 		ENGINE_API virtual void cleanup();
 		ENGINE_API virtual void shutdown();
-		ENGINE_API virtual int8_t get_priority();
 		ENGINE_API virtual event_receive_result receive_event(const SDL_Event& event);
 		ENGINE_API virtual std::string get_name() = 0;
 	};

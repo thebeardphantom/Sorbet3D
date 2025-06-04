@@ -13,19 +13,7 @@ namespace sorbengine::modules
 		ENGINE_API entt::registry& get_registry() const;
 
 		template <class T>
-		T& create_system()
-		{
-			auto system = std::make_unique<T>();
-			T& ref = *system;
-			const std::string& name = system->get_name();
-
-			SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Created system %s at address %p", name.c_str(), system.get());
-			SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "== Init ECS System %s ==", name.c_str());
-
-			system->init();
-			entity_systems_.push_back(std::move(system));
-			return ref;
-		}
+		T& create_system();
 
 	private:
 		std::unique_ptr<entt::registry> registry_ = std::make_unique<entt::registry>();
@@ -33,4 +21,23 @@ namespace sorbengine::modules
 
 		void on_update() const;
 	};
+
+	template <class T>
+	T& ecs_module::create_system()
+	{
+		auto system = std::make_unique<T>();
+		T& ref = *system;
+		const std::string& name = system->get_name();
+
+		SDL_LogVerbose(
+			SDL_LOG_CATEGORY_APPLICATION,
+			"Created system %s at address %p",
+			name.c_str(),
+			system.get());
+		SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "== Init ECS System %s ==", name.c_str());
+
+		system->init();
+		entity_systems_.push_back(std::move(system));
+		return ref;
+	}
 }

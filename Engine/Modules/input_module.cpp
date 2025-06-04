@@ -91,11 +91,6 @@ namespace sorbengine::modules
 		return {false, SDL_APP_CONTINUE};
 	}
 
-	int8_t input_module::get_priority()
-	{
-		return 1;
-	}
-
 	void input_module::on_update()
 	{
 		update_key_states();

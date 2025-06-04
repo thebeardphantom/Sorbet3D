@@ -39,8 +39,8 @@ namespace sorbengine
 		create_module<asset_module>(false);
 		create_module<render_module>(false);
 		create_module<game_layer_module>(false);
-		create_module<editor_layer_module>(false);
 		create_module<input_module>(false);
+		create_module<editor_layer_module>(false);
 
 		bool check_for_inits = true;
 		while (check_for_inits)
@@ -48,7 +48,7 @@ namespace sorbengine
 			check_for_inits = false;
 			for (auto& val : registered_modules_)
 			{
-				if (init_module(*val, result))
+				if (init_module(val, result))
 				{
 					if (result != SDL_APP_CONTINUE)
 					{
@@ -61,8 +61,8 @@ namespace sorbengine
 
 		for (const auto& val : registered_modules_)
 		{
-			SDL_Log("== %s::collaborate ==", val->module->get_name().c_str());
-			val->module->collaborate();
+			SDL_Log("== %s::collaborate ==", val.module->get_name().c_str());
+			val.module->collaborate();
 		}
 
 		SDL_Log("Init complete with result: %s", enum_strings::to_string(result).c_str());
@@ -86,7 +86,7 @@ namespace sorbengine
 	{
 		for (const auto& registered_module : registered_modules_)
 		{
-			auto [is_event_used, app_result] = registered_module->module->receive_event(event);
+			auto [is_event_used, app_result] = registered_module.module->receive_event(event);
 			if (is_event_used)
 			{
 				return app_result;
@@ -132,46 +132,28 @@ namespace sorbengine
 	{
 		dispatcher_->trigger<void_event>(quitting);
 		dispatcher_.reset();
-		cleanup_and_shutdown_modules(true);
-		cleanup_and_shutdown_modules(false);
-	}
-
-	void engine_instance::cleanup_and_shutdown_modules(const bool external_modules)
-	{
-		const std::string src_str = external_modules ? "external" : "internal";
-		SDL_Log("Cleaning up %s engine modules.", src_str.c_str());
-		for (const auto& rm : registered_modules_)
+		SDL_Log("Cleaning up engine modules.");
+		for (auto it = registered_modules_.rbegin(); it != registered_modules_.rend(); ++it)
 		{
-			if (rm->is_external == external_modules)
-			{
-				SDL_Log("== %s::Cleanup ==", rm->module->get_name().c_str());
-				rm->module->cleanup();
-			}
+			const auto& rm = *it;
+			SDL_Log("== %s::Cleanup ==", rm.module->get_name().c_str());
+			rm.module->cleanup();
 		}
 
-		SDL_Log("Shutting down %s engine modules.", src_str.c_str());
-		for (size_t i = 0; i < registered_modules_.size();)
+		SDL_Log("Shutting down engine modules.");
+		for (int i = static_cast<int>(registered_modules_.size()) - 1; i >= 0; i--)
 		{
 			const auto& rm = registered_modules_[i];
-			if (rm->is_external == external_modules)
-			{
-				SDL_Log("== %s::Shutdown ==", rm->module->get_name().c_str());
-				rm->module->shutdown();
-				delete_module(rm);
-			}
-			else
-			{
-				++i;
-			}
+			SDL_Log("== %s::Shutdown ==", rm.module->get_name().c_str());
+			rm.module->shutdown();
+			delete_module(rm);
 		}
 	}
 
-	void engine_instance::delete_module(const std::shared_ptr<registered_module>& rm)
+	void engine_instance::delete_module(const registered_module& rm)
 	{
-		type_index_to_registered_module_.erase(rm->type_index);
-		std::erase_if(registered_modules_, [&](const std::shared_ptr<registered_module>& other_rm)
-		{
-			return rm.get() == other_rm.get();
-		});
+		const auto index = type_index_to_index_[rm.type_index];
+		type_index_to_index_.erase(rm.type_index);
+		registered_modules_.erase(registered_modules_.begin() + index);
 	}
 }

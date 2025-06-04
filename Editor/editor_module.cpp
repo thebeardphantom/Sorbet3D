@@ -6,6 +6,7 @@
 #include <SDL3/SDL_loadso.h>
 #include <SDL3/SDL_video.h>
 #include "../Engine/engine.h"
+#include "../Engine/Modules/config_module.h"
 #include "../Engine/Modules/render_module.h"
 
 using namespace sorbengine::events;
@@ -26,18 +27,22 @@ namespace sorbeditor
 		dispatcher.sink<void_event>(update).connect<&editor_module::on_update>(this);
 		dispatcher.sink<void_event>(render).connect<&editor_module::on_render>(this);
 
-		SDL_AppResult result = SDL_APP_CONTINUE;
-		if (!try_load_shared_object("EngineEditor.dll", result))
-		{
-			return result;
-		}
-
-		try_load_shared_object("GameEditor.dll", result);
-		return result;
+		return SDL_APP_CONTINUE;
 	}
 
 	void editor_module::collaborate()
 	{
+		auto& config_module = sorbengine::engine::get_module<sorbengine::modules::config_module>();
+		auto& config = config_module.get_config();
+		const toml::array* arr = config["editor"]["editor_dlls"].as_array();
+
+		for (size_t i = 0; i < arr->size(); i++)
+		{
+			const auto element = arr->get(i);
+			auto dll_name = element->as_string()->get();
+			try_load_shared_object(dll_name);
+		}
+
 		const auto& render_module = sorbengine::engine::get_module<sorbengine::modules::render_module>();
 
 		const auto window = &render_module.get_window();
@@ -65,9 +70,7 @@ namespace sorbeditor
 		return "editor_module";
 	}
 
-	bool editor_module::try_load_shared_object(
-		const std::string& name,
-		SDL_AppResult& app_result)
+	void editor_module::try_load_shared_object(const std::string& name)
 	{
 		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Loading %s.", name.c_str());
 		const auto result = SDL_LoadObject(name.c_str());
@@ -75,7 +78,7 @@ namespace sorbeditor
 		{
 			const char* error = SDL_GetError();
 			SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Failed to load %s: %s.", name.c_str(), error);
-			return false;
+			return;
 		}
 
 		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Loading %s().", entry_point_name);
@@ -92,15 +95,13 @@ namespace sorbeditor
 				entry_point_name,
 				name.c_str(),
 				error);
-			app_result = SDL_APP_FAILURE;
-			return false;
+			return;
 		}
 
 		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Invoking %s.", entry_point_name);
 		editor_entry_point(ImGui::GetCurrentContext());
 
 		shared_objects_.push_back(result);
-		return true;
 	}
 
 	sorbengine::modules::engine_module::event_receive_result editor_module::receive_event(const SDL_Event& event)

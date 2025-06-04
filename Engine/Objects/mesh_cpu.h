@@ -19,14 +19,14 @@ namespace sorbengine::objects
 
 		std::vector<glm::vec3>& get_verts();
 		std::vector<glm::vec3>& get_normals();
-		std::vector<uint32_t>& get_indices();
+		std::vector<Uint32>& get_indices();
 		std::vector<glm::vec3>& get_colors();
 
 	private:
 		// Fields
 		std::vector<glm::vec3> verts_;
 		std::vector<glm::vec3> normals_;
-		std::vector<uint32_t> indices_;
+		std::vector<Uint32> indices_;
 		std::vector<glm::vec3> colors_;
 		std::unique_ptr<mesh_gpu> mesh_gpu_;
 	};

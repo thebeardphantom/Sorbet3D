@@ -1,0 +1,13 @@
+[display]
+width = 1280
+height = 720
+vsync = 0
+windowed = true
+borderless = false
+resizable = true
+maximized = false
+center_window = true
+
+[editor]
+enabled = true
+editor_dlls = [ "EngineEditor.dll", "GameEditor.dll" ]

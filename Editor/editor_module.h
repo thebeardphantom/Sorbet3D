@@ -29,7 +29,7 @@ namespace sorbeditor
 		std::vector<std::unique_ptr<editor_window>> windows_;
 		std::vector<SDL_SharedObject*> shared_objects_;
 
-		bool try_load_shared_object(const std::string& name, SDL_AppResult& app_result);
+		void try_load_shared_object(const std::string& name);
 		void on_update() const;
 		void on_render();
 	};

@@ -66,6 +66,8 @@
     <ClInclude Include="smath.h" />
     <ClInclude Include="Events\mouse_button_up_event.h" />
     <ClInclude Include="Events\mouse_button_down_event.h" />
+    <ClInclude Include="ecs_utility.h" />
+    <ClInclude Include="Modules\config_module.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine_instance.cpp" />
@@ -111,6 +113,8 @@
     <ClCompile Include="smath.cpp" />
     <ClCompile Include="Modules\engine_module.cpp" />
     <ClCompile Include="ECS\Systems\entity_system.cpp" />
+    <ClCompile Include="ecs_utility.cpp" />
+    <ClCompile Include="Modules\config_module.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -119,5 +123,8 @@
     <None Include="Assets\Engine\Shaders\default.frag" />
     <None Include="Assets\Engine\Shaders\normals.vert" />
     <None Include="Assets\Engine\Models\debug_room.fbx" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="engine_default.toml" />
   </ItemGroup>
 </Project>

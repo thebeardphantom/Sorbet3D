@@ -76,8 +76,8 @@ namespace sorbengine::objects
 			}
 		}
 
-		const std::vector<uint32_t> indices = mesh_cpu.get_indices();
-		for (uint32_t indice : indices)
+		const std::vector<Uint32> indices = mesh_cpu.get_indices();
+		for (Uint32 indice : indices)
 		{
 			indices_.push_back(indice);
 		}

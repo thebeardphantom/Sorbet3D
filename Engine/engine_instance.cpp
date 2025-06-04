@@ -6,6 +6,7 @@
 #include "logging.h"
 #include "Events/engine_events.h"
 #include "Modules/asset_module.h"
+#include "Modules/config_module.h"
 #include "Modules/ecs_module.h"
 #include "Modules/editor_layer_module.h"
 #include "Modules/game_layer_module.h"
@@ -21,61 +22,71 @@ namespace sorbengine
 	SDL_AppResult engine_instance::init()
 	{
 		SDL_Log("== init ==");
-		SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 		dispatcher_ = std::make_unique<entt::dispatcher>();
 
-		create_module<time_module>(false);
+		SDL_AppResult result = SDL_APP_CONTINUE;
+
+		// Init config module first and early to allow other modules to access config
+		auto& config_module = create_module_internal<modules::config_module>(false);
+		init_module(config_module, result);
+		if (result != SDL_APP_CONTINUE)
+		{
+			return result;
+		}
+
 		create_module<ecs_module>(false);
+		create_module<time_module>(false);
 		create_module<asset_module>(false);
 		create_module<render_module>(false);
 		create_module<game_layer_module>(false);
 		create_module<editor_layer_module>(false);
 		create_module<input_module>(false);
 
-		SDL_AppResult result = SDL_APP_CONTINUE;
 		bool check_for_inits = true;
 		while (check_for_inits)
 		{
 			check_for_inits = false;
-			for (auto& [is_external, has_called_init, module] : registered_modules_)
+			for (auto& val : registered_modules_)
 			{
-				if (has_called_init)
+				if (init_module(*val, result))
 				{
-					continue;
-				}
-
-				check_for_inits = true;
-				has_called_init = true;
-				SDL_Log("== %s::init ==", module->get_name().c_str());
-				result = module->init();
-				if (result != SDL_APP_CONTINUE)
-				{
-					return result;
+					if (result != SDL_APP_CONTINUE)
+					{
+						return result;
+					}
+					check_for_inits = true;
 				}
 			}
 		}
 
-		std::ranges::stable_sort(registered_modules_,
-			[](const auto& a, const auto& b)
-			{
-				return a.module->get_priority() < b.module->get_priority();
-			});
-
-		for (const auto& [is_external, has_called_init, module] : registered_modules_)
+		for (const auto& val : registered_modules_)
 		{
-			SDL_Log("== %s::collaborate ==", module->get_name().c_str());
-			module->collaborate();
+			SDL_Log("== %s::collaborate ==", val->module->get_name().c_str());
+			val->module->collaborate();
 		}
 
 		SDL_Log("Init complete with result: %s", enum_strings::to_string(result).c_str());
 		return result;
 	}
 
+	bool engine_instance::init_module(registered_module& rm, SDL_AppResult& app_result)
+	{
+		if (rm.has_called_init)
+		{
+			return false;
+		}
+
+		rm.has_called_init = true;
+		SDL_Log("== %s::init ==", rm.module->get_name().c_str());
+		app_result = rm.module->init();
+		return true;
+	}
+
 	SDL_AppResult engine_instance::receive_event(const SDL_Event& event)
 	{
 		for (const auto& registered_module : registered_modules_)
 		{
-			auto [is_event_used, app_result] = registered_module.module->receive_event(event);
+			auto [is_event_used, app_result] = registered_module->module->receive_event(event);
 			if (is_event_used)
 			{
 				return app_result;
@@ -129,28 +140,38 @@ namespace sorbengine
 	{
 		const std::string src_str = external_modules ? "external" : "internal";
 		SDL_Log("Cleaning up %s engine modules.", src_str.c_str());
-		for (const auto& [is_external, has_called_init, module] : registered_modules_)
+		for (const auto& rm : registered_modules_)
 		{
-			if (is_external == external_modules)
+			if (rm->is_external == external_modules)
 			{
-				SDL_Log("== %s::Cleanup ==", module->get_name().c_str());
-				module->cleanup();
+				SDL_Log("== %s::Cleanup ==", rm->module->get_name().c_str());
+				rm->module->cleanup();
 			}
 		}
 
 		SDL_Log("Shutting down %s engine modules.", src_str.c_str());
-		for (auto it = registered_modules_.begin(); it != registered_modules_.end();)
+		for (size_t i = 0; i < registered_modules_.size();)
 		{
-			if (it->is_external == external_modules)
+			const auto& rm = registered_modules_[i];
+			if (rm->is_external == external_modules)
 			{
-				SDL_Log("== %s::Shutdown ==", it->module->get_name().c_str());
-				it->module->shutdown();
-				it = registered_modules_.erase(it);
+				SDL_Log("== %s::Shutdown ==", rm->module->get_name().c_str());
+				rm->module->shutdown();
+				delete_module(rm);
 			}
 			else
 			{
-				++it;
+				++i;
 			}
 		}
+	}
+
+	void engine_instance::delete_module(const std::shared_ptr<registered_module>& rm)
+	{
+		type_index_to_registered_module_.erase(rm->type_index);
+		std::erase_if(registered_modules_, [&](const std::shared_ptr<registered_module>& other_rm)
+		{
+			return rm.get() == other_rm.get();
+		});
 	}
 }

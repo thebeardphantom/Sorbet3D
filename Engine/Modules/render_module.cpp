@@ -2,12 +2,18 @@
 #include "render_module.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "asset_module.h"
+#include "config_module.h"
 #include "../engine.h"
 #include "../Objects/mesh_cpu.h"
 #include "../Objects/mesh_gpu.h"
 
 namespace sorbengine::modules
 {
+	constexpr Sint32 width_default = 640;
+	constexpr Sint32 height_default = 480;
+	constexpr SDL_WindowFlags window_flags = SDL_WINDOW_OPENGL
+		| SDL_WINDOW_RESIZABLE
+		| SDL_WINDOW_HIGH_PIXEL_DENSITY;
 	uint64_t render_module::render_calls_;
 
 	Uint32 render_module::log_framerate(void* userdata, SDL_TimerID timer_id, Uint32 interval)
@@ -38,6 +44,51 @@ namespace sorbengine::modules
 		dispatcher.sink<events::key_down_event>()
 		          .connect<&render_module::on_key_down>(this);
 		return result;
+	}
+
+	void render_module::collaborate()
+	{
+		const auto& config_module = engine::get_module<modules::config_module>();
+		const auto display_section = config_module["display"];
+
+		// Width/height
+		Sint32 display_width = display_section["width"].value_or(0);
+		Sint32 display_height = display_section["height"].value_or(0);
+		if (display_width == 0 || display_height == 0)
+		{
+			const auto window_display = SDL_GetDisplayForWindow(window_);
+			const auto display_mode = SDL_GetCurrentDisplayMode(window_display);
+			display_width = display_mode->w;
+			display_height = display_mode->h;
+		}
+		SDL_SetWindowSize(window_, display_width, display_height);
+
+		const Sint32 vsync_interval = display_section["vsync"].value_or(1);
+		SDL_GL_SetSwapInterval(vsync_interval);
+
+		// Windowed
+		const bool windowed = display_section["windowed"].value_or(false);
+		SDL_SetWindowFullscreen(window_, !windowed);
+
+		if (windowed)
+		{
+			if (display_section["maximized"].value_or(false))
+			{
+				SDL_MaximizeWindow(window_);
+			}
+			else
+			{
+				SDL_RestoreWindow(window_);
+			}
+
+			const bool borderless = display_section["borderless"].value_or(false);
+			SDL_SetWindowBordered(window_, !borderless);
+
+			if (display_section["center_window"].value_or(false))
+			{
+				SDL_SetWindowPosition(window_, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+			}
+		}
 	}
 
 	void render_module::cleanup()
@@ -84,6 +135,20 @@ namespace sorbengine::modules
 		projection_ = projection;
 	}
 
+	glm::vec2 render_module::get_window_size() const
+	{
+		Sint32 width;
+		Sint32 height;
+		SDL_GetWindowSize(window_, &width, &height);
+		return {static_cast<float>(width), static_cast<float>(height)};
+	}
+
+	float_t render_module::get_window_aspect() const
+	{
+		const auto size = get_window_size();
+		return size.x / size.y;
+	}
+
 	void render_module::on_key_down(const events::key_down_event& event)
 	{
 		if (event.key == SDLK_F1)
@@ -115,8 +180,7 @@ namespace sorbengine::modules
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Creating window.");
-		window_ = SDL_CreateWindow("Sorbet 3D", 800, 600,
-			SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
+		window_ = SDL_CreateWindow("Sorbet 3D", width_default, height_default, window_flags);
 		if (window_ == nullptr)
 		{
 			SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window: %s", SDL_GetError());
@@ -155,9 +219,6 @@ namespace sorbengine::modules
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		glFrontFace(GL_CW);
-
-		SDL_GL_SetSwapInterval(-1);
-		//SDL_GL_SetSwapInterval(0);
 
 		// Create shaders
 		auto& asset_module = engine::get_module<modules::asset_module>();

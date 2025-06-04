@@ -1,10 +1,19 @@
 #include "../pch.h"
 #include "editor_layer_module.h"
 
+#include "config_module.h"
+#include "../engine.h"
+
 namespace sorbengine::modules
 {
 	SDL_AppResult editor_layer_module::init()
 	{
+		const auto& config_module = engine::get_module<modules::config_module>();
+		const auto enabled = config_module["editor"]["enabled"].value_or(false);
+		if (!enabled)
+		{
+			return SDL_APP_CONTINUE;
+		}
 		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Loading Editor.dll.");
 		editor_so_ = SDL_LoadObject("Editor.dll");
 		if (editor_so_ == nullptr)

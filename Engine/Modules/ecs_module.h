@@ -15,23 +15,16 @@ namespace sorbengine::modules
 		template <class T>
 		T& create_system()
 		{
-			T* system_ptr = new T();
+			auto system = std::make_unique<T>();
+			T& ref = *system;
+			const std::string& name = system->get_name();
 
-			const auto generic_system_ptr = static_cast<ecs::systems::entity_system*>(system_ptr);
-			const std::string& name = generic_system_ptr->get_name();
-			SDL_LogVerbose(
-				SDL_LOG_CATEGORY_APPLICATION,
-				"Created system %s at address %p",
-				name.c_str(),
-				system_ptr);
-			SDL_LogDebug(
-				SDL_LOG_CATEGORY_APPLICATION,
-				"== Init ECS System %s ==",
-				name.c_str());
-			generic_system_ptr->init();
+			SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Created system %s at address %p", name.c_str(), system.get());
+			SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "== Init ECS System %s ==", name.c_str());
 
-			entity_systems_.push_back(std::unique_ptr<ecs::systems::entity_system>(generic_system_ptr));
-			return *system_ptr;
+			system->init();
+			entity_systems_.push_back(std::move(system));
+			return ref;
 		}
 
 	private:

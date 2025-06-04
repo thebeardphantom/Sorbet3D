@@ -14,21 +14,21 @@ namespace sorbengine::modules
 		SDL_LogVerbose(
 			SDL_LOG_CATEGORY_APPLICATION,
 			"Base path: %s",
-			path_utility::get_base_path().c_str());
+			utility::path::get_base_path().c_str());
 		SDL_LogVerbose(
 			SDL_LOG_CATEGORY_APPLICATION,
 			"Current directory: %s",
-			path_utility::get_current_directory().c_str());
+			utility::path::get_current_directory().c_str());
 		SDL_LogVerbose(
 			SDL_LOG_CATEGORY_APPLICATION,
 			"Pref path: %s",
-			path_utility::get_pref_path("post.ghost", "sorbet3D").c_str());
+			utility::path::get_pref_path("post.ghost", "sorbet3D").c_str());
 		return SDL_APP_CONTINUE;
 	}
 
 	ENGINE_API std::shared_ptr<objects::shader> asset_module::load_shader(const std::string& path)
 	{
-		const std::string absolute_path = path_utility::get_absolute_asset_path(path);
+		const std::string absolute_path = utility::path::get_absolute_asset_path(path);
 		auto vert_src = load_shader_stage(absolute_path, "vert");
 		auto frag_src = load_shader_stage(absolute_path, "frag");
 		return std::make_shared<objects::shader>(vert_src, frag_src);
@@ -38,10 +38,10 @@ namespace sorbengine::modules
 		const std::string& vert_path,
 		const std::string& frag_path)
 	{
-		std::string absolute_path = path_utility::get_absolute_asset_path(vert_path);
+		std::string absolute_path = utility::path::get_absolute_asset_path(vert_path);
 		auto vert_src = load_shader_stage(absolute_path, "vert");
 
-		absolute_path = path_utility::get_absolute_asset_path(frag_path);
+		absolute_path = utility::path::get_absolute_asset_path(frag_path);
 		auto frag_src = load_shader_stage(absolute_path, "frag");
 
 		return std::make_shared<objects::shader>(vert_src, frag_src);
@@ -67,7 +67,7 @@ namespace sorbengine::modules
 
 	ENGINE_API std::shared_ptr<objects::mesh_cpu> asset_module::load_model(const std::string& path)
 	{
-		static uint32_t flags =
+		static Uint32 flags =
 			aiProcess_Triangulate
 			| aiProcess_FlipUVs
 			| aiProcess_CalcTangentSpace
@@ -76,7 +76,7 @@ namespace sorbengine::modules
 			| aiProcess_ImproveCacheLocality
 			| aiProcess_SortByPType;
 
-		const std::string absolute_path = path_utility::get_absolute_asset_path(path);
+		const std::string absolute_path = utility::path::get_absolute_asset_path(path);
 		SDL_LogVerbose(SDL_LOG_CATEGORY_CUSTOM, "Loading model from path: %s", absolute_path.c_str());
 
 		Assimp::Importer importer;

@@ -8,9 +8,9 @@ namespace sorbengine::objects
 
 	mesh_cpu::mesh_cpu(const aiMesh* ai_mesh)
 	{
-		const uint32_t vert_count = ai_mesh->mNumVertices;
+		const Uint32 vert_count = ai_mesh->mNumVertices;
 
-		for (uint32_t i = 0; i < vert_count; i++)
+		for (Uint32 i = 0; i < vert_count; i++)
 		{
 			const aiVector3D& vert = ai_mesh->mVertices[i];
 			verts_.emplace_back(vert.x, vert.y, vert.z);
@@ -57,7 +57,7 @@ namespace sorbengine::objects
 		return normals_;
 	}
 
-	std::vector<uint32_t>& mesh_cpu::get_indices()
+	std::vector<Uint32>& mesh_cpu::get_indices()
 	{
 		return indices_;
 	}

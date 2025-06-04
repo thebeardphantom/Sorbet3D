@@ -255,3 +255,22 @@ Multi-Arch: same
 Description: Make available SDL3 binding
 Status: install ok installed
 
+Package: vcpkg-tool-meson
+Version: 1.7.2
+Depends: vcpkg-cmake-get-vars
+Architecture: x64-windows
+Multi-Arch: same
+Abi: a5e1f953d2d4f2cdaf19f0d76f6810a3ae1e95dc22a8bda800df0b4d8d700f48
+Description: Meson build system
+Status: install ok installed
+
+Package: tomlplusplus
+Version: 3.4.0
+Port-Version: 1
+Depends: vcpkg-cmake-config, vcpkg-tool-meson
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 1927276564b063b4b54356d40323c430b50429fd6e16ae9580618fcc6eb99b89
+Description: Header-only TOML config file parser and serializer for modern C++.
+Status: install ok installed
+

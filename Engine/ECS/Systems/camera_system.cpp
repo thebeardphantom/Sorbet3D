@@ -16,7 +16,7 @@ namespace sorbengine::ecs::systems
 
 		const auto camera_tform_view = args.registry.view<components::camera, components::transform>();
 		entt::entity highest_priority_camera_entity = entt::null;
-		int32_t highest_priority_camera_priority = 0xFF;
+		Sint32 highest_priority_camera_priority = 0xFF;
 		for (const auto entity : camera_tform_view)
 		{
 			auto [camera, transform] = camera_tform_view.get<components::camera, components::transform>(entity);
@@ -42,7 +42,9 @@ namespace sorbengine::ecs::systems
 			camera.is_active = true;
 			render_module.set_view(camera.get_view_matrix(transform));
 
-			const glm::mat4 projection = camera.get_perspective_matrix();
+
+			float_t aspect = render_module.get_window_aspect();
+			const glm::mat4 projection = camera.get_perspective_matrix(aspect);
 			render_module.set_projection(projection);
 		}
 	}

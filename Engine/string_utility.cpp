@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "string_utility.h"
 
-namespace sorbengine
+namespace sorbengine::utility::strings
 {
-	std::string& string_utility::replace_all(std::string& str, const std::string& from, const std::string& to)
+	std::string& replace_all(std::string& str, const std::string& from, const std::string& to)
 	{
 		size_t start_pos = 0;
 		while ((start_pos = str.find(from, start_pos)) != std::string::npos)

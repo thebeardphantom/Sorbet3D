@@ -17,6 +17,7 @@ namespace sorbengine::modules
 
 		// Overridden Methods
 		SDL_AppResult init() override;
+		void collaborate() override;
 		void cleanup() override;
 		std::string get_name() override;
 
@@ -27,6 +28,8 @@ namespace sorbengine::modules
 		ENGINE_API SDL_GLContext get_context() const;
 		void set_view(const glm::mat4& view);
 		void set_projection(const glm::mat4& projection);
+		ENGINE_API glm::vec2 get_window_size() const;
+		ENGINE_API float_t get_window_aspect() const;
 
 		// Public Fields
 		bool wireframe_mode = false;

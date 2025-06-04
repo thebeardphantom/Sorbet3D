@@ -2,25 +2,28 @@
 #include "camera_editor.h"
 #include <format>
 #include <imgui.h>
-
 #include "../Editor/editor_camera.h"
+#include "../Engine/ecs_utility.h"
 #include "../Engine/engine.h"
 #include "../Engine/engine_instance.h"
+#include "../Engine/path_utility.h"
+#include "../Engine/string_utility.h"
 #include "../Engine/ECS/Components/camera.h"
 #include "../Engine/Modules/ecs_module.h"
 
+using namespace sorbengine;
 using namespace sorbengine::ecs::components;
 
 void camera_editor::draw_imgui()
 {
-	const auto& ecs_module = sorbengine::engine::get_module<sorbengine::modules::ecs_module>();
+	const auto& ecs_module = engine::get_module<modules::ecs_module>();
 	ImGui::Begin("Cameras");
 	auto& registry = ecs_module.get_registry();
 	const auto view = registry.view<camera,
 		transform>(entt::exclude<sorbeditor::editor_camera>);
 	for (const auto entity : view)
 	{
-		const auto id = static_cast<std::uint32_t>(entity);
+		const auto id = static_cast<Uint32>(entity);
 		ImGui::PushID(id);
 		auto [cam, tform] = view.get<camera, transform>(entity);
 
@@ -33,11 +36,12 @@ void camera_editor::draw_imgui()
 	const auto editor_cam_view = registry.view<camera, transform, sorbeditor::editor_camera>();
 	for (const auto entity : editor_cam_view)
 	{
-		const auto id = static_cast<std::uint32_t>(entity);
+		const auto id = utility::ecs::entity_to_int(entity);
+		const auto str = utility::ecs::entity_to_string(entity);
 		ImGui::PushID(id);
 		auto [cam, tform] = view.get<camera, transform>(entity);
 
-		ImGui::SeparatorText(std::format("Entity {}", std::to_string(id)).c_str());
+		ImGui::SeparatorText(std::format("Entity {}", str).c_str());
 		ImGui::Text("Editor Camera");
 		draw_camera_gui(cam);
 		ImGui::BeginDisabled();

@@ -1,8 +1,5 @@
 #include "engine_instance.h"
-#include <algorithm>
-#include <SDL3/SDL_filesystem.h>
 #include "enum_strings.h"
-#include "logging.h"
 #include "Events/engine_events.h"
 #include "Modules/asset_module.h"
 #include "Modules/config_module.h"
@@ -10,6 +7,7 @@
 #include "Modules/editor_layer_module.h"
 #include "Modules/game_layer_module.h"
 #include "Modules/input_module.h"
+#include "Modules/physics_module.h"
 #include "Modules/render_module.h"
 #include "Modules/time_module.h"
 
@@ -37,6 +35,7 @@ namespace sorbengine
 		create_module<time_module>(false);
 		create_module<asset_module>(false);
 		create_module<render_module>(false);
+		create_module<physics_module>(false);
 		create_module<game_layer_module>(false);
 		create_module<input_module>(false);
 		create_module<editor_layer_module>(false);

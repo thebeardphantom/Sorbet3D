@@ -1,6 +1,4 @@
 #include "camera.h"
-#include "camera.h"
-#include "camera.h"
 #include <glm/ext/quaternion_trigonometric.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include "transform.h"

@@ -1,6 +1,6 @@
 #pragma once
-#include "../../editor/src/editor_window.h"
-#include "../../engine/src/ECS/Components/camera.h"
+#include <sorbeditor/editor_window.h>
+#include <sorbengine/ecs/components/camera.h>
 
 class camera_editor final : public editor_window
 {

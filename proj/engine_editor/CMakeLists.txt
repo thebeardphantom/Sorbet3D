@@ -1,8 +1,6 @@
 file(GLOB_RECURSE ENGINE_EDITOR_SOURCES CONFIGURE_DEPENDS *.cpp *.h)
 
-add_library(EngineEditor SHARED ${ENGINE_EDITOR_SOURCES})
-
-#target_precompile_headers(EngineEditor PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:pch.h>")
+add_library(engine_editor SHARED ${ENGINE_EDITOR_SOURCES})
 
 find_package(SDL3 CONFIG REQUIRED)
 find_package(glad CONFIG REQUIRED)
@@ -11,9 +9,8 @@ find_package(imgui CONFIG REQUIRED)
 find_package(EnTT CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
-target_link_libraries(EngineEditor PRIVATE
-    Engine
-    Editor
+
+target_link_libraries(engine_editor PRIVATE
     SDL3::SDL3
     glad::glad
     assimp::assimp
@@ -21,4 +18,6 @@ target_link_libraries(EngineEditor PRIVATE
     EnTT::EnTT
     glm::glm
     nlohmann_json::nlohmann_json
+    sorbengine
+    sorbeditor
 )

@@ -1,8 +1,7 @@
 #include "engine_editor.h"
 #include <imgui.h>
 #include "camera_editor.h"
-#include "../../editor/src/editor.h"
-
+#include "sorbeditor/editor.h"
 
 extern "C" __declspec(dllexport) void editor_entry_point(ImGuiContext* context)
 {

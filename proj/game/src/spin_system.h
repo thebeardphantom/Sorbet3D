@@ -1,5 +1,5 @@
 #pragma once
-#include "../../engine/src/ECS/Systems/entity_system.h"
+#include <sorbengine/ecs/systems/entity_system.h>
 
 namespace demo_game::ecs::systems
 {

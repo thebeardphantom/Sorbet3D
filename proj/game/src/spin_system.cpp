@@ -1,7 +1,7 @@
 #include "spin_system.h"
 #include <glm/ext/quaternion_trigonometric.hpp>
+#include <sorbengine/ecs/components/transform.h>
 #include "spinnable.h"
-#include "../../engine/src/ECS/Components/transform.h"
 
 using namespace sorbengine::ecs::systems;
 using namespace sorbengine::ecs::components;

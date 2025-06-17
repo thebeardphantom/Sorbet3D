@@ -1,16 +1,15 @@
 #include "game_instance.h"
+#include <sorbengine/engine.h>
+#include <sorbengine/engine_instance.h>
+#include <sorbengine/fast_noise_lite.h>
+#include <sorbengine/ECS/Components/camera.h>
+#include <sorbengine/ECS/Components/mesh_renderer.h>
+#include <sorbengine/ECS/Components/transform.h>
+#include <sorbengine/Events/engine_events.h>
+#include <sorbengine/Modules/asset_module.h>
+#include <sorbengine/Modules/ecs_module.h>
 #include "spinnable.h"
 #include "spin_system.h"
-#include "../../engine/src/engine.h"
-#include "../../engine/src/engine_instance.h"
-#include "../../engine/src/fast_noise_lite.h"
-#include "../../engine/src/ECS/Components/camera.h"
-#include "../../engine/src/ECS/Components/mesh_renderer.h"
-#include "../../engine/src/ECS/Components/transform.h"
-#include "../../engine/src/Events/engine_events.h"
-#include "../../engine/src/Modules/asset_module.h"
-#include "../../engine/src/Modules/ecs_module.h"
-#include "../../engine/src/Modules/input_module.h"
 
 using namespace sorbengine;
 using namespace sorbengine::ecs;

@@ -1,14 +1,12 @@
 #include "camera_editor.h"
 #include <format>
 #include <imgui.h>
-#include "../../editor/src/editor_camera.h"
-#include "../../engine/src/ecs_utility.h"
-#include "../../engine/src/engine.h"
-#include "../../engine/src/engine_instance.h"
-#include "../../engine/src/path_utility.h"
-#include "../../engine/src/string_utility.h"
-#include "../../engine/src/ECS/Components/camera.h"
-#include "../../engine/src/Modules/ecs_module.h"
+#include "sorbeditor/editor_camera.h"
+#include "sorbengine/ecs_utility.h"
+#include "sorbengine/engine.h"
+#include "sorbengine/path_utility.h"
+#include "sorbengine/ecs/components/camera.h"
+#include "sorbengine/modules/ecs_module.h"
 
 using namespace sorbengine;
 using namespace sorbengine::ecs::components;

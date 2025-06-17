@@ -14,8 +14,11 @@ add_subdirectory(${ProjDirName}/game)
 add_subdirectory(${ProjDirName}/game_editor)
 add_executable(engine_app ${ProjDirName}/engine_app/src/engine_app_entry.cpp)
 
+# engine_app needs SDL3 for app entry
 find_package(SDL3 CONFIG REQUIRED)
-target_link_libraries(engine_app PRIVATE SDL3::SDL3 sorbengine)
+target_link_libraries(engine_app PRIVATE
+    SDL3::SDL3
+    sorbengine)
 
 add_custom_target(copy_sorbengine_assets ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory

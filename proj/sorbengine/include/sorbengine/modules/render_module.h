@@ -3,10 +3,10 @@
 #include <SDL3/SDL_timer.h>
 #include "asset_module.h"
 #include "engine_module.h"
-#include "../engine_api.h"
-#include "../render_command.h"
-#include "../smath.h"
-#include "../events/engine_events.h"
+#include "sorbengine/engine_api.h"
+#include "sorbengine/render_command.h"
+#include "sorbengine/smath.h"
+#include "sorbengine/events/engine_events.h"
 
 namespace sorbengine::modules
 {

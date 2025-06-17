@@ -1,8 +1,8 @@
 #pragma once
 #include <glm/vec2.hpp>
-#include "engine_module.h"
-#include "../engine_api.h"
-#include "../Events/engine_events.h"
+#include "sorbengine/modules/engine_module.h"
+#include "sorbengine/engine_api.h"
+#include "sorbengine/events/engine_events.h"
 
 namespace sorbengine::modules
 {

@@ -4,7 +4,7 @@
 #include <assimp/mesh.h>
 #include <glm/vec3.hpp>
 #include <SDL3/SDL_stdinc.h>
-#include "../engine_api.h"
+#include "sorbengine/engine_api.h"
 
 namespace sorbengine::objects
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Objects/mesh_cpu.h"
+#include "sorbengine/objects/mesh_cpu.h"
 
 namespace sorbengine::ecs::components
 {

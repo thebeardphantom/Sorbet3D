@@ -2,7 +2,7 @@
 #include <string>
 #include <glad/glad.h>
 #include <SDL3/SDL_log.h>
-#include "../engine_api.h"
+#include "sorbengine/engine_api.h"
 
 namespace sorbengine::objects
 {

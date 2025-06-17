@@ -1,7 +1,7 @@
 #pragma once
 #include <toml++/toml.hpp>
-#include "engine_module.h"
-#include "../engine_api.h"
+#include "sorbengine/engine_api.h"
+#include "sorbengine/modules/engine_module.h"
 
 namespace sorbengine::modules
 {

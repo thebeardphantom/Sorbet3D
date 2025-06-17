@@ -1,9 +1,9 @@
 #pragma once
 #include <memory>
 #include <string>
-#include "engine_module.h"
-#include "../objects/mesh_cpu.h"
-#include "../objects/shader.h"
+#include "sorbengine/modules/engine_module.h"
+#include "sorbengine/objects/mesh_cpu.h"
+#include "sorbengine/objects/shader.h"
 
 namespace sorbengine::modules
 {

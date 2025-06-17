@@ -5,8 +5,8 @@
 #include <SDL3/SDL_loadso.h>
 #include <SDL3/SDL_video.h>
 #include <sorbengine/engine.h>
-#include <sorbengine/Modules/config_module.h>
-#include <sorbengine/Modules/render_module.h>
+#include <sorbengine/modules/config_module.h>
+#include <sorbengine/modules/render_module.h>
 
 using namespace sorbengine::events;
 

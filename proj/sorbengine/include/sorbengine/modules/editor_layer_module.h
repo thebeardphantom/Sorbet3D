@@ -1,6 +1,6 @@
 #pragma once
-#include "engine_module.h"
 #include "SDL3/SDL_loadso.h"
+#include "sorbengine/modules/engine_module.h"
 
 namespace sorbengine::modules
 {

@@ -1,8 +1,8 @@
 #pragma once
 #include <entt/entity/registry.hpp>
 #include <SDL3/SDL_log.h>
-#include "engine_module.h"
 #include "sorbengine/ecs/systems/entity_system.h"
+#include "sorbengine/modules/engine_module.h"
 
 namespace sorbengine::modules
 {
@@ -36,7 +36,7 @@ namespace sorbengine::modules
 			"Created system %s at address %p",
 			name.c_str(),
 			system.get());
-		SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "== Init ECS System %s ==", name.c_str());
+		SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "== Init ecs System %s ==", name.c_str());
 
 		system->init();
 		entity_systems_.push_back(std::move(system));

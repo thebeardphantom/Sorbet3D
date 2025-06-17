@@ -1,7 +1,6 @@
 #pragma once
-#include <glm/fwd.hpp>
 #include <SDL3/SDL_stdinc.h>
-#include "transform.h"
+#include "sorbengine/ecs/components/transform.h"
 
 namespace sorbengine::ecs::components
 {

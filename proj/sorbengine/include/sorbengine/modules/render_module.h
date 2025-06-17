@@ -6,7 +6,7 @@
 #include "../engine_api.h"
 #include "../render_command.h"
 #include "../smath.h"
-#include "../Events/engine_events.h"
+#include "../events/engine_events.h"
 
 namespace sorbengine::modules
 {

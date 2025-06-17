@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <SDL3/SDL_init.h>
-#include "../engine_api.h"
+#include "sorbengine/engine_api.h"
 
 namespace sorbengine::modules
 {

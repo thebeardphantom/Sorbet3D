@@ -1,7 +1,7 @@
 #include "sorbengine/modules/ecs_module.h"
-#include "../ECS/Systems/camera_system.h"
-#include "../ECS/Systems/mesh_render_system.h"
 #include "sorbengine/engine.h"
+#include "sorbengine/ecs/systems/camera_system.h"
+#include "sorbengine/ecs/systems/mesh_render_system.h"
 #include "sorbengine/events/engine_events.h"
 #include "sorbengine/modules/time_module.h"
 

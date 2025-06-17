@@ -1,7 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "../../engine_api.h"
-#include "../../smath.h"
+#include "sorbengine/engine_api.h"
+#include "sorbengine/smath.h"
 
 namespace sorbengine::ecs::components
 {

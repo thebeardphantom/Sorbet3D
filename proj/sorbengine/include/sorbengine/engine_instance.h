@@ -6,7 +6,7 @@
 #include <vector>
 #include <entt/entt.hpp>
 #include <SDL3/SDL_init.h>
-#include "Modules/engine_module.h"
+#include "sorbengine/modules/engine_module.h"
 
 namespace sorbengine
 {

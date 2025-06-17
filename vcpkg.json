@@ -7,6 +7,7 @@
     "glad",
     "assimp",
     "glm",
+    "cereal",
     {
       "name": "imgui",
       "features": [

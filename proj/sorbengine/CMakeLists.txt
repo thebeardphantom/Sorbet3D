@@ -12,7 +12,7 @@ find_package(imgui CONFIG REQUIRED)
 find_package(EnTT CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
-
+find_package(cereal CONFIG REQUIRED)
 
 target_link_libraries(sorbengine PRIVATE
     SDL3::SDL3
@@ -22,4 +22,5 @@ target_link_libraries(sorbengine PRIVATE
     EnTT::EnTT
     glm::glm
     nlohmann_json::nlohmann_json
+    cereal::cereal
 )

@@ -18,7 +18,7 @@ namespace sorbengine::modules
 
 	Uint32 render_module::log_framerate(void* userdata, SDL_TimerID timer_id, Uint32 interval)
 	{
-		SDL_Log("FPS: %llu", render_calls_);
+		// SDL_Log("FPS: %llu", render_calls_);
 		render_calls_ = 0;
 		return 1000;
 	}

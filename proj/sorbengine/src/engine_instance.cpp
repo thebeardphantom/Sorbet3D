@@ -1,3 +1,5 @@
+#include <ranges>
+
 #include "sorbengine/engine_instance.h"
 #include "sorbengine/enum_strings.h"
 #include "sorbengine/events/engine_events.h"
@@ -128,12 +130,31 @@ namespace sorbengine
 
 	void engine_instance::cleanup_and_shutdown()
 	{
+		{
+			cereal::JSONOutputArchive archive(std::cout);
+			// TODO: Fix
+			// for (auto& registered_module : registered_modules_)
+			// {
+			// 	auto& module_ptr = registered_module.module;
+			// 	if (auto* s = dynamic_cast<serializable*>(module_ptr.get()))
+			// 	{
+			// 		archive(cereal::make_nvp(module_ptr->get_name(),
+			// 			cereal::base_class<serializable>(s)));
+			// 	}
+			// }
+			auto& ecs_module = get_module<modules::ecs_module>();
+			archive(
+				cereal::make_nvp(ecs_module.get_name(),
+					ecs_module));
+			std::cout.flush();
+		}
+
+
 		dispatcher_->trigger<void_event>(quitting);
 		dispatcher_.reset();
 		SDL_Log("Cleaning up engine modules.");
-		for (auto it = registered_modules_.rbegin(); it != registered_modules_.rend(); ++it)
+		for (const auto& rm : std::ranges::reverse_view(registered_modules_))
 		{
-			const auto& rm = *it;
 			SDL_Log("== %s::Cleanup ==", rm.module->get_name().c_str());
 			rm.module->cleanup();
 		}

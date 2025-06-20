@@ -71,7 +71,7 @@ void camera_editor::draw_transform_gui(transform& tform)
 	tform.local_position.z = v[2];
 
 	ImGui::BeginDisabled();
-	const auto euler = tform.get_euler_angles();
+	const auto euler = tform.get_local_euler_angles();
 	v[0] = euler.x;
 	v[1] = euler.y;
 	v[2] = euler.z;

@@ -8,6 +8,6 @@ public:
 	void draw_imgui() override;
 
 private:
-	static void draw_camera_gui(sorbengine::ecs::components::camera& cam);
-	static void draw_transform_gui(sorbengine::ecs::components::transform& tform);
+	static void draw_camera_gui(sorbengine::ecs::camera& cam);
+	static void draw_transform_gui(sorbengine::ecs::transform& tform);
 };

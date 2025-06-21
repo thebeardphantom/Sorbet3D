@@ -1,4 +1,6 @@
 #include "sorbengine/modules/ecs_module.h"
+#include "cereal/archives/json.hpp"
+#include "cereal/archives/xml.hpp"
 #include "sorbengine/engine.h"
 #include "sorbengine/ecs/components/camera.h"
 #include "sorbengine/ecs/systems/camera_system.h"
@@ -7,7 +9,7 @@
 #include "sorbengine/modules/time_module.h"
 
 using namespace sorbengine::events;
-using namespace sorbengine::ecs::systems;
+using namespace sorbengine::ecs;
 
 namespace sorbengine::modules
 {
@@ -17,8 +19,15 @@ namespace sorbengine::modules
 		dispatcher.sink<void_event>(update).connect<&ecs_module::on_update>(this);
 		create_system<mesh_render_system>();
 		create_system<camera_system>();
-		register_serializable_type<ecs::components::camera>();
-		register_serializable_type<ecs::components::transform>();
+		{
+			transform tform;
+			cereal::XMLOutputArchive xml(std::cout);
+			cereal::JSONOutputArchive json(std::cout);
+			auto nvp = utility::get_obj_nvp<transform>(tform);
+			xml(nvp);
+			json(nvp);
+		}
+		std::cout.flush();
 		return SDL_APP_CONTINUE;
 	}
 

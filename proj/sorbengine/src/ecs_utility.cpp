@@ -1,6 +1,6 @@
 #include "sorbengine/ecs_utility.h"
 
-namespace sorbengine::utility::ecs
+namespace sorbengine::utility
 {
 	Uint32 entity_to_uint(entt::entity entity)
 	{

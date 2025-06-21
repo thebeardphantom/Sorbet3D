@@ -1,12 +1,12 @@
 #pragma once
 #include <cereal/cereal.hpp>
 #include <SDL3/SDL_stdinc.h>
-#include "sorbengine/serializable.h"
+#include "sorbengine/reflectable.h"
 #include "sorbengine/ecs/components/transform.h"
 
-namespace sorbengine::ecs::components
+namespace sorbengine::ecs
 {
-	struct camera final : serializable
+	struct camera final
 	{
 		float_t fov = 60.0f;
 		float_t pitch = 0.0f;

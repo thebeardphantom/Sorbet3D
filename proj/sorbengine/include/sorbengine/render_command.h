@@ -9,7 +9,7 @@ namespace sorbengine
 	{
 		std::weak_ptr<objects::mesh_cpu> mesh;
 
-		glm::mat4 model_matrix = smath::identity_matrix;
+		glm::mat4 model_matrix = utility::identity_matrix;
 
 		explicit render_command(const std::shared_ptr<objects::mesh_cpu>& mesh_shared_ptr)
 		{

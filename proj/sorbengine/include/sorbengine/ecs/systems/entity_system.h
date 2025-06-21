@@ -3,7 +3,7 @@
 #include <entt/entt.hpp>
 #include "sorbengine/engine_api.h"
 
-namespace sorbengine::ecs::systems
+namespace sorbengine::ecs
 {
 	class entity_system
 	{

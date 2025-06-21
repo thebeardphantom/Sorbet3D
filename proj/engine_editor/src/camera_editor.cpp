@@ -4,12 +4,11 @@
 #include "sorbeditor/editor_camera.h"
 #include "sorbengine/ecs_utility.h"
 #include "sorbengine/engine.h"
-#include "sorbengine/path_utility.h"
 #include "sorbengine/ecs/components/camera.h"
 #include "sorbengine/modules/ecs_module.h"
 
 using namespace sorbengine;
-using namespace sorbengine::ecs::components;
+using namespace sorbengine::ecs;
 
 void camera_editor::draw_imgui()
 {
@@ -33,8 +32,8 @@ void camera_editor::draw_imgui()
 	const auto editor_cam_view = registry.view<camera, transform, sorbeditor::editor_camera>();
 	for (const auto entity : editor_cam_view)
 	{
-		const auto id = utility::ecs::entity_to_int(entity);
-		const auto str = utility::ecs::entity_to_string(entity);
+		const auto id = utility::entity_to_int(entity);
+		const auto str = utility::entity_to_string(entity);
 		ImGui::PushID(id);
 		auto [cam, tform] = view.get<camera, transform>(entity);
 

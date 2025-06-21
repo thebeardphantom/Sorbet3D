@@ -7,7 +7,7 @@
 
 #define SORBET_FLIP_Z
 
-namespace sorbengine::smath
+namespace sorbengine::utility
 {
 	ENGINE_API void apply_projection_matrix_scaling(glm::mat4& projection_matrix);
 

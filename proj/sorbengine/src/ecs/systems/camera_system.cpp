@@ -7,18 +7,18 @@
 #include "sorbengine/ecs/components/transform.h"
 #include "sorbengine/modules/render_module.h"
 
-namespace sorbengine::ecs::systems
+namespace sorbengine::ecs
 {
 	void camera_system::tick(tick_args& args)
 	{
 		auto& render_module = engine::get_module<modules::render_module>();
 
-		const auto camera_tform_view = args.registry.view<components::camera, components::transform>();
+		const auto camera_tform_view = args.registry.view<camera, transform>();
 		entt::entity highest_priority_camera_entity = entt::null;
 		Sint32 highest_priority_camera_priority = 0xFF;
 		for (const auto entity : camera_tform_view)
 		{
-			auto [camera, transform] = camera_tform_view.get<components::camera, components::transform>(entity);
+			auto [camera, transform] = camera_tform_view.get<ecs::camera, ecs::transform>(entity);
 			camera.is_active = false;
 			if (camera.is_enabled && camera.priority < highest_priority_camera_priority)
 			{
@@ -31,12 +31,12 @@ namespace sorbengine::ecs::systems
 
 		if (highest_priority_camera_entity == entt::null)
 		{
-			render_module.set_view(smath::identity_matrix);
-			render_module.set_projection(smath::identity_matrix);
+			render_module.set_view(utility::identity_matrix);
+			render_module.set_projection(utility::identity_matrix);
 		}
 		else
 		{
-			auto [camera, transform] = camera_tform_view.get<components::camera, components::transform>(
+			auto [camera, transform] = camera_tform_view.get<ecs::camera, ecs::transform>(
 				highest_priority_camera_entity);
 			camera.is_active = true;
 			render_module.set_view(camera.get_view_matrix(transform));

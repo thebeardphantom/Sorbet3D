@@ -13,7 +13,7 @@ namespace sorbengine::modules
 
 	SDL_AppResult config_module::init()
 	{
-		const auto path = utility::path::get_absolute_path("engine_default.toml");
+		const auto path = utility::get_absolute_path("engine_default.toml");
 		size_t bytes_read = 0;
 		void* const file_data = SDL_LoadFile(path.c_str(), &bytes_read);
 		const std::string file_str(static_cast<const char*>(file_data), bytes_read);

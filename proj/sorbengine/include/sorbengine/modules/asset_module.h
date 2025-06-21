@@ -18,7 +18,6 @@ namespace sorbengine::modules
 		ENGINE_API std::shared_ptr<objects::mesh_cpu> load_model(const std::string& path);
 
 	private:
-		static std::string get_file_ext(const std::string& path);
 		static std::string load_shader_stage(const std::string& path, const std::string& ext);
 	};
 }

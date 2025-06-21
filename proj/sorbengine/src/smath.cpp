@@ -1,6 +1,6 @@
 #include "sorbengine/smath.h"
 
-namespace sorbengine::smath
+namespace sorbengine::utility
 {
 	void apply_projection_matrix_scaling(glm::mat4& projection_matrix)
 	{

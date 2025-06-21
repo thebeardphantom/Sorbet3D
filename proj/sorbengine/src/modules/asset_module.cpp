@@ -14,21 +14,21 @@ namespace sorbengine::modules
 		SDL_LogVerbose(
 			SDL_LOG_CATEGORY_APPLICATION,
 			"Base path: %s",
-			utility::path::get_base_path().c_str());
+			utility::get_base_path().c_str());
 		SDL_LogVerbose(
 			SDL_LOG_CATEGORY_APPLICATION,
 			"Current directory: %s",
-			utility::path::get_current_directory().c_str());
+			utility::get_current_directory().c_str());
 		SDL_LogVerbose(
 			SDL_LOG_CATEGORY_APPLICATION,
 			"Pref path: %s",
-			utility::path::get_pref_path("post.ghost", "sorbet3D").c_str());
+			utility::get_pref_path("post.ghost", "sorbet3D").c_str());
 		return SDL_APP_CONTINUE;
 	}
 
 	std::shared_ptr<objects::shader> asset_module::load_shader(const std::string& path)
 	{
-		const std::string absolute_path = utility::path::get_absolute_asset_path(path);
+		const std::string absolute_path = utility::get_absolute_asset_path(path);
 		auto vert_src = load_shader_stage(absolute_path, "vert");
 		auto frag_src = load_shader_stage(absolute_path, "frag");
 		return std::make_shared<objects::shader>(vert_src, frag_src);
@@ -38,10 +38,10 @@ namespace sorbengine::modules
 		const std::string& vert_path,
 		const std::string& frag_path)
 	{
-		std::string absolute_path = utility::path::get_absolute_asset_path(vert_path);
+		std::string absolute_path = utility::get_absolute_asset_path(vert_path);
 		auto vert_src = load_shader_stage(absolute_path, "vert");
 
-		absolute_path = utility::path::get_absolute_asset_path(frag_path);
+		absolute_path = utility::get_absolute_asset_path(frag_path);
 		auto frag_src = load_shader_stage(absolute_path, "frag");
 
 		return std::make_shared<objects::shader>(vert_src, frag_src);
@@ -76,14 +76,14 @@ namespace sorbengine::modules
 			| aiProcess_ImproveCacheLocality
 			| aiProcess_SortByPType;
 
-		const std::string absolute_path = utility::path::get_absolute_asset_path(path);
+		const std::string absolute_path = utility::get_absolute_asset_path(path);
 		SDL_LogVerbose(SDL_LOG_CATEGORY_CUSTOM, "Loading model from path: %s", absolute_path.c_str());
 
 		Assimp::Importer importer;
 		size_t data_size;
 		void* data = SDL_LoadFile(absolute_path.c_str(), &data_size);
 
-		const auto ext = get_file_ext(absolute_path);
+		const auto ext = utility::get_file_ext(absolute_path);
 		const auto scene = importer.ReadFileFromMemory(data, data_size, flags, ext.c_str());
 		SDL_free(data);
 		if (scene == nullptr)
@@ -97,12 +97,6 @@ namespace sorbengine::modules
 		}
 
 		return std::make_shared<objects::mesh_cpu>(scene->mMeshes[0]);
-	}
-
-	std::string asset_module::get_file_ext(const std::string& path)
-	{
-		const std::filesystem::path fs_path = path;
-		return fs_path.extension().string();
 	}
 
 	std::string asset_module::get_name()

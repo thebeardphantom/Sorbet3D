@@ -1,7 +1,7 @@
 #pragma once
 #include <corecrt_math.h>
 
-namespace demo_game::ecs::components
+namespace demo_game::ecs
 {
 	struct spinnable
 	{

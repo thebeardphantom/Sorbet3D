@@ -13,9 +13,9 @@
 
 using namespace sorbengine;
 using namespace sorbengine::ecs;
-using namespace sorbengine::ecs::components;
-using namespace demo_game::ecs::components;
-using namespace demo_game::ecs::systems;
+using namespace sorbengine::ecs;
+using namespace demo_game::ecs;
+using namespace demo_game::ecs;
 
 namespace demo_game
 {

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "key_down_event.h"
-#include "key_up_event.h"
-#include "mouse_button_down_event.h"
-#include "mouse_button_up_event.h"
-#include "receive_sdlevent_event.h"
-#include "void_event.h"
-#include "void_events.h"
+#include "sorbengine/events/key_down_event.h"
+#include "sorbengine/events/key_up_event.h"
+#include "sorbengine/events/mouse_button_down_event.h"
+#include "sorbengine/events/mouse_button_up_event.h"
+#include "sorbengine/events/receive_sdlevent_event.h"
+#include "sorbengine/events/void_event.h"
+#include "sorbengine/events/void_events.h"

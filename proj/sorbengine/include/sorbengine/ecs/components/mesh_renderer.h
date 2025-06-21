@@ -1,7 +1,7 @@
 #pragma once
 #include "sorbengine/objects/mesh_cpu.h"
 
-namespace sorbengine::ecs::components
+namespace sorbengine::ecs
 {
 	struct mesh_renderer
 	{

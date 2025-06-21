@@ -52,7 +52,7 @@ namespace sorbengine::modules
 		SDL_GLContext gl_context_ = nullptr;
 		std::shared_ptr<objects::shader> default_shader_ = nullptr;
 		std::shared_ptr<objects::shader> normals_shader_ = nullptr;
-		glm::mat4 view_ = smath::identity_matrix;
-		glm::mat4 projection_ = smath::identity_matrix;
+		glm::mat4 view_ = utility::identity_matrix;
+		glm::mat4 projection_ = utility::identity_matrix;
 	};
 }

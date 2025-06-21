@@ -2,7 +2,7 @@
 #include <string>
 #include "engine_api.h"
 
-namespace sorbengine::utility::strings
+namespace sorbengine::utility
 {
-	std::string& replace_all(std::string& str, const std::string& from, const std::string& to);
+	ENGINE_API std::string& replace_all(std::string& str, const std::string& from, const std::string& to);
 }

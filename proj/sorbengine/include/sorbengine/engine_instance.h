@@ -20,7 +20,6 @@ namespace sorbengine
 			std::type_index type_index = typeid(void);
 		};
 
-		// Private Fields
 		std::vector<registered_module> registered_modules_;
 		std::unordered_map<std::type_index, size_t> type_index_to_index_;
 
@@ -35,9 +34,8 @@ namespace sorbengine
 
 		void delete_module(const registered_module& rm);
 
-		// Private Methods
 		SDL_AppResult init();
-		bool init_module(registered_module& rm, SDL_AppResult& app_result);
+		static bool init_module(registered_module& rm, SDL_AppResult& app_result);
 		SDL_AppResult receive_event(const SDL_Event& event);
 		SDL_AppResult iterate();
 		void update() const;

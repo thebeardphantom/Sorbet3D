@@ -1,13 +1,15 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "cereal/cereal.hpp"
+#include "cereal/archives/json.hpp"
 #include "sorbengine/engine_api.h"
-#include "sorbengine/serializable.h"
+#include "sorbengine/reflectable.h"
+#include "sorbengine/serialize_utility.h"
 #include "sorbengine/smath.h"
 
-namespace sorbengine::ecs::components
+namespace sorbengine::ecs
 {
-	struct transform final : serializable
+	struct transform final
 	{
 		glm::vec3 local_position = {};
 
@@ -24,14 +26,14 @@ namespace sorbengine::ecs::components
 		void serialize(Archive& ar);
 
 	private:
-		glm::quat local_rotation_ = smath::identity_quaternion;
+		glm::quat local_rotation_ = utility::identity_quaternion;
 	};
 
 	template <class Archive>
 	void transform::serialize(Archive& ar)
 	{
-		ar(CEREAL_NVP(local_position.x), CEREAL_NVP(local_position.y), CEREAL_NVP(local_position.z));
 		auto local_eulers = get_local_euler_angles();
+		ar(CEREAL_NVP(local_position.x), CEREAL_NVP(local_position.y), CEREAL_NVP(local_position.z));
 		ar(CEREAL_NVP(local_eulers.x), CEREAL_NVP(local_eulers.y), CEREAL_NVP(local_eulers.z));
 	}
 }

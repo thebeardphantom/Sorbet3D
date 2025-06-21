@@ -5,28 +5,28 @@
 #include "sorbengine/ecs/components/transform.h"
 #include "sorbengine/modules/render_module.h"
 
-namespace sorbengine::ecs::systems
+namespace sorbengine::ecs
 {
 	void mesh_render_system::tick(tick_args& args)
 	{
 		auto& module = engine::get_module<modules::render_module>();
 
-		const auto no_transform_view = args.registry.view<components::mesh_renderer>(
-			entt::exclude<components::transform>);
+		const auto no_transform_view = args.registry.view<mesh_renderer>(
+			entt::exclude<transform>);
 		for (const auto entity : no_transform_view)
 		{
-			auto& [mesh] = no_transform_view.get<components::mesh_renderer>(entity);
+			auto& [mesh] = no_transform_view.get<mesh_renderer>(entity);
 			render_command cmd(mesh);
-			cmd.model_matrix = smath::identity_matrix;
+			cmd.model_matrix = utility::identity_matrix;
 			module.submit(cmd);
 		}
 
-		const auto renderer_and_transform_view = args.registry.view<components::mesh_renderer, components::transform>();
+		const auto renderer_and_transform_view = args.registry.view<mesh_renderer, transform>();
 		for (const auto entity : renderer_and_transform_view)
 		{
 			auto [mesh_renderer, transform] = renderer_and_transform_view.get<
-				components::mesh_renderer,
-				components::transform>(entity);
+				ecs::mesh_renderer,
+				ecs::transform>(entity);
 			render_command cmd(mesh_renderer.mesh);
 			cmd.model_matrix = transform.get_trs_matrix();
 			module.submit(cmd);

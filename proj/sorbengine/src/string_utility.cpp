@@ -1,6 +1,6 @@
 #include "sorbengine/string_utility.h"
 
-namespace sorbengine::utility::strings
+namespace sorbengine::utility
 {
 	std::string& replace_all(std::string& str, const std::string& from, const std::string& to)
 	{

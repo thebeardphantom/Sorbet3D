@@ -24,8 +24,8 @@ namespace sorbeditor
 		auto& input_module = sorbengine::engine::get_module<sorbengine::modules::input_module>();
 
 		const auto view = args.registry.view<
-			sorbengine::ecs::components::camera,
-			sorbengine::ecs::components::transform,
+			sorbengine::ecs::camera,
+			sorbengine::ecs::transform,
 			editor_camera>();
 
 		const auto mouse_velocity = input_module.get_mouse_velocity() * 0.1f;
@@ -61,8 +61,8 @@ namespace sorbeditor
 		for (const auto entity : view)
 		{
 			auto [cam, tform] = view.get<
-				sorbengine::ecs::components::camera,
-				sorbengine::ecs::components::transform,
+				sorbengine::ecs::camera,
+				sorbengine::ecs::transform,
 				editor_camera>(entity);
 			if (cam.is_active)
 			{

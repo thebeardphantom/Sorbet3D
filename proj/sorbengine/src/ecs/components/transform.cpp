@@ -1,22 +1,23 @@
+#include <cereal/access.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <sorbengine/smath.h>
 #include <sorbengine/ecs/components/transform.h>
 
-namespace sorbengine::ecs::components
+namespace sorbengine::ecs
 {
 	glm::vec3 transform::get_forward() const
 	{
-		return local_rotation_ * smath::forward;
+		return local_rotation_ * utility::forward;
 	}
 
 	glm::vec3 transform::get_up() const
 	{
-		return local_rotation_ * smath::up;
+		return local_rotation_ * utility::up;
 	}
 
 	glm::vec3 transform::get_right() const
 	{
-		return local_rotation_ * smath::right;
+		return local_rotation_ * utility::right;
 	}
 
 	glm::vec3 transform::get_local_euler_angles() const
@@ -42,7 +43,7 @@ namespace sorbengine::ecs::components
 
 	glm::mat4 transform::get_trs_matrix() const
 	{
-		const glm::mat4 translation_matrix = glm::translate(smath::identity_matrix, local_position);
+		const glm::mat4 translation_matrix = glm::translate(utility::identity_matrix, local_position);
 		const glm::mat<4, 4, float> rotation_matrix = mat4_cast(local_rotation_);
 		return translation_matrix * rotation_matrix;
 	}

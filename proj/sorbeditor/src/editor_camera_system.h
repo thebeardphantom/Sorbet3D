@@ -4,7 +4,7 @@
 
 namespace sorbeditor
 {
-	class editor_camera_system final : public sorbengine::ecs::systems::entity_system
+	class editor_camera_system final : public sorbengine::ecs::entity_system
 	{
 	public:
 		void init() override;

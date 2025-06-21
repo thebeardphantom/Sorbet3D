@@ -1,6 +1,6 @@
 #include "sorbengine/ecs/systems/entity_system.h"
 
-namespace sorbengine::ecs::systems
+namespace sorbengine::ecs
 {
 	void entity_system::init() {}
 

@@ -2,5 +2,5 @@
 
 namespace sorbengine::events
 {
-	class void_event {};
+	struct void_event {};
 }

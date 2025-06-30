@@ -6,11 +6,6 @@
 
 namespace sorbengine::modules
 {
-	std::string config_module::get_name()
-	{
-		return "config_module";
-	}
-
 	SDL_AppResult config_module::init()
 	{
 		const auto path = utility::get_absolute_path("engine_default.toml");

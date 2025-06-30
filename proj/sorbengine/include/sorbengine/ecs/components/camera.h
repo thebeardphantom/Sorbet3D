@@ -6,7 +6,7 @@
 
 namespace sorbengine::ecs
 {
-	struct camera final
+	struct camera
 	{
 		float_t fov = 60.0f;
 		float_t pitch = 0.0f;

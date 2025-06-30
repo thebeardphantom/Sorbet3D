@@ -4,6 +4,7 @@
 #include <entt/entity/registry.hpp>
 #include <SDL3/SDL_log.h>
 #include "sorbengine/ecs_utility.h"
+#include "sorbengine/reflectable.h"
 #include "sorbengine/ecs/systems/entity_system.h"
 #include "sorbengine/modules/engine_module.h"
 
@@ -14,7 +15,7 @@ namespace sorbengine::modules
 	public:
 		SDL_AppResult init() override;
 		void cleanup() override;
-		std::string get_name() override;
+		
 		ENGINE_API entt::registry& get_registry() const;
 
 		template <class T>
@@ -32,7 +33,7 @@ namespace sorbengine::modules
 	{
 		auto system = std::make_unique<T>();
 		T& ref = *system;
-		const std::string& name = system->get_name();
+		const std::string& name = utility::get_name(ref);
 
 		SDL_LogVerbose(
 			SDL_LOG_CATEGORY_APPLICATION,

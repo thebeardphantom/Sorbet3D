@@ -19,15 +19,6 @@ namespace sorbengine::modules
 		dispatcher.sink<void_event>(update).connect<&ecs_module::on_update>(this);
 		create_system<mesh_render_system>();
 		create_system<camera_system>();
-		{
-			transform tform;
-			cereal::XMLOutputArchive xml(std::cout);
-			cereal::JSONOutputArchive json(std::cout);
-			auto nvp = utility::get_obj_nvp<transform>(tform);
-			xml(nvp);
-			json(nvp);
-		}
-		std::cout.flush();
 		return SDL_APP_CONTINUE;
 	}
 
@@ -35,11 +26,6 @@ namespace sorbengine::modules
 	{
 		registry_.reset();
 		entity_systems_.clear();
-	}
-
-	std::string ecs_module::get_name()
-	{
-		return "ecs_module";
 	}
 
 	void ecs_module::on_update() const

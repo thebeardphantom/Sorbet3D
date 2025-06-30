@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <SDL3/SDL_init.h>
+
+#include "SDL3/SDL_events.h"
 #include "sorbengine/engine_api.h"
 
 namespace sorbengine::modules
@@ -20,6 +22,5 @@ namespace sorbengine::modules
 		ENGINE_API virtual void cleanup();
 		ENGINE_API virtual void shutdown();
 		ENGINE_API virtual event_receive_result receive_event(const SDL_Event& event);
-		ENGINE_API virtual std::string get_name() = 0;
 	};
 }

@@ -137,11 +137,6 @@ namespace sorbeditor
 		ImGui::DestroyContext();
 	}
 
-	std::string editor_module::get_name()
-	{
-		return "editor_module";
-	}
-
 	void editor_module::try_load_shared_object(const std::string& name)
 	{
 		SDL_LogVerbose(SDL_LOG_CATEGORY_APPLICATION, "Loading %s.", name.c_str());

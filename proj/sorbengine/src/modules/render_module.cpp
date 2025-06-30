@@ -1,6 +1,8 @@
 #include "sorbengine/modules/render_module.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <SDL3/SDL_hints.h>
+
+#include "SDL3/SDL_video.h"
 #include "sorbengine/engine.h"
 #include "sorbengine/modules/asset_module.h"
 #include "sorbengine/modules/config_module.h"
@@ -118,11 +120,6 @@ namespace sorbengine::modules
 	SDL_GLContext render_module::get_context() const
 	{
 		return gl_context_;
-	}
-
-	std::string render_module::get_name()
-	{
-		return "render_module";
 	}
 
 	void render_module::set_view(const glm::mat4& view)

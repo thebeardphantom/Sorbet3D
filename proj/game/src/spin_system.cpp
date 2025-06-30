@@ -22,9 +22,4 @@ namespace demo_game::ecs
 			transform.set_local_rotation(transform.get_local_rotation() * spin);
 		}
 	}
-
-	std::string spin_system::get_name()
-	{
-		return "spin_system";
-	}
 }

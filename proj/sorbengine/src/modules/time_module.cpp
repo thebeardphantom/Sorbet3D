@@ -19,11 +19,6 @@ namespace sorbengine::modules
 		return SDL_APP_CONTINUE;
 	}
 
-	std::string time_module::get_name()
-	{
-		return "time_module";
-	}
-
 	void time_module::on_update()
 	{
 		const uint64_t ticks_ns = SDL_GetTicksNS();

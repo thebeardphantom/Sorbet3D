@@ -18,7 +18,6 @@ namespace sorbengine::ecs
 
 		ENGINE_API virtual void init();
 		ENGINE_API virtual void tick(tick_args& args);
-		ENGINE_API virtual std::string get_name() = 0;
 
 		bool enabled = true;
 	};

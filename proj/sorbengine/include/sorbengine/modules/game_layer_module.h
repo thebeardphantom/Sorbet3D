@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL3/SDL_loadso.h>
+#include "sorbengine/reflectable.h"
 #include "sorbengine/modules/engine_module.h"
 
 namespace sorbengine::modules
@@ -10,7 +11,7 @@ namespace sorbengine::modules
 		// Methods  
 		SDL_AppResult init() override;
 		void shutdown() override;
-		std::string get_name() override;
+		
 
 	private:
 		// Fields  

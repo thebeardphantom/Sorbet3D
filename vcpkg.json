@@ -8,6 +8,7 @@
     "assimp",
     "glm",
     "cereal",
+    "usd",
     {
       "name": "imgui",
       "features": [

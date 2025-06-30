@@ -9,7 +9,7 @@ namespace sorbeditor
 	public:
 		void init() override;
 		void tick(tick_args& args) override;
-		std::string get_name() override;
+		
 
 	private:
 		void on_mouse_button_down(const sorbengine::events::mouse_button_down_event& evt);

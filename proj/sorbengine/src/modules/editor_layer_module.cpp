@@ -45,9 +45,4 @@ namespace sorbengine::modules
 			editor_so_ = nullptr;
 		}
 	}
-
-	std::string editor_layer_module::get_name()
-	{
-		return "editor_layer_module";
-	}
 }

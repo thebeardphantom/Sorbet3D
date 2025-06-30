@@ -7,6 +7,6 @@ namespace demo_game::ecs
 	{
 	public:
 		void tick(tick_args& args) override;
-		std::string get_name() override;
+		
 	};
 }

@@ -98,9 +98,4 @@ namespace sorbengine::modules
 
 		return std::make_shared<objects::mesh_cpu>(scene->mMeshes[0]);
 	}
-
-	std::string asset_module::get_name()
-	{
-		return "asset_module";
-	}
 }

@@ -10,7 +10,7 @@ namespace sorbengine::modules
 		// Methods  
 		SDL_AppResult init() override;
 		void shutdown() override;
-		std::string get_name() override;
+		
 
 	private:
 		// Fields  

@@ -47,9 +47,4 @@ namespace sorbengine::ecs
 			render_module.set_projection(projection);
 		}
 	}
-
-	std::string camera_system::get_name()
-	{
-		return "camera_system";
-	}
 }

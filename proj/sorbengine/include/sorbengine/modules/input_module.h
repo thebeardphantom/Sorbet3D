@@ -10,7 +10,7 @@ namespace sorbengine::modules
 	{
 	public:
 		SDL_AppResult init() override;
-		std::string get_name() override;
+		
 		ENGINE_API bool get_fps_mode() const;
 		ENGINE_API void set_fps_mode(bool is_fps_mode);
 		ENGINE_API [[nodiscard]] glm::vec2 get_mouse_velocity() const;

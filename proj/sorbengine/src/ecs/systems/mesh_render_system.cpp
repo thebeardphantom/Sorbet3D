@@ -32,9 +32,4 @@ namespace sorbengine::ecs
 			module.submit(cmd);
 		}
 	}
-
-	std::string mesh_render_system::get_name()
-	{
-		return "mesh_render_system";
-	}
 }

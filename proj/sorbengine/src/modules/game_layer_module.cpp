@@ -38,9 +38,4 @@ namespace sorbengine::modules
 			game_so_ = nullptr;
 		}
 	}
-
-	std::string game_layer_module::get_name()
-	{
-		return "game_layer_module";
-	}
 }

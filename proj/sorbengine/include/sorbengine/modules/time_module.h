@@ -1,4 +1,5 @@
 #pragma once
+#include <SDL3/SDL_init.h>
 #include "engine_module.h"
 
 namespace sorbengine::modules
@@ -7,7 +8,7 @@ namespace sorbengine::modules
 	{
 	public:
 		SDL_AppResult init() override;
-		std::string get_name() override;
+		
 
 		ENGINE_API uint64_t get_update_count() const;
 		ENGINE_API double_t get_delta_time() const;

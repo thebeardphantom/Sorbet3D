@@ -84,11 +84,6 @@ namespace sorbeditor
 		}
 	}
 
-	std::string editor_camera_system::get_name()
-	{
-		return "editor_camera_system";
-	}
-
 	void editor_camera_system::on_mouse_button_down(const sorbengine::events::mouse_button_down_event& evt)
 	{
 		if (has_active_editor_camera_ && evt.button == 3)

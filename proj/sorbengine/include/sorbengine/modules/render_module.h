@@ -19,7 +19,7 @@ namespace sorbengine::modules
 		SDL_AppResult init() override;
 		void collaborate() override;
 		void cleanup() override;
-		std::string get_name() override;
+		
 
 		// Public Methods
 		void submit(const render_command& cmd);

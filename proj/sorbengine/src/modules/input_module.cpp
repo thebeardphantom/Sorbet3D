@@ -12,11 +12,6 @@ namespace sorbengine::modules
 		return SDL_APP_CONTINUE;
 	}
 
-	std::string input_module::get_name()
-	{
-		return "input_module";
-	}
-
 	bool input_module::get_fps_mode() const
 	{
 		auto& window = engine::get_module<render_module>().get_window();

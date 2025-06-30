@@ -1,6 +1,7 @@
 #include "sorbengine/engine_instance.h"
 #include <ranges>
 #include "sorbengine/enum_strings.h"
+#include "sorbengine/reflectable.h"
 #include "sorbengine/events/engine_events.h"
 #include "sorbengine/modules/asset_module.h"
 #include "sorbengine/modules/config_module.h"
@@ -60,7 +61,7 @@ namespace sorbengine
 
 		for (const auto& val : registered_modules_)
 		{
-			SDL_Log("== %s::collaborate ==", val.module->get_name().c_str());
+			SDL_Log("== %s::collaborate ==", utility::get_name(val.module).c_str());
 			val.module->collaborate();
 		}
 
@@ -77,7 +78,7 @@ namespace sorbengine
 		}
 
 		rm.has_called_init = true;
-		SDL_Log("== %s::init ==", rm.module->get_name().c_str());
+		SDL_Log("== %s::init ==", utility::get_name(rm.module).c_str());
 		app_result = rm.module->init();
 		return true;
 	}
@@ -135,7 +136,7 @@ namespace sorbengine
 		SDL_Log("Cleaning up engine modules.");
 		for (const auto& rm : std::ranges::reverse_view(registered_modules_))
 		{
-			SDL_Log("== %s::Cleanup ==", rm.module->get_name().c_str());
+			SDL_Log("== %s::Cleanup ==", utility::get_name(rm.module).c_str());
 			rm.module->cleanup();
 		}
 
@@ -143,7 +144,7 @@ namespace sorbengine
 		for (int i = static_cast<int>(registered_modules_.size()) - 1; i >= 0; i--)
 		{
 			const auto& rm = registered_modules_[i];
-			SDL_Log("== %s::Shutdown ==", rm.module->get_name().c_str());
+			SDL_Log("== %s::Shutdown ==", utility::get_name(rm.module).c_str());
 			rm.module->shutdown();
 			delete_module(rm);
 		}
